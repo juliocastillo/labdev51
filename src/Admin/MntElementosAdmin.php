@@ -28,7 +28,7 @@ final class MntElementosAdmin extends AbstractAdmin
     {
         $datagridMapper
             ->add('id')
-            ->add('nombreElemento')
+            /* ->add('nombreElemento')
             ->add('valorInicial')
             ->add('valorFinal')
             ->add('unidades')
@@ -38,33 +38,34 @@ final class MntElementosAdmin extends AbstractAdmin
             ->add('fechaFin')
             ->add('fechahoraReg')
             ->add('fechahoraMod')
-            ->add('activo')
+            ->add('activo') */
             ;
     }
 
     protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
+            ->add('id')
             ->add('nombreElemento')
-            ->add('idTipoElemento', EntityType::class,[
+            /* ->add('idTipoElemento', EntityType::class,[
                 'label' => 'Tipo de Elemento',
-            ])
-            ->add('idExamen', EntityType::class,[
+            ]) */
+            /* ->add('idExamen', EntityType::class,[
                 'label' => 'Examen',
-            ])
-            ->add('unidades')
-            ->add('ordenamiento')
-            ->add('idSexo', EntityType::class,[
+            ]) */
+            //->add('unidades')
+            //->add('ordenamiento')
+            /* ->add('idSexo', EntityType::class,[
                 'label' => 'Sexo',
-            ])
-            ->add('idRangoEdad', EntityType::class,[
+            ]) */
+            /* ->add('idRangoEdad', EntityType::class,[
                 'label' => 'Rango de Edad',
-            ])
-            ->add('valorInicial')
-            ->add('valorFinal')
-            ->add('fechaInicio')
-            ->add('fechaFin')
-            ->add('observacion')
+            ]) */
+            //->add('valorInicial')
+            //->add('valorFinal')
+            //>add('fechaInicio')
+            //->add('fechaFin')
+            //->add('observacion')
             ->add('activo')
             ->add('_action', null, [
                 'actions' => [
@@ -156,11 +157,11 @@ final class MntElementosAdmin extends AbstractAdmin
                     ],
                     'required' => FALSE
                 ])
-                ->add('activo', CheckboxType::class, [
+                /* ->add('activo', CheckboxType::class, [
                     'row_attr' => [
                        // 'class' => 'col-md-6',
                     ]
-                ])
+                ]) */
             ->end()
             ;
             
