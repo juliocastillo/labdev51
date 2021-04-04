@@ -14,11 +14,15 @@ use Sonata\AdminBundle\Show\ShowMapper;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use App\Entity\CtlSexo;
 use App\Entity\CtlTipoElemento;
+use Doctrine\DBAL\Types\FloatType;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+
 
 
 final class MntElementosAdmin extends AbstractAdmin
@@ -28,7 +32,7 @@ final class MntElementosAdmin extends AbstractAdmin
     {
         $datagridMapper
             ->add('id')
-            ->add('nombreElemento')
+            /* ->add('nombreElemento')
             ->add('valorInicial')
             ->add('valorFinal')
             ->add('unidades')
@@ -37,7 +41,7 @@ final class MntElementosAdmin extends AbstractAdmin
             ->add('fechaInicio')
             ->add('fechaFin')
             ->add('fechahoraReg')
-            ->add('fechahoraMod')
+            ->add('fechahoraMod') */
             ->add('activo')
             ;
     }
@@ -78,124 +82,118 @@ final class MntElementosAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper): void
     {   
         $entity = $this->getSubject();   //obtiene el elemento seleccionado en un objeto
-        $id = $entity->getId();
+        $id     = $entity->getId();
+        $fecha  = new \DateTime();
 
         $formMapper
-            ->with('Datos',['class' => 'col-lg-6 col-md-6 col-xs-6 '])
-                ->add('nombreElemento', TextType::class, ['row_attr' => [
-                    //'class' => 'col-md-12',
+            //->with('Datos',['class' => 'col-lg-6 col-md-6 col-xs-6 '])
+                ->add('nombreElemento', TextType::class, ['attr' => [
+                    'placeholder' => 'nombre del elemento...',
                     ]
                 ])
                 ->add('idTipoElemento', EntityType::class,[
                     'class' => CtlTipoElemento::class,
                     'label' => 'Tipo de Elemento',
-                    'row_attr' => [
-                        //'class' => 'col-md-12',
-                    ]
+                    'placeholder' => "Seleccionar..."
                 ])
                 ->add('idExamen', EntityType::class,[
                     'class' => CtlExamen::class,
                     'label' => 'Examen',
-                    'row_attr' => [
-                        //'class' => 'col-md-12',
-                    ]
+                    'placeholder' => "Seleccionar..."
                 ])
-                ->add('unidades', TextType::class, ['row_attr' => [
-                    //'class' => 'col-md-6',
+                ->add('unidades', TextType::class,[ 'attr' => [
+                    'placeholder' => 'mg/dL...'
                     ],
-                    'required' => FALSE
-
+                    'required' => FALSE,
                 ])
-                ->add('ordenamiento', IntegerType::class, ['row_attr' => [
-                    //'class' => 'col-md-6',
+                ->add('ordenamiento', IntegerType::class, ['attr' => [
+                        'min' => '1',
                     ],
                     'label' => 'Orden',
+                    'data'  => '1'
                 ])
                 ->add('idSexo', EntityType::class,[
                     'class' => CtlSexo::class,
                     'label' => 'Sexo',
-                    'row_attr' => [
-                        //'class' => 'col-md-6',
-                    ]
+                    'placeholder' => "Seleccionar..."
                 ])
                 ->add('idRangoEdad', EntityType::class,[
                     'class' => CtlRangoEdad::class,
                     'label' => 'Rango Edad',
-                    'row_attr' => [
-                        //'class' => 'col-md-6',
-                    ]
+                    'placeholder' => "Seleccionar..."
                 ])
-                ->add('observacion', TextareaType::class,['row_attr' => [
-                    //'class' => 'col-md-12',
+                ->add('observacion', TextareaType::class,['attr' => [
+                    ],
+                    'required' => FALSE,
+                ])
+            //-> end()
+            //->with('Rangos',['class' => 'col-md-6'])
+                ->add('valorInicial', NumberType::class, ['attr' => [
+                    'style' => 'width: 70%',
+                    'placeholder' => "0.0",
                     ],
                     'required' => FALSE
                 ])
-            -> end()
-            ->with('Rangos',['class' => 'col-md-6'])
-                ->add('valorInicial', TextType::class, ['row_attr' => [
-                    //'class' => 'col-md-6',
-                    ],
-                    'required' => FALSE
-                ])
-                ->add('valorFinal', TextType::class, ['row_attr' => [
-                    //'class' => 'col-md-6',
+                ->add('valorFinal', NumberType::class, ['attr' => [
+                    'style' => 'width: 70%',
+                    'placeholder' => "0.0",
                     ],
                     'required' => FALSE
                 ])
                 ->add('fechaInicio', DateType::class,[
-                    'widget' => 'single_text',
-                    'row_attr' => [
-                     //   'class' => 'col-md-6'
-                    ],
-                    'required' => FALSE
+                    'widget'    => 'single_text',
+                    'data'      => $fecha,
+                    'attr'      => [
+                        'style'     => 'width: 70%;',
+                    ]
                 ])
                 ->add('fechaFin', DateType::class,[
-                    'widget' => 'single_text',
-                    'row_attr' => [
-                      //  'class' => 'col-md-6'
-                    ],
-                    'required' => FALSE
+                    'widget'    => 'single_text',
+                    'required' => FALSE,
+                    'attr'      => [
+                        'style'     => 'width: 70%;',
+                    ]
                 ])
-                ->add('activo', CheckboxType::class, [
+                /* ->add('activo', CheckboxType::class, [
                     'row_attr' => [
                        // 'class' => 'col-md-6',
                     ]
-                ])
-            ->end()
+                ]) */
+            //->end()
             ;
             
             if ($id) {  // cuando se edite el registro
                 if ($entity->getActivo() == TRUE) { // si el registro esta activo
                     $formMapper
-                    ->with('Datos',['class' => 'col-md-6'])
+                    //->with('Datos',['class' => 'col-md-6'])
                             ->add('activo', null, array(
                                 'label' => 'Activo',
                                 'required' => FALSE,
                                 'attr' => array(
                                     'checked' => 'checked',
                     )))
-                    ->end()
+                    //->end()
                     ;
                 } else { // si el registro esta inactivo
                     $formMapper
-                    ->with('Datos',['class' => 'col-md-6'])
+                    //->with('Datos',['class' => 'col-md-6'])
                             ->add('activo', null, array(
                                 'label' => 'Activo',
                                 'required' => FALSE
                     ))
-                    ->end()
+                    //->end()
                     ;
                 }
             } else { // cuando se crea el registro
                 $formMapper
-                ->with('Datos',['class' => 'col-md-6'])
+                //->with('Datos',['class' => 'col-md-6'])
                         ->add('activo', null, array(
                             'label' => 'Activo',
                             'required' => FALSE,
                             'attr' => array(
                                 'checked' => 'checked'
                 )))
-                ->end()
+                //->end()
                 ;
             }
     }
@@ -224,7 +222,7 @@ final class MntElementosAdmin extends AbstractAdmin
                 return 'CRUD/CtlEmpresa/list.html.twig';
                 break;
             case 'edit':
-                return 'CRUD/CtlEmpresa/edit.html.twig';
+                return 'MntElementos/edit.html.twig';
                 break;
             default:
                 return parent::getTemplate($name);
@@ -232,18 +230,24 @@ final class MntElementosAdmin extends AbstractAdmin
         }
     } */
 
+    /* protected function configureRoutes(RouteCollectionInterface $collection): void {
+        //on clear, para quitar rutas
+        $collection
+            ->add('edit', 'edit');
+    } */
 
-    public function prePersist($alias) : void {
+
+    /* public function prePersist(object $alias): void {
         // llenar campos de auditoria
         $user = $this->getConfigurationPool()->getContainer()->get('security.token_storage')->getToken()->getUser();
         $alias->setIdUsuarioReg($user);
         $alias->setFechahoraReg(new \DateTime());
-    }
+    } */
 
-    public function preUpdate($alias) : void {
+    /* public function preUpdate(object $alias): void {
         // llenar campos de auditoria
         $user = $this->getConfigurationPool()->getContainer()->get('security.token_storage')->getToken()->getUser();
         $alias->setIdUsuarioMod($user);
         $alias->setFechahoraMod(new \DateTime());
-    }
+    } */
 }

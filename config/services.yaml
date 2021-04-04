@@ -270,6 +270,8 @@ services:
     admin.mnt_elementos:
         class: App\Admin\MntElementosAdmin
         arguments: [~, App\Entity\MntElementos, App\Controller\MntElementosAdminController]
+        calls:
+            - [setTemplate, ['edit', 'MntElementos/edit.html.twig']]
         tags:
             - { name: sonata.admin, manager_type: orm, group: Mantenimientos, label: Elementos }
         public: true
