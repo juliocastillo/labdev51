@@ -1,0 +1,275 @@
+# This file is the entry point to configure your own services.
+# Files in the packages/ subdirectory configure your dependencies.
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
+parameters:
+    locale: 'es'
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+
+    # makes classes in src/ available to be used as services
+    # this creates a service per class whose id is the fully-qualified class name
+    App\:
+        resource: '../src/'
+        exclude:
+            - '../src/DependencyInjection/'
+            - '../src/Entity/'
+            - '../src/Kernel.php'
+            - '../src/Tests/'
+
+    # controllers are imported separately to make sure services can be injected
+    # as action arguments even if you don't extend any base controller class
+    App\Controller\:
+        resource: '../src/Controller/'
+        tags: ['controller.service_arguments']
+
+    # add more service definitions when explicit configuration is needed
+    # please note that last definitions always *replace* previous ones
+    gesdinet.jwtrefreshtoken.refresh_token_manager:
+        class: App\Doctrine\RefreshTokenManager
+        public: true
+        arguments: [ '@doctrine.orm.default_entity_manager', 'Gesdinet\JWTRefreshTokenBundle\Entity\RefreshToken']
+
+    app.doctrine.hash_password_listener:
+        class: App\Doctrine\HashPasswordSubscriber
+        autowire: true
+        tags:
+            - { name: doctrine.event_subscriber }
+
+    app.menu_admin:
+        class: App\EventListener\MenuBuilderListener
+        tags:
+            - { name: kernel.event_listener, event: sonata.admin.event.configure.menu.sidebar, method: adminMenuItems }
+
+    admin.user:
+        class: App\Admin\UserAdmin
+        arguments: [~, App\Entity\User, ~, '@service_container']
+        calls:
+            - [setTemplate, ['edit', 'User/edit.html.twig']]
+        tags:
+        - { name: sonata.admin, manager_type: orm, group: admin, label: users }
+
+    admin.role:
+        class: App\Admin\RoleAdmin
+        arguments: [~, App\Entity\Role, ~, '@service_container']
+        calls:
+            - [setTemplate, ['edit', 'Role/edit.html.twig']]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: admin, label: roles }
+        public: true
+
+
+    admin.cnf_laboratorio:
+        class: App\Admin\CnfLaboratorioAdmin
+        arguments: [~, App\Entity\CnfLaboratorio, ~, '@service_container']
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Catalogos, label: Laboratorio }
+        public: true
+
+    admin.ctl_template:
+        class: App\Admin\CtlTemplateAdmin
+        arguments: [~, App\Entity\CtlTemplate, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Catalogos, label: Template }
+        public: true
+
+    admin.ctl_estado_orden:
+        class: App\Admin\CtlEstadoOrdenAdmin
+        arguments: [~, App\Entity\CtlEstadoOrden, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Catalogos, label: Estados de la Orden }
+
+    admin.ctl_pais:
+        class: App\Admin\CtlPaisAdmin
+        arguments: [~, App\Entity\CtlPais, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Catalogos, label: Pais }
+        public: true
+
+    admin.ctl_departamento:
+        class: App\Admin\CtlDepartamentoAdmin
+        arguments: [~, App\Entity\CtlDepartamento, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Catalogos, label: Departamento }
+        public: true   
+
+    admin.ctl_municipio:
+        class: App\Admin\CtlMunicipioAdmin
+        arguments: [~, App\Entity\CtlMunicipio, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Catalogos, label: Municipio }
+        public: true      
+
+    admin.ctl_sexo:
+        class: App\Admin\CtlSexoAdmin
+        arguments: [~, App\Entity\CtlSexo, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Catalogos, label: Sexo}
+        public: true
+
+    admin.ctl_tipo_elemento:
+        class: App\Admin\CtlTipoElementoAdmin
+        arguments: [~, App\Entity\CtlTipoElemento, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Catalogos, label: TipoElemento }
+        public: true
+
+    admin.ctl_cargo_empleado:
+        class: App\Admin\CtlCargoEmpleadoAdmin
+        arguments: [~, App\Entity\CtlCargoEmpleado, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Catalogos, label: CargoEmpleado }
+        public: true
+
+    admin.ctl_empresa:
+        class: App\Admin\CtlEmpresaAdmin
+        arguments: [~, App\Entity\CtlEmpresa, App\Controller\CtlEmpresaAdminController]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Mantenimientos, label: Empresa }
+        public: true
+
+    admin.ctl_descuento:
+        class: App\Admin\CtlDescuentoAdmin
+        arguments: [~, App\Entity\CtlDescuento, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Mantenimientos, label: Descuento }
+        public: true
+
+    admin.mnt_medico:
+        class: App\Admin\MntMedicoAdmin
+        arguments: [~, App\Entity\MntMedico, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Mantenimientos, label: Medico }
+        public: true
+
+    admin.mnt_paciente:
+        class: App\Admin\MntPacienteAdmin
+        arguments: [~, App\Entity\MntPaciente, App\Controller\MntPacienteController]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Mantenimientos, label: Paciente }
+        public: true
+
+    admin.ctl_examen:
+        class: App\Admin\CtlExamenAdmin
+        arguments: [~, App\Entity\CtlExamen, App\Controller\CtlExamenAdminController]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Catalogos, label: Examen }
+        public: true
+
+    #admin.mnt_elementos:
+        #class: App\Admin\MntElementosAdmin
+        #arguments: [~, App\Entity\MntElementos, ~]
+        #tags:
+        #    - { name: sonata.admin, manager_type: orm, group: Mantenimientos, label: Elementos }
+        #public: true
+    
+    admin.ctl_area_laboratorio:
+        class: App\Admin\CtlAreaLaboratorioAdmin
+        arguments: [~, App\Entity\CtlAreaLaboratorio, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Catalogos, label: Area Laboratorio }
+        public: true
+
+    admin.ctl_microorganismo:
+        class: App\Admin\CtlMicroorganismoAdmin
+        arguments: [~, App\Entity\CtlMicroorganismo, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Catalogos, label: Microorganismos }
+        public: true
+
+    admin.carga_data:
+        class: App\Admin\CargaDataAdmin
+        arguments: [~, App\Entity\CargaData, App\Controller\CargaDataAdminController]
+        calls:
+            - [setTemplate, ['load', 'CargaData/load.html.twig']]
+        tags:
+            - { name: sonata.admin, show_in_dashboard: false, manager_type: orm, group: admin, label: CargaData }
+        public: true
+
+    admin.lab_resultados:
+        class: App\Admin\LabResultadosAdmin
+        arguments: [~, App\Entity\LabResultados, App\Controller\LabResultadosAdminController]
+        calls:
+            - [setTemplate, ['lab_resultados', 'LabResultados/lab_resultados.html.twig']]
+        tags:
+            - { name: sonata.admin, show_in_dashboard: false, manager_type: orm, group: admin, label: Resultados de examenes }
+        public: true
+        
+    admin.ctl_rango_edad:
+        class: App\Admin\CtlRangoEdadAdmin
+        arguments: [~, App\Entity\CtlRangoEdad, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Catalogos, label: Rango_Edad }
+        public: true
+
+    admin.ctl_tipo_documento:
+        class: App\Admin\CtlTipoDocumentoAdmin
+        arguments: [~, App\Entity\CtlTipoDocumento, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Catalogos, label: Tipo Documento }
+        public: true
+
+    admin.mnt_empleado:
+        class: App\Admin\MntEmpleadoAdmin
+        arguments: [~, App\Entity\MntEmpleado, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Mantenimientos, label: Empleados }
+        public: true
+
+    admin.lab_orden:
+        class: App\Admin\LabOrdenAdmin
+        arguments: [~, App\Entity\LabOrden, App\Controller\LabOrdenAdminController]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Ordenes trabajo, label: LabOrden }
+        public: true
+
+    admin.lab_detalle_orden:
+        class: App\Admin\LabDetalleOrdenAdmin
+        arguments: [~, App\Entity\LabDetalleOrden, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, show_in_dashboard: false, group: Ordenes trabajo, label: LabDetalleOrden }
+        public: true
+
+    admin.ctl_antibioticos:
+        class: App\Admin\CtlAntibioticosAdmin
+        arguments: [~, App\Entity\CtlAntibioticos, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Catalogos, label: CtlAntibioticos }
+        public: true
+
+    admin.ctl_posible_resultado:
+        class: App\Admin\CtlPosibleResultadoAdmin
+        arguments: [~, App\Entity\CtlPosibleResultado, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Catalogos, label: CtlPosibleResultado }
+    admin.ctl_especialidad:
+        class: App\Admin\CtlEspecialidadAdmin
+        arguments: [~, App\Entity\CtlEspecialidad, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Catalogos, label: Especialidad Medicos }
+        public: true
+
+    admin.ctl_tipo_muestra:
+        class: App\Admin\CtlTipoMuestraAdmin
+        arguments: [~, App\Entity\CtlTipoMuestra, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Catalogos, label: Tipo Muestra }
+        public: true
+
+    admin.mnt_posible_resultado_elemento:
+        class: App\Admin\MntPosibleResultadoElementoAdmin
+        arguments: [~, App\Entity\MntPosibleResultadoElemento, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Mantenimientos, label: MntPosibleResultadoElemento }
+        public: true
+
+    admin.mnt_elementos:
+        class: App\Admin\MntElementosAdmin
+        arguments: [~, App\Entity\MntElementos, App\Controller\MntElementosAdminController]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Mantenimientos, label: Elementos }
+        public: true

@@ -1,0 +1,40 @@
+# Login
+Authentication: Autenticación
+Login         : Iniciar sesión
+
+# Plantilla
+Logout : Cerrar Sesión
+Profile: Perfil
+Action : Acción
+switch_user_exit: 'Terminar suplantación'
+
+# Menú
+users: Usuarios
+roles: Roles
+
+# User Admin
+# Breadcum
+User List  : Listado de usuarios
+User Create: Creación de usuario
+# Tabs y box
+Users   : Usuarios
+User    : Usuario
+Admin   : Administración
+Security: Seguridad
+# Labels
+Email          : Correo electrónico
+Last Login     : Última conexión
+Is Suspended   : Deshabilitado
+Created At     : Fecha creación
+Plain Password : Contraseña
+Uroles         : Roles
+New password   : Nueva contraseña
+Repeat new password: Repetir nueva contraseña
+# Role Admin
+# Breadcum
+Role List: Listado de Roles
+Role Create: Creación de rol
+# Labels
+Name: Nombre
+# Tabs y box
+Roles: Roles
