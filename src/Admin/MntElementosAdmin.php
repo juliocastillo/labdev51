@@ -176,25 +176,6 @@ final class MntElementosAdmin extends AbstractAdmin
             if ($id) {  // cuando se edite el registro
                 if ($entity->getActivo() == TRUE) { // si el registro esta activo
                     $formMapper
-<<<<<<< HEAD
-                    ->with('Datos',['class' => 'col-md-6'])
-                            ->add('activo', null, array(
-                                'label' => 'Activo',
-                                'required' => FALSE,
-                                'attr' => array(
-                                    'checked' => 'checked',
-                    )))
-                    ->end()
-                    ;
-                } else { // si el registro esta inactivo
-                    $formMapper
-                    ->with('Datos',['class' => 'col-md-6'])
-                            ->add('activo', null, array(
-                                'label' => 'Activo',
-                                'required' => FALSE
-                    ))
-                    ->end()
-=======
                         ->add('activo', null, array(
                             'label' => 'Activo',
                             'required' => FALSE,
@@ -208,28 +189,16 @@ final class MntElementosAdmin extends AbstractAdmin
                             'label' => 'Activo',
                             'required' => FALSE
                     ))
->>>>>>> 73572724dc29c4ce7e4777343cbfefa44c565434
                     ;
                 }
             } else { // cuando se crea el registro
                 $formMapper
-<<<<<<< HEAD
-                ->with('Datos',['class' => 'col-md-6'])
-                        ->add('activo', null, array(
-                            'label' => 'Activo',
-                            'required' => FALSE,
-                            'attr' => array(
-                                'checked' => 'checked'
-                )))
-                ->end()
-=======
                     ->add('activo', null, array(
                         'label' => 'Activo',
                         'required' => FALSE,
                         'attr' => array(
                             'checked' => 'checked'
                 )))
->>>>>>> 73572724dc29c4ce7e4777343cbfefa44c565434
                 ;
             }
     }
@@ -252,50 +221,20 @@ final class MntElementosAdmin extends AbstractAdmin
             ;
     }
 
-<<<<<<< HEAD
-    /* public function getTemplate($name) {
-        switch ($name) {
-            case 'list':
-                return 'CRUD/CtlEmpresa/list.html.twig';
-                break;
-            case 'edit':
-                return 'CRUD/CtlEmpresa/edit.html.twig';
-                break;
-            default:
-                return parent::getTemplate($name);
-                break;
-        }
-    } */
-
-
-    public function prePersist($alias) : void {
-        // llenar campos de auditoria
-        $user = $this->getConfigurationPool()->getContainer()->get('security.token_storage')->getToken()->getUser();
-=======
     
     
 
 
     public function prePersist(object $alias) : void {
         $user = $this->container->get('security.token_storage')->getToken()->getUser();
->>>>>>> 73572724dc29c4ce7e4777343cbfefa44c565434
         $alias->setIdUsuarioReg($user);
         $alias->setFechahoraReg(new \DateTime());
     }
 
-<<<<<<< HEAD
-    public function preUpdate($alias) : void {
-        // llenar campos de auditoria
-        $user = $this->getConfigurationPool()->getContainer()->get('security.token_storage')->getToken()->getUser();
-        $alias->setIdUsuarioMod($user);
-        $alias->setFechahoraMod(new \DateTime());
-    }
-=======
     public function preUpdate(object $alias) : void {
         $user = $this->container->get('security.token_storage')->getToken()->getUser();
         $alias->setIdUsuarioMod($user);
         $alias->setFechahoraMod(new \DateTime());
     }
     
->>>>>>> 73572724dc29c4ce7e4777343cbfefa44c565434
 }
