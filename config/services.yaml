@@ -155,7 +155,7 @@ services:
 
     admin.ctl_examen:
         class: App\Admin\CtlExamenAdmin
-        arguments: [~, App\Entity\CtlExamen, App\Controller\CtlExamenAdminController]
+        arguments: [~, App\Entity\CtlExamen, ~, '@service_container']
         tags:
             - { name: sonata.admin, manager_type: orm, group: Catalogos, label: Examen }
         public: true
@@ -269,7 +269,7 @@ services:
 
     admin.mnt_elementos:
         class: App\Admin\MntElementosAdmin
-        arguments: [~, App\Entity\MntElementos, App\Controller\MntElementosAdminController]
+        arguments: [~, App\Entity\MntElementos, ~, '@service_container']
         calls:
             - [setTemplate, ['edit', 'MntElementos/edit.html.twig']]
         tags:

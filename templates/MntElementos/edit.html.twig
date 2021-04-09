@@ -7,10 +7,6 @@
     <script type="text/javascript" src="/bundles/sonatacore/vendor/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>    
 
     <script type="text/javascript">
-
-        
-
-
         jQuery(document).ready(function($){
 
             
@@ -21,7 +17,7 @@
 {% block sonata_tab_content %}
     {% for name, form_group in admin.formgroups %}
         <div class="{{ form_group.class|default('col-md-8') }}">
-            <div class="box box-success col-md-6">
+            <div class="box box-primary col-md-6">
                 <div class="box-header">
                     {% block notice %}
                         {% include '@SonataTwig/FlashMessage/render.html.twig' %}
