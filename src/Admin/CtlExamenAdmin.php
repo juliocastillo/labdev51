@@ -23,7 +23,7 @@ final class CtlExamenAdmin extends AbstractAdmin
     {
         $datagridMapper
             ->add('nombreExamen')
-            ->add('idAreaLaboratorio')
+            //->add('idAreaLaboratorio')
             ->add('activo')
             ;
     }
@@ -57,10 +57,10 @@ final class CtlExamenAdmin extends AbstractAdmin
                 ->add('nombreExamen', TextType::class, ['row_attr' => [
             ]])
                 ->add('precio', TextType::class)
-                 ->add('activo', CheckboxType::class, [
+                /* ->add('activo', CheckboxType::class, [
                     'row_attr' => [
                 ]
-            ])
+            ])*/
         ->end()
            
             ;
