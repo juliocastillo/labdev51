@@ -15,9 +15,10 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 
 final class CtlExamenAdmin extends AbstractAdmin
@@ -73,10 +74,17 @@ final class CtlExamenAdmin extends AbstractAdmin
                 ->add('idAreaLaboratorio', EntityType::class,[
                     'class' => CtlAreaLaboratorio::class,
                     'label' => 'Area de Laboratorio',
+                    'placeholder' => "Seleccionar..."
                     ]    
                 )
-                ->add('nombreExamen')
-                ->add('precio')
+                ->add('nombreExamen', TextType::class, ['attr' => [
+                    'placeholder' => 'Nombre de Examen...',
+                    ]
+                ])
+                ->add('precio', NumberType::class, ['attr' => [
+                    'placeholder' => 'Precio Examen...',
+                    ]
+                ])
                 //->add('activo')
         ->end()
            

@@ -7,22 +7,25 @@ namespace App\Admin;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\Form\Validator\ErrorElement;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+
 
 final class CtlRangoEdadAdmin extends AbstractAdmin
 {
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
+      protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
             ->add('id')
-            ->add('nombre')
+           /* ->add('nombre')
             ->add('edadMinima')
             ->add('edadMaxima')
-            ->add('tipoEdad')
+            ->add('tipoEdad')*/
             ->add('activo')
             ;
     }
@@ -30,7 +33,6 @@ final class CtlRangoEdadAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
-            ->add('id')
             ->add('nombre')
             ->add('edadMinima')
             ->add('edadMaxima')
@@ -48,9 +50,18 @@ final class CtlRangoEdadAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
-            ->add('nombre')
-            ->add('edadMinima')
-            ->add('edadMaxima')
+            ->add('nombre', TextType::class, ['attr' => [
+                'placeholder' => 'Nombre Rango...',
+                ]
+            ])
+            ->add('edadMinima', TextType::class, ['attr' => [
+                'placeholder' => 'Escriba edad minima...',
+                ]
+            ])
+            ->add('edadMaxima', TextType::class, ['attr' => [
+                'placeholder' => 'Escriba edad máxima...',
+                ]
+            ])
             ->add('tipoEdad', ChoiceType::class, [
                 'choices' => [
                     'Días' => 1,
@@ -60,6 +71,7 @@ final class CtlRangoEdadAdmin extends AbstractAdmin
             ])
             ->add('activo')
             ;
+    
     }
 
     protected function configureShowFields(ShowMapper $showMapper): void
