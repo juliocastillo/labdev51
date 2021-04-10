@@ -44,8 +44,8 @@ final class CtlSexoAdmin extends AbstractAdmin
     {
         $formMapper
         ->with('Sexo',['class' => 'col-md-3'])
-            ->add('nombre', TextType::class, ['row_attr' => [
-           'label' => 'Rango Edad'
+            ->add('nombre', TextType::class,  ['attr' => [
+                'placeholder' => 'nombre del elemento...',
         ]    ])
         
          ->end() 

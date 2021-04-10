@@ -13,18 +13,34 @@ use Sonata\AdminBundle\Show\ShowMapper;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 final class MntEmpleadoAdmin extends AbstractAdmin
 {
+      /**
+      * @var ContainerInterface
+      */
+    private $container;
 
+      /**
+       * @param string $code
+       * @param string $class
+       * @param string $baseControllerName
+      */
+    public function __construct($code, $class, $baseControllerName, $container = null)
+    {
+        parent::__construct($code, $class, $baseControllerName);
+        $this->container = $container;
+    }
+    
     protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
-            ->add('nombresEmpleado')
-            ->add('apellidosEmpleado')
-            ->add('fechahoraReg')
-            ->add('fechahoraMod')
+            ->add('id')
+            //->add('nombresEmpleado')
+            //->add('apellidosEmpleado')
+            //->add('fechahoraReg')
+            //->add('fechahoraMod')
             ->add('activo')
             ;
     }
@@ -34,8 +50,8 @@ final class MntEmpleadoAdmin extends AbstractAdmin
         $listMapper
             ->add('nombresEmpleado')
             ->add('apellidosEmpleado')
-            ->add('fechahoraReg')
-            ->add('fechahoraMod')
+           // ->add('fechahoraReg')
+            //->add('fechahoraMod')
             ->add('activo')
             ->add('_action', null, [
                 'actions' => [
@@ -53,15 +69,23 @@ final class MntEmpleadoAdmin extends AbstractAdmin
         
         $formMapper
         ->with('Datos de Empleado',['class' => 'col-md-4'])
-            ->add('nombresEmpleado')
-            ->add('apellidosEmpleado')    
+            ->add('nombresEmpleado', TextType::class, ['attr' => [
+                'placeholder' => 'Nombre Empleado...',
+                ]
+            ])
+            ->add('apellidosEmpleado', TextType::class, ['attr' => [
+                'placeholder' => 'Apellido Empleado...',
+                ]
+            ])    
             ->add('idcargo', EntityType::class,[
                 'class' => CtlCargoEmpleado::class,
                 'label' => 'Cargo',
+                'placeholder' => "Seleccionar..."
             ])
-            ->add('activo')
+            //->add('activo')
         ->end()
             ;
+            
             if ($id) {  // cuando se edite el registro
                 if ($entity->getActivo() == TRUE) { // si el registro esta activo
                     $formMapper
@@ -103,14 +127,14 @@ final class MntEmpleadoAdmin extends AbstractAdmin
    
     public function prePersist($alias) : void {
         // llenar campos de auditoria
-        $user = $this->getConfigurationPool()->getContainer()->get('security.token_storage')->getToken()->getUser();    
+        $user = $this->container->get('security.token_storage')->getToken()->getUser();    
         $alias->setIdUsuarioReg($user);
         $alias->setFechahoraReg(new \DateTime());
     }
 
     public function preUpdate($alias) : void {
         // llenar campos de auditoria
-        $user = $this->getConfigurationPool()->getContainer()->get('security.token_storage')->getToken()->getUser();
+        $user = $this->container->get('security.token_storage')->getToken()->getUser();
         $alias->setIdUsuarioMod($user);
         $alias->setFechahoraMod(new \DateTime());
     }

@@ -220,9 +220,7 @@ final class MntElementosAdmin extends AbstractAdmin
             ->add('activo')
             ;
     }
-
-    
-    
+ 
 
 
     public function prePersist(object $alias) : void {

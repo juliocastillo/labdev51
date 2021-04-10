@@ -134,21 +134,21 @@ services:
 
     admin.ctl_descuento:
         class: App\Admin\CtlDescuentoAdmin
-        arguments: [~, App\Entity\CtlDescuento, ~]
+        arguments: [~, App\Entity\CtlDescuento, ~, '@service_container']
         tags:
             - { name: sonata.admin, manager_type: orm, group: Mantenimientos, label: Descuento }
         public: true
 
     admin.mnt_medico:
         class: App\Admin\MntMedicoAdmin
-        arguments: [~, App\Entity\MntMedico, ~]
+        arguments: [~, App\Entity\MntMedico, ~, '@service_container']
         tags:
             - { name: sonata.admin, manager_type: orm, group: Mantenimientos, label: Medico }
         public: true
 
     admin.mnt_paciente:
         class: App\Admin\MntPacienteAdmin
-        arguments: [~, App\Entity\MntPaciente, App\Controller\MntPacienteController]
+        arguments: [~, App\Entity\MntPaciente, App\Controller\MntPacienteController, '@service_container']
         tags:
             - { name: sonata.admin, manager_type: orm, group: Mantenimientos, label: Paciente }
         public: true
@@ -215,7 +215,7 @@ services:
 
     admin.mnt_empleado:
         class: App\Admin\MntEmpleadoAdmin
-        arguments: [~, App\Entity\MntEmpleado, ~]
+        arguments: [~, App\Entity\MntEmpleado, ~, '@service_container']
         tags:
             - { name: sonata.admin, manager_type: orm, group: Mantenimientos, label: Empleados }
         public: true
