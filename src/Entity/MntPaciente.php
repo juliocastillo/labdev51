@@ -310,7 +310,7 @@ class MntPaciente
     }
     
     
-     public function __toString() {
+    public function __toString() {
         return  $this->nombre . " " . $this->apellido ? (string)  $this->nombre . " " . $this->apellido : ''; 
     }
 }
