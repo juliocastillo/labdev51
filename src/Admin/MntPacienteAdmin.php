@@ -20,13 +20,30 @@ use App\Entity\CtlSexo;
 final class MntPacienteAdmin extends AbstractAdmin
 {
 
+    /**
+     * @var ContainerInterface
+     */
+    private $container;
+
+    /**
+     * @param string $code
+     * @param string $class
+     * @param string $baseControllerName
+     */
+    
+    public function __construct($code, $class, $baseControllerName, $container = null)
+    {
+        parent::__construct($code, $class, $baseControllerName);
+        $this->container = $container;
+    }
+
     protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
             ->add('nombre')
             ->add('apellido')
             ->add('idSexo')
-            ->add('fechaNacimiento')
+            //->add('fechaNacimiento')
             ->add('telefono')
             ->add('direccionPaciente')
             ->add('NRC')
@@ -39,10 +56,8 @@ final class MntPacienteAdmin extends AbstractAdmin
     {
         $listMapper
             ->add('nombre')
-            ->add('apellidos')
-            ->add('idSexo', EntityType::class, [
-                'label' => 'Sexo',
-            ])
+            ->add('apellido')
+            ->add('idSexo')
             ->add('fechaNacimiento')
             ->add('telefono')
             ->add('direccionPaciente')
@@ -69,10 +84,11 @@ final class MntPacienteAdmin extends AbstractAdmin
                     'label' => 'Nombre',
                 ])
                 ->add('apellido')
-                ->add('idSexo', EntityType:: class, [
+                ->add('idSexo', EntityType::class,[
                     'class' => CtlSexo::class,
                     'label' => 'Sexo',
-                ])
+                    'placeholder' => "Seleccionar..."
+                    ])
                 ->add('fechaNacimiento')
                 ->add('fechaNacimiento', DateType::class, [
                     'widget' => 'single_text',
@@ -91,7 +107,6 @@ final class MntPacienteAdmin extends AbstractAdmin
                 ]) */
                 ->add('NRC')
                 ->add('NIT')
-                ->add('activo')
                 
             ->end()
             ;
@@ -148,14 +163,14 @@ final class MntPacienteAdmin extends AbstractAdmin
 
     public function prePersist($alias) : void {
         // llenar campos de auditoria
-        $user = $this->getConfigurationPool()->getContainer()->get('security.token_storage')->getToken()->getUser();
+        $user = $this->container->get('security.token_storage')->getToken()->getUser();
         $alias->setIdUsuarioReg($user);
         $alias->setFechahoraReg(new \DateTime());
     }
 
     public function preUpdate($alias) : void {
         // llenar campos de auditoria
-        $user = $this->getConfigurationPool()->getContainer()->get('security.token_storage')->getToken()->getUser();
+        $user = $this->container->get('security.token_storage')->getToken()->getUser();
         $alias->setIdUsuarioMod($user);
         $alias->setFechahoraMod(new \DateTime());
     }

@@ -14,6 +14,22 @@ use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 
 final class CtlDescuentoAdmin extends AbstractAdmin
 {
+    /**
+     * @var ContainerInterface
+     */
+    private $container;
+
+    /**
+     * @param string $code
+     * @param string $class
+     * @param string $baseControllerName
+     */
+    
+    public function __construct($code, $class, $baseControllerName, $container = null)
+    {
+        parent::__construct($code, $class, $baseControllerName);
+        $this->container = $container;
+    }
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
@@ -62,7 +78,7 @@ final class CtlDescuentoAdmin extends AbstractAdmin
 
     public function prePersist($alias) : void {
         // llenar campos de auditoria
-        $user = $this->container->get('security.token_storage')->getToken()->getUser();
+        $user = $this->container->get('security.token_storage')->getToken()->getUser(); 
         $alias->setIdUsuarioReg($user);
         $alias->setFechahoraReg(new \DateTime());
     }

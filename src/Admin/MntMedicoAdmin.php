@@ -14,6 +14,24 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 final class MntMedicoAdmin extends AbstractAdmin
 {
+    /**
+     * @var ContainerInterface
+     */
+    private $container;
+
+    /**
+     * @param string $code
+     * @param string $class
+     * @param string $baseControllerName
+     */
+    
+    public function __construct($code, $class, $baseControllerName, $container = null)
+    {
+        parent::__construct($code, $class, $baseControllerName);
+        $this->container = $container;
+    }
+
+
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
@@ -25,8 +43,6 @@ final class MntMedicoAdmin extends AbstractAdmin
             ->add('especialidad')
             ->add('jvpm')
             ->add('telefono')
-            ->add('fechahoraReg')
-            ->add('fechahoraMod')
             ->add('activo')
             ;
     }
@@ -113,14 +129,14 @@ final class MntMedicoAdmin extends AbstractAdmin
 
     public function prePersist($alias) : void {
         // llenar campos de auditoria
-        $user = $this->getConfigurationPool()->getContainer()->get('security.token_storage')->getToken()->getUser();
+        $user = $this->container->get('security.token_storage')->getToken()->getUser();
         $alias->setIdUsuarioReg($user);
         $alias->setFechahoraReg(new \DateTime());
     }
 
     public function preUpdate($alias) : void {
         // llenar campos de auditoria
-        $user = $this->getConfigurationPool()->getContainer()->get('security.token_storage')->getToken()->getUser();
+        $user = $this->container->get('security.token_storage')->getToken()->getUser();
         $alias->setIdUsuarioMod($user);
         $alias->setFechahoraMod(new \DateTime());
     }
