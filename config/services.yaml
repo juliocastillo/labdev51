@@ -127,14 +127,14 @@ services:
 
     admin.ctl_empresa:
         class: App\Admin\CtlEmpresaAdmin
-        arguments: [~, App\Entity\CtlEmpresa, App\Controller\CtlEmpresaAdminController]
+        arguments: [~, App\Entity\CtlEmpresa, ~, '@service_container']
         tags:
             - { name: sonata.admin, manager_type: orm, group: Mantenimientos, label: Empresa }
         public: true
 
     admin.ctl_descuento:
         class: App\Admin\CtlDescuentoAdmin
-        arguments: [~, App\Entity\CtlDescuento, ~]
+        arguments: [~, App\Entity\CtlDescuento, ~, '@service_container']
         tags:
             - { name: sonata.admin, manager_type: orm, group: Mantenimientos, label: Descuento }
         public: true
@@ -215,7 +215,7 @@ services:
 
     admin.mnt_empleado:
         class: App\Admin\MntEmpleadoAdmin
-        arguments: [~, App\Entity\MntEmpleado, ~]
+        arguments: [~, App\Entity\MntEmpleado, ~, '@service_container']
         tags:
             - { name: sonata.admin, manager_type: orm, group: Mantenimientos, label: Empleados }
         public: true

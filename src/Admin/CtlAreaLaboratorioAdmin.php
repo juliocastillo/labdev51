@@ -50,7 +50,7 @@ final class CtlAreaLaboratorioAdmin extends AbstractAdmin
             ->with('Datos',['class' => 'col-md-4'])
                 ->add('nombreArea', TextType::class, ['row_attr' => [
                     ]])
-                ->add('activo')
+               // ->add('activo')
             ->end()    
            
             ;
