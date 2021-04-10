@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=MntElementosRepository::class)
+ * @ORM\HasLifecycleCallbacks
  */
 class MntElementos
 {
@@ -344,4 +345,12 @@ class MntElementos
     public function __toString() {
         return $this->nombreElemento ? (string) $this->nombreElemento : ''; 
     }
+
+    /**
+     *Gets triggered only in insert
+     *@ORM\PrePersist 
+    */
+    /* public function onPrePersist(){
+        $this->fechahoraReg = new \DateTime('now');
+    } */
 }
