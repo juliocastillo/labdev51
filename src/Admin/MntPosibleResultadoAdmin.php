@@ -10,25 +10,8 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 
-final class MntPosibleResultadoElementoAdmin extends AbstractAdmin
+final class MntPosibleResultadoAdmin extends AbstractAdmin
 {
-
-    /**
-     * @var ContainerInterface
-     */
-    private $container;
-
-    /**
-     * @param string $code
-     * @param string $class
-     * @param string $baseControllerName
-     */
-    
-    public function __construct($code, $class, $baseControllerName, $container = null)
-    {
-        parent::__construct($code, $class, $baseControllerName);
-        $this->container = $container;
-    }
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
@@ -41,7 +24,6 @@ final class MntPosibleResultadoElementoAdmin extends AbstractAdmin
     {
         $listMapper
             ->add('id')
-            ->add('nombre')
             ->add('_action', null, [
                 'actions' => [
                     'show' => [],
@@ -54,7 +36,7 @@ final class MntPosibleResultadoElementoAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
-            ->add('nombre')
+            ->add('id')
             ;
     }
 

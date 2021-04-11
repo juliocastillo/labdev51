@@ -264,7 +264,7 @@ services:
         class: App\Admin\MntPosibleResultadoElementoAdmin
         arguments: [~, App\Entity\MntPosibleResultadoElemento, ~]
         tags:
-            - { name: sonata.admin, manager_type: orm, group: Mantenimientos, label: MntPosibleResultadoElemento }
+            - { name: sonata.admin, manager_type: orm, group: Mantenimientos, label: Posible Resultado Elemento }
         public: true
 
     admin.mnt_elementos:
@@ -274,4 +274,11 @@ services:
             - [setTemplate, ['edit', 'MntElementos/edit.html.twig']]
         tags:
             - { name: sonata.admin, manager_type: orm, group: Mantenimientos, label: Elementos }
+        public: true
+
+    admin.mnt_posible_resultado:
+        class: App\Admin\MntPosibleResultadoAdmin
+        arguments: [~, App\Entity\MntPosibleResultado, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Mantenimientos, label: Posible Resultado }
         public: true
