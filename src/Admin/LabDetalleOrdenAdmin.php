@@ -12,6 +12,7 @@ use Sonata\AdminBundle\Show\ShowMapper;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use App\Entity\CtlExamen;
+use App\Entity\CtlTipoMuestra;
 
 final class LabDetalleOrdenAdmin extends AbstractAdmin
 {
@@ -33,9 +34,12 @@ final class LabDetalleOrdenAdmin extends AbstractAdmin
                     'class' => CtlExamen::class,
                     'label' => 'Examen',
                 ])
-            ->add('idTipoMuestra', null ,array(
-                    'label' => 'Tipo Muestra'
-                ))
+            ->add('idTipoMuestra', EntityType::class, [
+                    'class' => CtlTipoMuestra::class,
+                    'label' => 'Tipo de muestra',
+                    'required' => true,
+                    'placeholder' => "Seleccionar..."
+                ])
             ->add('precio', TextType::class, [
                     'required' => false,
                     'attr' => array('style' => 'width:200px',  'readonly' => true,)
