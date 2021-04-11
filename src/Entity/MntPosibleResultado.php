@@ -18,8 +18,10 @@ class MntPosibleResultado
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=CtlPosibleResultado::class)
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity="CtlPosibleResultado")
+     * @ORM\JoinColumns({
+     *  @ORM\JoinColumn(name="id_posible_resultado",referencedColumnName="id",nullable=false)
+     * })
      */
     private $idPosibleResultado;
 
