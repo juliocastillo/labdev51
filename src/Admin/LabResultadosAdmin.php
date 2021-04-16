@@ -134,8 +134,7 @@ final class LabResultadosAdmin extends AbstractAdmin
             ->add('index', 'index');
     }
     
-    
-    
+      
     
 //
 //    public function getTemplate($name) {

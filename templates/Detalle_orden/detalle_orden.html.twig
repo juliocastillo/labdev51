@@ -1,0 +1,44 @@
+{% extends '@SonataAdmin/CRUD/action.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+    {# encore_entry_link_tags('role_edit') #}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    {# encore_entry_script_tags('role_edit') #}
+{% endblock %}
+
+{% block content %}
+    
+{% if action == 'index' %}
+    <t3>DETALLE DE LA ORDEN</t3>
+    {% for row in ordenes %}
+        <table id="example" class="display" style="width:100%">
+        <thead>
+            <tr>
+                <th>Examen</th>
+                <th>Estado</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ row.id }}</td>
+                <td>{{ row.fecha_orden }}</td>
+                <td></td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+        
+    {% endfor %}
+{% endif %}
+
+
+
+
+
+{% endblock %}
