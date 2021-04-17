@@ -14,20 +14,11 @@ use Sonata\AdminBundle\Show\ShowMapper;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use App\Entity\CtlSexo;
 use App\Entity\CtlTipoElemento;
-use App\Entity\MntElementos;
-use Doctrine\DBAL\Types\FloatType;
-use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
-use Symfony\Component\Security\Core\Security;
-use Symfony\Component\Security\Http\SecurityEvents;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface as TokenStorage;
-use Doctrine\ORM\Event\LifecycleEventArgs;
-use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 final class MntElementosAdmin extends AbstractAdmin

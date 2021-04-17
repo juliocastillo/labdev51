@@ -189,4 +189,16 @@ class CtlExamen
 
         return $this;
     }
+
+    public function getIdTemplate(): ?CtlTemplate
+    {
+        return $this->idTemplate;
+    }
+
+    public function setIdTemplate(?CtlTemplate $idTemplate): self
+    {
+        $this->idTemplate = $idTemplate;
+
+        return $this;
+    }
 }

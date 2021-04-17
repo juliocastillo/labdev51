@@ -9,26 +9,10 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 final class MntPosibleResultadoElementoAdmin extends AbstractAdmin
 {
-
-    /**
-     * @var ContainerInterface
-     */
-    private $container;
-
-    /**
-     * @param string $code
-     * @param string $class
-     * @param string $baseControllerName
-     */
-    
-    public function __construct($code, $class, $baseControllerName, $container = null)
-    {
-        parent::__construct($code, $class, $baseControllerName);
-        $this->container = $container;
-    }
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
@@ -40,8 +24,12 @@ final class MntPosibleResultadoElementoAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
-            ->add('id')
-            ->add('nombre')
+            ->add('idPosibleResultado', EntityType::class,[
+                'label' => 'Posible Resultado'
+            ])
+            ->add('idElemento', EntityType::class,[
+                'label' => 'Elemento'
+            ])
             ->add('_action', null, [
                 'actions' => [
                     'show' => [],
@@ -54,14 +42,16 @@ final class MntPosibleResultadoElementoAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
-            ->add('nombre')
+        ->add('idPosibleResultado')
+        ->add('idElemento')
             ;
     }
 
     protected function configureShowFields(ShowMapper $showMapper): void
     {
         $showMapper
-            ->add('id')
+        ->add('idPosibleResultado')
+        ->add('idElemento')
             ;
     }
 }
