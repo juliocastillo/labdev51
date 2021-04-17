@@ -49,5 +49,7 @@ final class LabResultadosAdminController extends CRUDController
     {
         return null;
     }
+
+    
 }
 

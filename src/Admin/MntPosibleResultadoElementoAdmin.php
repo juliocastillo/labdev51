@@ -17,7 +17,6 @@ final class MntPosibleResultadoElementoAdmin extends AbstractAdmin
     {
         $datagridMapper
             ->add('id')
-            ->add('nombre')
             ;
     }
 
@@ -25,7 +24,6 @@ final class MntPosibleResultadoElementoAdmin extends AbstractAdmin
     {
         $listMapper
             ->add('id')
-            ->add('nombre')
             ->add('_action', null, [
                 'actions' => [
                     'show' => [],
@@ -38,7 +36,7 @@ final class MntPosibleResultadoElementoAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
-            ->add('nombre')
+            ->add('id')
             ;
     }
 
@@ -46,11 +44,6 @@ final class MntPosibleResultadoElementoAdmin extends AbstractAdmin
     {
         $showMapper
             ->add('id')
-            ->add('nombre')
             ;
-    }
-
-    public function __toString() {
-        return  $this->nombre ? (string)  $this->nombre : ''; 
     }
 }

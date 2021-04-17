@@ -59,5 +59,10 @@ class CtlDepartamento
     public function __toString() {
         return $this->nombreDepartamento ? (string) $this->nombreDepartamento : ''; 
     }
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
     
 }
