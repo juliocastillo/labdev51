@@ -6,8 +6,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
-use \Doctrine\ORM\Query;
-
 
 
 class LabResultadosController extends AbstractController
@@ -21,11 +19,6 @@ class LabResultadosController extends AbstractController
             'controller_name' => 'LabResultadosController',
         ]);
     }
-
-    /**
-     * @Route("/lab/resultados", name="ordeneslab")
-     * @Method("GET")
-     */
 
     public function getOrden(Request $request) : Response{
         $em         = $this->getDoctrine()->getConnection();
@@ -53,10 +46,6 @@ class LabResultadosController extends AbstractController
         return new Response(json_encode($get_ordenes));
     }
 
-    /**
-     * @Route("/lab/ordenes", name="ordenes")
-     * @Method("GET")
-     */
     public function getOrdenAction(Request $request) : Response{
         $em             = $this->getDoctrine()->getConnection();
         $id             = $request->get('id') ? : null;
