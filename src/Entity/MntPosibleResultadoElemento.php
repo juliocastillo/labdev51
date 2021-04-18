@@ -56,7 +56,7 @@ class MntPosibleResultadoElemento
 
     public function getIdElemento(): ? MntElementos
     {
-        return $this->idPosibleResultado;
+        return $this->idElemento;
     }
 
     public function setIdElemento(? MntElementos $idElemento): self

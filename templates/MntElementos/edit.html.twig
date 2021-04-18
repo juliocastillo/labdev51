@@ -1,4 +1,7 @@
 {% extends '@SonataAdmin/CRUD/edit.html.twig' %}
+{% block head %}
+    {% include '@SonataCore/FlashMessage/render.html.twig' %}   
+{% endblock %}
 
 
 {% block javascripts %}
@@ -15,6 +18,8 @@
 {% endblock %}
 
 {% block sonata_tab_content %}
+    
+
     {% for name, form_group in admin.formgroups %}
         <div class="{{ form_group.class|default('col-md-8') }}">
             <div class="box box-primary col-md-6">
@@ -24,10 +29,11 @@
                     {% endblock %}
                     
                     {% if form.vars.errors|length > 0 %}
-                        <div class="alert alert-danger alert-dismissable">
+                        <div class="alert alert-warning alert-dismissable">
                             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                             {{ form_errors(form) }}
                         </div>
+                        
                     {% endif %}
 
                     <h3 class="box-tittle" style="padding-left: 15px;"><span class="ion ion-edit" style="padding-right: 10px;" aria-hidden="true"></span>Crear Elemento</h3>
