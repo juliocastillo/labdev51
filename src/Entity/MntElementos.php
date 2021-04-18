@@ -64,7 +64,7 @@ class MntElementos
     private $observacion;
 
     /**
-     * @ORM\Column(type="smallint")
+     * @ORM\Column(type="string", length=15, nullable=true)
      */
     private $ordenamiento;
 
@@ -222,12 +222,12 @@ class MntElementos
         return $this;
     }
 
-    public function getOrdenamiento(): ?int
+    public function getOrdenamiento(): ?string
     {
         return $this->ordenamiento;
     }
 
-    public function setOrdenamiento(int $ordenamiento): self
+    public function setOrdenamiento(?string $ordenamiento): self
     {
         $this->ordenamiento = $ordenamiento;
 

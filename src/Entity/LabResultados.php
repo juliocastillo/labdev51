@@ -51,6 +51,11 @@ class LabResultados
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $observacion;
+    
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $resultado;
 
     /**
      * @var \CtlMicroorganismo
@@ -156,6 +161,18 @@ class LabResultados
     public function setObservacion(?string $observacion): self
     {
         $this->observacion = $observacion;
+
+        return $this;
+    }
+
+    public function getResultado(): ?string
+    {
+        return $this->resultado;
+    }
+
+    public function setResultado(?string $resultado): self
+    {
+        $this->resultado = $resultado;
 
         return $this;
     }
