@@ -163,7 +163,7 @@ final class MntPacienteAdmin extends AbstractAdmin
 
     public function prePersist($alias) : void {
         // llenar campos de auditoria
-        $user = $this->container->get('security.token_storage')->getToken()->getUser();
+        $user = $this->container->get('security.token_storage')->getToken();
         $alias->setIdUsuarioReg($user);
         $alias->setFechahoraReg(new \DateTime());
     }

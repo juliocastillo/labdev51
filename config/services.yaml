@@ -231,7 +231,7 @@ services:
         class: App\Admin\LabDetalleOrdenAdmin
         arguments: [~, App\Entity\LabDetalleOrden, ~]
         tags:
-            - { name: sonata.admin, manager_type: orm, show_in_dashboard: false, group: Ordenes trabajo, label: LabDetalleOrden }
+            - { name: sonata.admin, manager_type: orm, show_in_dashboard: true, group: Ordenes trabajo, label: LabDetalleOrden }
         public: true
 
     admin.ctl_antibioticos:

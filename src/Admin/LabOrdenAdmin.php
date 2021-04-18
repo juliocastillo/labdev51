@@ -24,6 +24,25 @@ use App\Entity\CtlTipoDocumento;
 final class LabOrdenAdmin extends AbstractAdmin
 {
 
+    /**
+     * @var ContainerInterface
+     */
+    private $container;
+
+    /**
+     * @param string $code
+     * @param string $class
+     * @param string $baseControllerName
+     */
+    
+    public function __construct($code, $class, $baseControllerName, $container = null)
+    {
+        parent::__construct($code, $class, $baseControllerName);
+        $this->container = $container;
+    }
+
+    
+    
     protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
@@ -91,12 +110,7 @@ final class LabOrdenAdmin extends AbstractAdmin
                     ])
                 ->end()
             ->with('Detalle')
-                ->add('labDetalleOrdens', CollectionType::class, [
-                    'label' => 'Items'], array(
-                    'edit' => 'inline',
-                    'inline' => 'table')
-                )
-            ;
+                ->add('labDetalleOrdens', CollectionType::class, [],array('edit' => 'inline', 'inline' => 'table'));
     }
 
     protected function configureShowFields(ShowMapper $showMapper): void
@@ -109,57 +123,6 @@ final class LabOrdenAdmin extends AbstractAdmin
             ->add('activo')
             ;
     }
-    
-
-    public function prePersist($form) : void {
-        $user = $this->container->get('security.token_storage')->getToken()->getUser();    
-        $form->setIdUsuarioReg($user);
-        $form->setFechahoraReg(new \Datetime());
-        $form->setFechaOrden(new \Datetime());
-        $form->setActivo(true);
-        
-        // obtener el estado principal Digitada
-        $estadoOrden = $em->getRepository('App:CtlEstadoOrden')->find(1);
-        $form->setIdEstadoOrden($estadoOrden);
-        
-        $estadoExamen = $em->getRepository('App:CtlEstadoExamen')->find(1);
-        
-        foreach ($form->getLabDetalleOrdens() as $item) {
-            // obtener el examen
-            $examen = $em->getRepository('App:CtlExamen')->find($item->getIdExamen());
-            $item->setIdUsuarioReg($user);
-            $item->setFechahoraReg(new \Datetime());
-            $item->setIdEstadoExamen($estadoExamen);
-            //if (!$item->getPrecio()) {
-                $item->setPrecio($examen->getPrecio());
-            //}
-        }
-    }
-
-    public function preUpdate($form) : void {
-        $user = $this->container->get('security.token_storage')->getToken()->getUser();  
-        $form->setIdUsuarioMod($user);
-        $form->setFechahoraMod(new \Datetime());
-        
-        $estadoExamen = $em->getRepository('App:CtlEstadoExamen')->find(1);
-        
-        foreach ($form->getLabDetalleOrdens() as $item) {
-            // obtener el examen
-            $examen = $em->getRepository('App:CtlExamen')->find($item->getIdExamen());
-            if (!$item->getIdEstadoExamen()) {
-                $item->setIdUsuarioReg($user);
-                $item->setFechahoraReg(new \Datetime());
-                $item->setIdEstadoExamen($estadoExamen);
-            }
-            //if (!$item->getPrecio()) {
-                $item->setPrecio($examen->getPrecio());
-            //}
-            $item->setIdUsuarioMod($user);
-            $item->setFechahoraMod(new \Datetime());
-        }
-    }
-    
-    
     
     
     

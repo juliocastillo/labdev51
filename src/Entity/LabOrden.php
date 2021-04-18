@@ -88,10 +88,6 @@ class LabOrden
      */
     private $activo;
 
-    /**
-     * @ORM\OneToMany(targetEntity=LabDetalleOrden::class, mappedBy="idOrden", cascade={"all"}, orphanRemoval=true)
-     */
-    private $labDetalleOrdens;
 
     /**
      * @ORM\ManyToOne(targetEntity=CtlFormaPago::class)
@@ -103,6 +99,11 @@ class LabOrden
      * @ORM\Column(type="integer", nullable=true)
      */
     private $numeroDocumento;
+
+    /**
+     * @ORM\OneToMany(targetEntity=LabDetalleOrden::class, mappedBy="idOrden", cascade={"all"}, orphanRemoval=true)
+     */
+    private $labDetalleOrdens;
 
     public function __construct()
     {
@@ -249,6 +250,30 @@ class LabOrden
 
     
 
+    public function getIdFormaPago(): ?CtlFormaPago
+    {
+        return $this->idFormaPago;
+    }
+
+    public function setIdFormaPago(?CtlFormaPago $idFormaPago): self
+    {
+        $this->idFormaPago = $idFormaPago;
+
+        return $this;
+    }
+
+    public function getNumeroDocumento(): ?int
+    {
+        return $this->numeroDocumento;
+    }
+
+    public function setNumeroDocumento(?int $numeroDocumento): self
+    {
+        $this->numeroDocumento = $numeroDocumento;
+
+        return $this;
+    }
+
     /**
      * @return Collection|LabDetalleOrden[]
      */
@@ -275,30 +300,6 @@ class LabOrden
                 $labDetalleOrden->setIdOrden(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getIdFormaPago(): ?CtlFormaPago
-    {
-        return $this->idFormaPago;
-    }
-
-    public function setIdFormaPago(?CtlFormaPago $idFormaPago): self
-    {
-        $this->idFormaPago = $idFormaPago;
-
-        return $this;
-    }
-
-    public function getNumeroDocumento(): ?int
-    {
-        return $this->numeroDocumento;
-    }
-
-    public function setNumeroDocumento(?int $numeroDocumento): self
-    {
-        $this->numeroDocumento = $numeroDocumento;
 
         return $this;
     }    
