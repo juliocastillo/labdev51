@@ -18,28 +18,51 @@ class MntPosibleResultadoElemento
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @var \CtlPosibleResultado
+     * 
+     * @ORM\ManyToOne(targetEntity="CtlPosibleResultado")
+     * @ORM\JoinColumns({
+     *  @ORM\JoinColumn(name="id_posible_resultado",referencedColumnName="id",nullable=false)
+     * })
      */
-    private $nombre;
+    private $idPosibleResultado;
+
+    /**
+     * @var \MntElementos
+     * 
+     * @ORM\ManyToOne(targetEntity="MntElementos")
+     * @ORM\JoinColumns({
+     *  @ORM\JoinColumn(name="id_elemento",referencedColumnName="id",nullable=false)
+     * })
+     */
+    private $idElemento;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getNombre(): ?string
+    public function getIdPosibleResultado(): ? CtlPosibleResultado
     {
-        return $this->nombre;
+        return $this->idPosibleResultado;
     }
 
-    public function setNombre(string $nombre): self
+    public function setIdPosibleResultado(? CtlPosibleResultado $idPosibleResultado): self
     {
-        $this->nombre = $nombre;
+        $this->idPosibleResultado = $idPosibleResultado;
 
         return $this;
     }
 
-    public function __toString() {
-        return $this->nombre ? (string) $this->nombre : ''; 
+    public function getIdElemento(): ? MntElementos
+    {
+        return $this->idPosibleResultado;
+    }
+
+    public function setIdElemento(? MntElementos $idElemento): self
+    {
+        $this->idElemento = $idElemento;
+
+        return $this;
     }
 }
