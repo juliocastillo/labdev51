@@ -98,6 +98,11 @@ class LabResultados
     private $fechahoraMod;
 
     /**
+     * @ORM\Column(type="string", length=255, nullable=false)
+     */
+    private $resultado;
+
+    /**
      * @ORM\Column(type="boolean")
      */
     private $activo;
@@ -226,6 +231,18 @@ class LabResultados
 
         return $this;
     }
+
+    public function getResultado(): ?string
+    {
+        return $this->resultado;
+    }
+
+    public function setResultado(?string $resultado): self
+    {
+        $this->resultado = $resultado;
+
+        return $this;
+    } 
 
     public function getActivo(): ?bool
     {
