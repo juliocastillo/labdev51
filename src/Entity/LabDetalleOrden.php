@@ -18,12 +18,6 @@ class LabDetalleOrden
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=LabOrden::class, inversedBy="labDetalleOrdens")
-     * @ORM\JoinColumn(nullable=false, name="id_orden", referencedColumnName="id")
-     */
-    private $idOrden;
-
-    /**
      * @ORM\ManyToOne(targetEntity=CtlExamen::class)
      * @ORM\JoinColumn(nullable=false, name="id_examen", referencedColumnName="id")
      */
@@ -84,7 +78,13 @@ class LabDetalleOrden
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
-    private $fechahoraMod;    
+    private $fechahoraMod;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=LabOrden::class, inversedBy="labDetalleOrdens")
+     * @ORM\JoinColumn(nullable=false, name="id_orden", referencedColumnName="id")
+     */
+    private $idOrden;    
     
     
 
@@ -93,19 +93,7 @@ class LabDetalleOrden
         return $this->id;
     }
 
-    public function getIdOrden(): ?LabOrden
-    {
-        return $this->idOrden;
-    }
-
-    public function setIdOrden(?LabOrden $idOrden): self
-    {
-        $this->idOrden = $idOrden;
-
-        return $this;
-    }
-
-    public function getIdExamen(): ?CtlExamen
+     public function getIdExamen(): ?CtlExamen
     {
         return $this->idExamen;
     }
@@ -228,6 +216,18 @@ class LabDetalleOrden
     
     public function __toString() {
         return (string) $this->getIdExamen();
+    }
+
+    public function getIdOrden(): ?LabOrden
+    {
+        return $this->idOrden;
+    }
+
+    public function setIdOrden(?LabOrden $idOrden): self
+    {
+        $this->idOrden = $idOrden;
+
+        return $this;
     }
 
 }
