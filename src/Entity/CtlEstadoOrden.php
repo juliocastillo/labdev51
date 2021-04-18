@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\CtlEstadoOrdenRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * @ORM\Entity(repositoryClass=CtlEstadoOrdenRepository::class)
@@ -19,6 +21,9 @@ class CtlEstadoOrden
 
     /**
      * @ORM\Column(type="string", length=150)
+     * @Assert\NotNull
+     * @Assert\Length(min=5,minMessage="No pueden ingresarse menos de 5 caracteres.")
+     * @Assert\Regex(pattern="[a-zA-Z ]", message="No se permiten numeros o caracteres especiales.")
      */
     private $nombreEstado;
 

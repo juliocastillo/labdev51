@@ -14,12 +14,15 @@ use Sonata\AdminBundle\Show\ShowMapper;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use App\Entity\CtlSexo;
 use App\Entity\CtlTipoElemento;
+use Exception;
+use Sonata\Form\Validator\ErrorElement;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+
 
 final class MntElementosAdmin extends AbstractAdmin
 {
@@ -60,7 +63,9 @@ final class MntElementosAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
-            ->add('nombreElemento')
+            ->addIdentifier('nombreElemento',null,[
+                'route' => array('name' => 'show')
+            ])
             ->add('idTipoElemento', EntityType::class,[
                 'label' => 'Tipo de Elemento',
             ])
@@ -98,8 +103,10 @@ final class MntElementosAdmin extends AbstractAdmin
 
         $formMapper
             ->add('nombreElemento', TextType::class, ['attr' => [
-                'placeholder' => 'nombre del elemento...',
-                ]
+                'placeholder' => 'nombre del elemento...'
+            ],
+            //'required' => FALSE
+                
             ])
             ->add('idTipoElemento', EntityType::class,[
                 'class' => CtlTipoElemento::class,
@@ -211,14 +218,37 @@ final class MntElementosAdmin extends AbstractAdmin
             ->add('activo')
             ;
     }
- 
-
 
     public function prePersist(object $alias) : void {
         $user = $this->container->get('security.token_storage')->getToken()->getUser();
         $alias->setIdUsuarioReg($user);
         $alias->setFechahoraReg(new \DateTime());
     }
+    
+    public function validate(ErrorElement $errorElement, $object): void {
+        //$nombreElemento     = $object->getNombreElemento();
+        //$idExamen           = $object->getIdExamen();
+        //$tipoElemento       = $object->getIdTipoElemento();
+        //$orden              = $object->getOrdenamiento();
+        //$idSexo             = $object->getIdSexo();
+        //$idRangoEdad        = $object->getIdRangoEdad();
+        $fechaInicio        = $object->getFechaInicio();
+        $fechaFin           = $object->getFechaFin();
+
+        if ($fechaInicio > $fechaFin) {
+            $errorElement->with('fechaInicio')
+                            ->addViolation('La fecha inicio no puede ser mayor a la fecha fin')
+                         ->end();
+        }
+
+        /* $errorElement->with('nombreElemento')
+                ->assertMinLength(array('limit' => 5))
+                ->assertNotNull(array())
+                ->addViolation('Este campo es requerido!')
+            ->end();*/
+    }
+
+    
 
     public function preUpdate(object $alias) : void {
         $user = $this->container->get('security.token_storage')->getToken()->getUser();

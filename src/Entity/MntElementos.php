@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\MntElementosRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * @ORM\Entity(repositoryClass=MntElementosRepository::class)
@@ -17,9 +19,12 @@ class MntElementos
      * @ORM\Column(type="integer")
      */
     private $id;
-
+    //@Assert\NotNull
     /**
      * @ORM\Column(type="string", length=150)
+     * 
+     * @Assert\Length(min=5,minMessage="No pueden ingresarse menos de 5 caracteres.")
+     * @Assert\Regex(pattern="/^[A-Z]{1}+[a-zA-Z0-9]/", message = "La cantidad minina de caracteres es 5 y no se permiten numeros o caracteres especiales.")
      */
     private $nombreElemento;
 

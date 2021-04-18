@@ -44,7 +44,8 @@ final class CtlEstadoOrdenAdmin extends AbstractAdmin
         $formMapper
             ->with('Estados de la Orden', ['class' => 'col-md-6 col-xs-6 col-lg-6'])
                 ->add('nombreEstado', TextType::class, [
-                    'label' => 'Nombre del Estado'
+                    'label' => 'Nombre del Estado',
+                    'required' => FALSE
                 ])
             ->end()
             ;
