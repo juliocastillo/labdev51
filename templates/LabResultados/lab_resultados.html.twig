@@ -9,101 +9,61 @@
 {% block javascripts %}
     {{ parent() }}
 
-<script type="text/javascript">
-    $(document).ready(function(){
-        $('.numeric').numeric();
-        $id = $('#numOrden');
-        $id.select2({
-            allowClear: true,
-            placeholder: 'Seleccionar...',
-            minimumInputLength: 1,
-            dropdownAutoWidth: true,
-            width: '50%',
-
-            ajax:{
-                url: Routing.generate('ordeneslab'),
-                dataType: 'json',
-                quietMillis: 1000,
-                data: function(term,page){
-                    return{
-                        clue: term, //search term
-                        page_limit: 10, //page size
-                        page: page, //page number
-                    };
-                },
-                results: function(data,page){
-                    let more = (page * 10) < data.data2;
-                    return{results: data.data1, more: more};
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //buscar las ordenes de trabajo con estado pendiente de resultado.
+            $('#btnBuscar').on('click', function () {
+                numeroOrden = $("#numeroOrden").val()
+                //$('#ordenes').waitMe({ text: 'Buscando...' });
+                $.ajax({
+                url: "{{ path('lab_resultados_ordenes_pendientes') }}",
+                data : {numeroOrden : numeroOrden},
+                type: "GET",
+                dataType: "html",
+                success : function (html) {
+                    //console.log(html);
+                    $("#ordenes").html(html);
                 }
-            }
-        });
-
-        $('#buscar').on('click',function(){
-            if($id.select2('val') != ''){
-                $('#ordenes').empty();
-                $('#ordenes').load(Routing.generate("ordenes",{ 'id': $id.select2('val')}),
-
-                function(response,status,xhr){
-                    switch(status){
-                        case 'error':
-                            $('#body').waitMe('hide');
-                            $('#ordenes').append('Error comuniquese con el Administrador...');
-                            break;
-                        case 'sucess':
-                            $('#body').waitMe('hide');
-                            break;
-                    }
+                //}).done(function(data) {
+                    //$("#ordenes").html("Resultados");
                 });
-            }
-            else{
-                title       = 'Seleccionar campos para reporte';
-                dialogClass = 'dialog-warning';
-                msg         = 'Debe seleccionar al menos un numero de expediente y una fecha de inicio para la generación del reporte';
-                width       = 500;
-                showDialogMsg(title,msg,dialogClass,null,null,null,width);
-            }
-        });
-
-        //$('#agregar').on('click',function(){
-            //let complemento='';
-            //if($idExpediente.select2('val') != '')
-            //    complemento='?idexpediente='+$idExpediente.select2('val');
-            //window.location.href='{#{{ path('admin_minsal_trabajosocial_tsanotacion_create')}}#}'+complemento;
-        //});
-    })
-</script>
+            });
+        })
+    </script>
 
 {% endblock %}
 {% block sonata_admin_content %}
-{#{% block notice %}
-    {% include "SonataCoreBundle:FlashMessage:render.html.twig" %}
-{% endblock notice %}#}
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <div class="box box-primary">
-                <div class="box-body">
-                    <h3 class="text-primary"><strong><i class="ion ion-clipboard"></i>Búsqueda de Ordenes</strong></h3>
-                    <div class="row">
-                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                            <div class="sonata-ba-field sonata-ba-field-standard-natual">
-                                <div class="form-group" style="position: relative;">
-                                    <label class="control-label">No. Orden</label><br>
-                                    <input type="hidden" id="numOrden" name="numOrden" style="width: 400px !important;" value="{% if ordenes.id is defined and ordenes.id is not null %}{{ ordenes.getId() }}{% endif %}">
+    {#{% block notice %}
+        {% include "SonataCoreBundle:FlashMessage:render.html.twig" %}
+    {% endblock notice %}#}
+    <div class="container-fluid">
+        <form name="envio" method="post" id="envio">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="box box-primary">
+                        <div class="box-body">
+                            <h3 class="text-primary"><strong><i class="ion ion-clipboard"></i>Búsqueda de Ordenes</strong></h3>
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                    <div class="sonata-ba-field sonata-ba-field-standard-natual">
+                                        <div class="form-group" style="position: relative;">
+                                            <label for="numeroOrden" class="control-label">No. Orden</label><br>
+                                            <input type="text" id="numeroOrden" name="numeroOrden" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+                                    <button type="button" id="btnBuscar" style="width: 200px; margin-top: 5px;" class="btn btn-info"><i class="glyphicon glyphicon-zoom-in"></i>&nbsp; Buscar</button>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
-                            <button type="button" id="buscar" style="width: 200px; margin-top: 5px;" class="btn btn-info"><i class="glyphicon glyphicon-zoom-in"></i>&nbsp; Buscar</button>
+                            <br>
                         </div>
                     </div>
-                    <br>
                 </div>
             </div>
+        </form>
+        <div class="row">
+            <div id="ordenes" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 center-block">dd</div>
         </div>
     </div>
-    <div class="row">
-        <div id="ordenes" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 center-block"></div>
-    </div>
-</div>
 {% endblock %}
