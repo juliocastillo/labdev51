@@ -159,13 +159,6 @@ services:
         tags:
             - { name: sonata.admin, manager_type: orm, group: Catalogos, label: Examen }
         public: true
-
-    #admin.mnt_elementos:
-        #class: App\Admin\MntElementosAdmin
-        #arguments: [~, App\Entity\MntElementos, ~]
-        #tags:
-        #    - { name: sonata.admin, manager_type: orm, group: Mantenimientos, label: Elementos }
-        #public: true
     
     admin.ctl_area_laboratorio:
         class: App\Admin\CtlAreaLaboratorioAdmin
@@ -179,15 +172,6 @@ services:
         arguments: [~, App\Entity\CtlMicroorganismo, ~]
         tags:
             - { name: sonata.admin, manager_type: orm, group: Catalogos, label: Microorganismos }
-        public: true
-
-    admin.carga_data:
-        class: App\Admin\CargaDataAdmin
-        arguments: [~, App\Entity\CargaData, App\Controller\CargaDataAdminController]
-        calls:
-            - [setTemplate, ['load', 'CargaData/load.html.twig']]
-        tags:
-            - { name: sonata.admin, show_in_dashboard: false, manager_type: orm, group: admin, label: CargaData }
         public: true
 
     admin.lab_resultados:
@@ -275,10 +259,3 @@ services:
         tags:
             - { name: sonata.admin, manager_type: orm, group: Mantenimientos, label: Elementos }
         public: true
-
-    #admin.mnt_posible_resultado:
-        #class: App\Admin\MntPosibleResultadoAdmin
-        #arguments: [~, App\Entity\MntPosibleResultado, ~]
-        #tags:
-        #    - { name: sonata.admin, manager_type: orm, group: Mantenimientos, label: Posible Resultado }
-        #public: true

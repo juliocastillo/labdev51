@@ -21,9 +21,7 @@ class LabResultados
      * @var \MntElementos
      * 
      * @ORM\ManyToOne(targetEntity="MntElementos")
-     * @ORM\JoinColumns({
-     *  @ORM\JoinColumn(name="id_elemento",referencedColumnName="id",nullable=false)
-     * })
+     * @ORM\JoinColumn(name="id_elemento",referencedColumnName="id",nullable=false)
      */
     private $idElemento;
 
@@ -31,9 +29,7 @@ class LabResultados
      * @var \MntEmpleado
      * 
      * @ORM\ManyToOne(targetEntity="MntEmpleado")
-     * @ORM\JoinColumns({
-     *  @ORM\JoinColumn(name="id_empleado",referencedColumnName="id",nullable=false)
-     * })
+     * @ORM\JoinColumn(name="id_empleado",referencedColumnName="id",nullable=false)
      */
     private $idEmpleado;
 
@@ -41,9 +37,7 @@ class LabResultados
      * @var \LabDetalleOrden
      * 
      * @ORM\ManyToOne(targetEntity="LabDetalleOrden")
-     * @ORM\JoinColumns({
-     *  @ORM\JoinColumn(name="id_detalle_orden",referencedColumnName="id",nullable=false)
-     * })
+     * @ORM\JoinColumn(nullable=false, name="id_detalle_orden", referencedColumnName="id")
      */
     private $idDetalleOrden;
 
@@ -61,9 +55,7 @@ class LabResultados
      * @var \CtlMicroorganismo
      * 
      * @ORM\ManyToOne(targetEntity="CtlMicroorganismo")
-     * @ORM\JoinColumns({
-     *  @ORM\JoinColumn(name="id_microorganismo",referencedColumnName="id",nullable=true)
-     * })
+     * @ORM\JoinColumn(name="id_microorganismo",referencedColumnName="id",nullable=false)
      */
     private $idMicroorganismo;
 
@@ -76,9 +68,7 @@ class LabResultados
      * @var \User
      * 
      * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumns({
-     *  @ORM\JoinColumn(name="id_usuario_reg",referencedColumnName="id",nullable=true)
-     * })
+     * @ORM\JoinColumn(name="id_usuario_reg",referencedColumnName="id",nullable=false)
      */
     private $idUsuarioReg;
 
@@ -91,9 +81,7 @@ class LabResultados
      * @var \User
      * 
      * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumns({
-     *  @ORM\JoinColumn(name="id_usuario_mod",referencedColumnName="id",nullable=true)
-     * })
+     * @ORM\JoinColumn(name="id_usuario_mod",referencedColumnName="id",nullable=true)
      */
     private $idUsuarioMod;
 
