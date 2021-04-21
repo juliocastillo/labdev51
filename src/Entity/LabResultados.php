@@ -53,7 +53,7 @@ class LabResultados
     private $observacion;
     
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=15, nullable=true)
      */
     private $resultado;
 
@@ -62,7 +62,7 @@ class LabResultados
      * 
      * @ORM\ManyToOne(targetEntity="CtlMicroorganismo")
      * @ORM\JoinColumns({
-     *  @ORM\JoinColumn(name="id_microorganismo",referencedColumnName="id",nullable=false)
+     *  @ORM\JoinColumn(name="id_microorganismo",referencedColumnName="id",nullable=true)
      * })
      */
     private $idMicroorganismo;
@@ -101,11 +101,6 @@ class LabResultados
      * @ORM\Column(type="datetime",nullable=true)
      */
     private $fechahoraMod;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=false)
-     */
-    private $resultado;
 
     /**
      * @ORM\Column(type="boolean")
@@ -248,18 +243,6 @@ class LabResultados
 
         return $this;
     }
-
-    public function getResultado(): ?string
-    {
-        return $this->resultado;
-    }
-
-    public function setResultado(?string $resultado): self
-    {
-        $this->resultado = $resultado;
-
-        return $this;
-    } 
 
     public function getActivo(): ?bool
     {
