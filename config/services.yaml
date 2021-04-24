@@ -148,7 +148,7 @@ services:
 
     admin.mnt_paciente:
         class: App\Admin\MntPacienteAdmin
-        arguments: [~, App\Entity\MntPaciente, App\Controller\MntPacienteController, '@service_container']
+        arguments: [~, App\Entity\MntPaciente,~, '@service_container']
         tags:
             - { name: sonata.admin, manager_type: orm, group: Mantenimientos, label: Paciente }
         public: true
@@ -206,7 +206,7 @@ services:
 
     admin.lab_orden:
         class: App\Admin\LabOrdenAdmin
-        arguments: [~, App\Entity\LabOrden, App\Controller\LabOrdenAdminController]
+        arguments: [~, App\Entity\LabOrden, App\Controller\LabOrdenAdminController,'@service_container']
         tags:
             - { name: sonata.admin, manager_type: orm, group: Ordenes trabajo, label: LabOrden }
         public: true
@@ -258,4 +258,11 @@ services:
             - [setTemplate, ['edit', 'MntElementos/edit.html.twig']]
         tags:
             - { name: sonata.admin, manager_type: orm, group: Mantenimientos, label: Elementos }
+        public: true
+
+    admin.ctl_forma_pago:
+        class: App\Admin\CtlFormaPagoAdmin
+        arguments: [~, App\Entity\CtlFormaPago, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Catalogos, label: Forma de Pago }
         public: true
