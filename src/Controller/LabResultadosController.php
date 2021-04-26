@@ -17,13 +17,14 @@ class LabResultadosController extends AbstractController
     {
         $request = $this->container->get('request_stack')->getCurrentRequest();
         $numeroOrden = $request->get('numeroOrden');
-        $sql = "SELECT id, fecha_orden, id_paciente
-                FROM lab_orden
-                WHERE id = $numeroOrden";
+        $sql = "SELECT t01.id, t02.nombre,t02.apellido,t01.fecha_orden 
+                FROM lab_orden t01 
+                LEFT JOIN mnt_paciente t02 ON t01.id_paciente = t02.id 
+                WHERE t01.id = $numeroOrden";
         $stm = $this->getDoctrine()->getConnection()->prepare($sql);
         $stm->execute();
         $result = $stm->fetchAll();
         return $this->render("resultados_busqueda.twig",
-                array("datos" => json_encode($result)));
+                array("datos" => $result));
     }   
 }

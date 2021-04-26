@@ -132,12 +132,14 @@ final class MntElementosAdmin extends AbstractAdmin
             ->add('idSexo', EntityType::class,[
                 'class' => CtlSexo::class,
                 'label' => 'Sexo',
-                'placeholder' => "Seleccionar..."
+                'placeholder' => "Seleccionar...",
+                'required' => FALSE
             ])
             ->add('idRangoEdad', EntityType::class,[
                 'class' => CtlRangoEdad::class,
                 'label' => 'Rango Edad',
-                'placeholder' => "Seleccionar..."
+                'placeholder' => "Seleccionar...",
+                'required' => FALSE
             ])
             ->add('observacion', TextareaType::class,['attr' => [
                 ],
@@ -235,7 +237,7 @@ final class MntElementosAdmin extends AbstractAdmin
         $fechaInicio        = $object->getFechaInicio();
         $fechaFin           = $object->getFechaFin();
 
-        if ($fechaInicio > $fechaFin) {
+        if ($fechaInicio > $fechaFin && $fechaFin != null) {
             $errorElement->with('fechaInicio')
                             ->addViolation('La fecha inicio no puede ser mayor a la fecha fin')
                          ->end();
