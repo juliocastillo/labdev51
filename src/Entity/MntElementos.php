@@ -24,6 +24,7 @@ class MntElementos
      * @ORM\Column(type="string", length=150)
      * @Assert\NotNull
      * 
+     * @Assert\Length(min=5,minMessage="No pueden ingresarse menos de 5 caracteres.")
      */
     private $nombreElemento;
     //@Assert\NotNull
@@ -80,7 +81,7 @@ class MntElementos
      * 
      * @ORM\ManyToOne(targetEntity="CtlSexo")
      * @ORM\JoinColumns({
-     *  @ORM\JoinColumn(name="id_sexo",referencedColumnName="id",nullable=false)
+     *  @ORM\JoinColumn(name="id_sexo",referencedColumnName="id",nullable=true)
      * })
      */
     private $idSexo;
@@ -90,7 +91,7 @@ class MntElementos
      * 
      * @ORM\ManyToOne(targetEntity="CtlRangoEdad")
      * @ORM\JoinColumns({
-     *  @ORM\JoinColumn(name="id_rango_edad",referencedColumnName="id",nullable=false)
+     *  @ORM\JoinColumn(name="id_rango_edad",referencedColumnName="id",nullable=true)
      * })
      */
     private $idRangoEdad;

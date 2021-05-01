@@ -1,0 +1,8 @@
+
+
+<table>
+    <tr><td>Paciente</td></tr>
+    {% for dato in datos %}
+    <tr><td><a href="{{dato.id}}">{{dato.nombre}} {{dato.apellido}}</a></td></tr>
+    {% endfor %}
+</table>

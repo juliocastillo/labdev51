@@ -9,25 +9,23 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
-use Sonata\AdminBundle\Route\RouteCollectionInterface;
 
-final class CargaDataAdmin extends AbstractAdmin
+final class CtlFormaPagoAdmin extends AbstractAdmin
 {
-    protected $accessMapping = [
-       'load'   => 'ROLE_ADMIN_CARGADATA_LOAD'
-    ];
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
-            ->add('idCarga')
+            ->add('nombre')
+            ->add('activo')
             ;
     }
 
     protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
-            ->add('idCarga')
+            ->add('nombre')
+            ->add('activo')
             ->add('_action', null, [
                 'actions' => [
                     'show' => [],
@@ -40,24 +38,16 @@ final class CargaDataAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
-            ->add('idCarga')
+            ->add('nombre')
+            ->add('activo')
             ;
     }
 
     protected function configureShowFields(ShowMapper $showMapper): void
     {
         $showMapper
-            ->add('idCarga')
+            ->add('nombre')
+            ->add('activo')
             ;
     }
-
-    protected function configureRoutes(RouteCollectionInterface $collection): void
-    {
-        // on clear para quitar rutas.
-        $collection
-            ->add('load', 'load');
-    }
 }
-
-
-
