@@ -38,4 +38,8 @@ class CtlEspecialidad
 
         return $this;
     }
+
+    public function __toString() {
+        return $this->nombre ? (string) $this->nombre : ''; 
+    }
 }

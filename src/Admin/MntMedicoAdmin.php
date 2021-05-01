@@ -11,6 +11,8 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use App\Entity\CtlEspecialidad;
 
 final class MntMedicoAdmin extends AbstractAdmin
 {
@@ -78,7 +80,11 @@ final class MntMedicoAdmin extends AbstractAdmin
             ->add('nombre')
             ->add('apellido')
             ->add('correoElectronico')
-            ->add('especialidad')
+            ->add('especialidad', EntityType::class,[
+                'class' => CtlEspecialidad::class,
+                'label' => 'Especialidad',
+                'placeholder' => "Seleccionar..."
+            ])
             ->add('jvpm')
             ->add('telefono')
             ->add('activo')
