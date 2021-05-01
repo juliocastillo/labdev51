@@ -10,9 +10,27 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Symfony\Component\Security\Core\Security;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+
 
 final class CnfLaboratorioAdmin extends AbstractAdmin
 {
+    /**
+     * @var ContainerInterface
+     */
+    private $container;
+
+    /**
+     * @param string $code
+     * @param string $class
+     * @param string $baseControllerName
+     */
+    
+    public function __construct($code, $class, $baseControllerName, $container = null)
+    {
+        parent::__construct($code, $class, $baseControllerName);
+        $this->container = $container;
+    }
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
@@ -73,13 +91,13 @@ final class CnfLaboratorioAdmin extends AbstractAdmin
     }
 
     public function prePersist($form) : void {
-        $user = $this->getConfigurationPool()->getContainer()->get('security.token_storage')->getToken()->getUser();
+        $user = $this->container->get('security.token_storage')->getToken()->getUser();
         $form->setIdUsuarioReg($user);
         $form->setFechahoraReg(new \Datetime());
     }
 
     public function preUpdate($form) : void {
-        $user = $this->getConfigurationPool()->getContainer()->get('security.token_storage')->getToken()->getUser();
+        $user = $this->container->get('security.token_storage')->getToken()->getUser();
         $form->setIdUsuarioMod($user);
         $form->setFechahoraMod(new \Datetime());
     }

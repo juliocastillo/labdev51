@@ -34,6 +34,7 @@ final class CtlExamenAdmin extends AbstractAdmin
      * @param string $class
      * @param string $baseControllerName
      */
+    
     public function __construct($code, $class, $baseControllerName, $container = null)
     {
         parent::__construct($code, $class, $baseControllerName);

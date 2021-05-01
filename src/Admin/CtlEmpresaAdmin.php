@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Admin;
 
+use App\Entity\CtlDescuento;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -13,9 +14,28 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\ChoiceList\ChoiceList;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+
 
 final class CtlEmpresaAdmin extends AbstractAdmin
 {
+/**
+     * @var ContainerInterface
+     */
+    private $container;
+
+    /**
+     * @param string $code
+     * @param string $class
+     * @param string $baseControllerName
+     */
+    
+    public function __construct($code, $class, $baseControllerName, $container = null)
+    {
+        parent::__construct($code, $class, $baseControllerName);
+        $this->container = $container;
+    }
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
@@ -45,10 +65,11 @@ final class CtlEmpresaAdmin extends AbstractAdmin
         $formMapper
             ->with('Empresa',['class' => 'col-md-5'])
                 ->add('nombreEmpresa', TextType::class)
-                ->add('idDescuento',  null, array(
-                    'required' => TRUE,
+                ->add('idDescuento',   EntityType::class,[
+                    'class' => CtlDescuento::class,
                     'label' => 'Descuento a aplicar',
-                ))
+                    ]    
+                )
                 ->add('activo', CheckboxType::class)
             ->end()    
             ;
@@ -77,18 +98,16 @@ final class CtlEmpresaAdmin extends AbstractAdmin
         }
     }
 
-
-
     public function prePersist($alias) : void {
         // llenar campos de auditoria
-        $user = $this->getConfigurationPool()->getContainer()->get('security.token_storage')->getToken()->getUser();
+        $user = $this->container->get('security.token_storage')->getToken()->getUser();
         $alias->setIdUsuarioReg($user);
         $alias->setFechahoraReg(new \DateTime());
     }
 
     public function preUpdate($alias) : void {
         // llenar campos de auditoria
-        $user = $this->getConfigurationPool()->getContainer()->get('security.token_storage')->getToken()->getUser();
+        $user = $this->container->get('security.token_storage')->getToken()->getUser();
         $alias->setIdUsuarioMod($user);
         $alias->setFechahoraMod(new \DateTime());
     }

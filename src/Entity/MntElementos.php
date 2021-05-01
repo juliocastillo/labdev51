@@ -24,7 +24,7 @@ class MntElementos
      * @ORM\Column(type="string", length=150)
      * @Assert\NotNull
      * 
-     * @Assert\Length(min=5,minMessage="No pueden ingresarse menos de 5 caracteres.")
+     * @Assert\Length(min=2,minMessage="No pueden ingresarse menos de 2 caracteres.")
      */
     private $nombreElemento;
     //@Assert\NotNull

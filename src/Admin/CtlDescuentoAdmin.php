@@ -76,7 +76,6 @@ final class CtlDescuentoAdmin extends AbstractAdmin
     }
 
 
-
     public function prePersist($alias) : void {
         // llenar campos de auditoria
         $user = $this->container->get('security.token_storage')->getToken()->getUser(); 
