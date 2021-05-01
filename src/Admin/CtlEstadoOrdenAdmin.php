@@ -9,7 +9,6 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
-use Sonata\Form\Validator\ErrorElement;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 
@@ -43,7 +42,7 @@ final class CtlEstadoOrdenAdmin extends AbstractAdmin
     {
         $formMapper
             ->with('Estados de la Orden', ['class' => 'col-md-6 col-xs-6 col-lg-6'])
-                ->add('nombreEstado', TextType::class, [
+                ->add('nombreEstado*', TextType::class, [
                     'label' => 'Nombre del Estado',
                     'required' => FALSE
                 ])

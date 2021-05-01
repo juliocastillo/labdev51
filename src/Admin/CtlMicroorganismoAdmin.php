@@ -42,7 +42,8 @@ final class CtlMicroorganismoAdmin extends AbstractAdmin
         $formMapper
             ->with('Microorganismos', ['class' => 'col-lg-6 col-md-6 col-xs-6 col-lg-6'])
                 ->add('nombreMicroorganismo', TextType::class, [
-                    'label' => 'Nombre del Microorganismo'
+                    'label' => 'Nombre del Microorganismo*',
+                    'required' => FALSE
                 ])
             ->end()
             ;

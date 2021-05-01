@@ -2,11 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\CtlMicroorganismoRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\CtlMicroorganismoRepository;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * @ORM\Entity(repositoryClass=CtlMicroorganismoRepository::class)
+ * @UniqueEntity("nombreMicroorganismo", message="Ya existe un microorganismo con este nombre!")
  */
 class CtlMicroorganismo
 {
@@ -19,6 +23,8 @@ class CtlMicroorganismo
 
     /**
      * @ORM\Column(type="string", length=150)
+     * @Assert\NotNull(message="Este campo no puede quedar vacío.")
+     * @Assert\Regex(pattern="/^[A-Z]{1}+[a-zA-Z]/", message="El nombre debe iniciar con una letra Mayuscula. | No se permite sólo números o caracteres especiales.")
      */
     private $nombreMicroorganismo;
 
