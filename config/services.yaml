@@ -229,7 +229,9 @@ services:
         class: App\Admin\CtlPosibleResultadoAdmin
         arguments: [~, App\Entity\CtlPosibleResultado, ~]
         tags:
-            - { name: sonata.admin, manager_type: orm, group: Catalogos, label: CtlPosibleResultado }
+            - { name: sonata.admin, manager_type: orm, group: Catalogos, label: Posible Resultados }
+        public: true
+
     admin.ctl_especialidad:
         class: App\Admin\CtlEspecialidadAdmin
         arguments: [~, App\Entity\CtlEspecialidad, ~]
@@ -248,7 +250,7 @@ services:
         class: App\Admin\MntPosibleResultadoElementoAdmin
         arguments: [~, App\Entity\MntPosibleResultadoElemento, ~]
         tags:
-            - { name: sonata.admin, manager_type: orm, group: Mantenimientos, label: Posible Resultado Elemento }
+            - { name: sonata.admin, manager_type: orm,  show_in_dashboard: false, group: Mantenimientos, label: Posible Resultado Elemento }
         public: true
 
     admin.mnt_elementos:
