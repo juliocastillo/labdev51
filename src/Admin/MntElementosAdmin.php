@@ -105,7 +105,8 @@ final class MntElementosAdmin extends AbstractAdmin
             ->add('nombreElemento', TextType::class, ['attr' => [
                 'placeholder' => 'nombre del elemento...'
             ],
-            //'required' => FALSE
+            'label'     => 'Nombre*',
+            'required'  => FALSE
                 
             ])
             ->add('idTipoElemento', EntityType::class,[

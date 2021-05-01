@@ -42,7 +42,8 @@ final class CtlTemplateAdmin extends AbstractAdmin
         $formMapper
             ->with('Templates', ['class' => 'col-md-6 col-xs-6 col-lg-6'])
                 ->add('nombreTemplate', TextType::class, [
-                    'label' => 'Nombre del Template'
+                    'label' => 'Nombre del Template*',
+                    'required'  => FALSE
                 ])
             ->end()
             ;
@@ -53,7 +54,7 @@ final class CtlTemplateAdmin extends AbstractAdmin
         $showMapper
         ->with('Detalles', ['class' => 'col-md-6 col-xs-6 col-lg-6'])
             ->add('nombreTemplate', TextType::class, [
-                'label' => 'Nombre del Template'
+                'label'     => 'Nombre del Template',
             ])
         ->end()
             ;
