@@ -105,7 +105,8 @@ final class MntElementosAdmin extends AbstractAdmin
             ->add('nombreElemento', TextType::class, ['attr' => [
                 'placeholder' => 'nombre del elemento...'
             ],
-            //'required' => FALSE
+            'label'     => 'Nombre*',
+            'required'  => FALSE
                 
             ])
             ->add('idTipoElemento', EntityType::class,[
@@ -224,31 +225,6 @@ final class MntElementosAdmin extends AbstractAdmin
         $alias->setIdUsuarioReg($user);
         $alias->setFechahoraReg(new \DateTime());
     }
-    
-    public function validate(ErrorElement $errorElement, $object): void {
-        //$nombreElemento     = $object->getNombreElemento();
-        //$idExamen           = $object->getIdExamen();
-        //$tipoElemento       = $object->getIdTipoElemento();
-        //$orden              = $object->getOrdenamiento();
-        //$idSexo             = $object->getIdSexo();
-        //$idRangoEdad        = $object->getIdRangoEdad();
-        $fechaInicio        = $object->getFechaInicio();
-        $fechaFin           = $object->getFechaFin();
-
-        if ($fechaInicio > $fechaFin) {
-            $errorElement->with('fechaInicio')
-                            ->addViolation('La fecha inicio no puede ser mayor a la fecha fin')
-                         ->end();
-        }
-
-        /* $errorElement->with('nombreElemento')
-                ->assertMinLength(array('limit' => 5))
-                ->assertNotNull(array())
-                ->addViolation('Este campo es requerido!')
-            ->end();*/
-    }
-
-    
 
     public function preUpdate(object $alias) : void {
         $user = $this->container->get('security.token_storage')->getToken()->getUser();
