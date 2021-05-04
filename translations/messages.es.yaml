@@ -50,3 +50,11 @@ Ctl Microorganismo Create : Crear Nuevo Microorganismo
 #CtlTemplate
 Ctl Template List : Lista de Templates
 Ctl Template Create : Crear Nuevo Template
+
+#MntElemento
+Mnt Elementos List : Lista de Elementos
+Mnt Elementos Create : Crear Nuevo Elemento
+
+#MntPaciente
+Mnt Paciente List : Lista de Pacientes
+Mnt Paciente Create : Ingresar un Nuevo Paciente

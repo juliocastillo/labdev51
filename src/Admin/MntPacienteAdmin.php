@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Admin;
 
-//use App\Entity\CtlDepartamento;
-//use App\Entity\CtlMunicipio;
 use DateTime;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
@@ -16,6 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use App\Entity\CtlSexo;
+use Sonata\AdminBundle\Form\Type\Filter\NumberType;
 
 final class MntPacienteAdmin extends AbstractAdmin
 {
@@ -77,71 +76,86 @@ final class MntPacienteAdmin extends AbstractAdmin
     {
         $entity = $this->getSubject();   //obtiene el elemento seleccionado en un objeto
         $id = $entity->getId();
+        $fecha  = new \DateTime();
         
         $formMapper
-            ->with('Datos Paciente',['class' => 'col-md-6'])
-                ->add('nombre', TextType::class, [
-                    'label' => 'Nombre',
+            ->add('nombre', TextType::class, [
+                'label'     => 'Nombre Paciente*',
+                'required'  => FALSE,
+            ])
+            ->add('apellido', TextType::class,[
+                'label'     => 'Apellido Paciente*',
+                'required'  => FALSE,
+            ])
+            ->add('idSexo', EntityType::class,[
+                'class' => CtlSexo::class,
+                'label' => 'Sexo*',
+                'placeholder' => "Seleccionar...",
+                'required'  => FALSE,
                 ])
-                ->add('apellido')
-                ->add('idSexo', EntityType::class,[
-                    'class' => CtlSexo::class,
-                    'label' => 'Sexo',
-                    'placeholder' => "Seleccionar..."
-                    ])
-                ->add('fechaNacimiento')
-                ->add('fechaNacimiento', DateType::class, [
-                    'widget' => 'single_text',
-                ])
-                ->add('telefono')
-            ->end()
-            ->with('Dirección y Documentación', ['class' => 'col-md-6'])
-                ->add('direccionPaciente')
-                /* ->add('idDepartamento', EntityType::class, [
-                    'class' => CtlDepartamento::class,
-                    'label' => 'Departamento',
-                ])
-                ->add('idMunicipio', EntityType::class, [
-                    'class' => CtlMunicipio::class,
-                    'label' => 'Municipio',
-                ]) */
-                ->add('NRC')
-                ->add('NIT')
+            ->add('fechaNacimiento', DateType::class, [
+                'widget' => 'single_text',
+                'data'      => $fecha,
+                'attr'      => [
+                    
+                ],
                 
-            ->end()
+            ])
+            ->add('telefono', TextType::class,[
+                'attr'      => [
+                    'placeholder' => '8888-8888',
+                ],
+                'required'  => FALSE,
+            ])
+            ->add('direccionPaciente')
+            /* ->add('idDepartamento', EntityType::class, [
+                'class' => CtlDepartamento::class,
+                'label' => 'Departamento',
+            ])
+            ->add('idMunicipio', EntityType::class, [
+                'class' => CtlMunicipio::class,
+                'label' => 'Municipio',
+            ]) */
+            ->add('NRC', TextType::class,[
+                'attr' => [
+                    'placeholder' => '888888-8',
+                ],
+                'required'  => FALSE,
+            ])
+            ->add('NIT', TextType::class,[
+                'attr' => [
+                    'placeholder' => '8888-888888-888-8',
+                ],
+                'required'  => FALSE,
+            ])
             ;
             if ($id) {  // cuando se edite el registro
                 if ($entity->getActivo() == TRUE) { // si el registro esta activo
                     $formMapper
-                    ->with('Dirección y Documentación',['class' => 'col-md-6'])
-                            ->add('activo', null, array(
-                                'label' => 'Activo',
-                                'required' => FALSE,
-                                'attr' => array(
-                                    'checked' => 'checked',
-                    )))
-                    ->end()
-                    ;
-                } else { // si el registro esta inactivo
-                    $formMapper
-                    ->with('Dirección y Documentación',['class' => 'col-md-6'])
-                            ->add('activo', null, array(
-                                'label' => 'Activo',
-                                'required' => FALSE
-                    ))
-                    ->end()
-                    ;
-                }
-            } else { // cuando se crea el registro
-                $formMapper
-                ->with('Dirección y Documentación',['class' => 'col-md-6'])
                         ->add('activo', null, array(
                             'label' => 'Activo',
                             'required' => FALSE,
                             'attr' => array(
-                                'checked' => 'checked'
-                )))
-                ->end()
+                                'checked' => 'checked',
+                    )))
+                    ;
+                } else { // si el registro esta inactivo
+                    $formMapper
+                        ->add('activo', null, array(
+                            'label' => 'Activo',
+                            'required' => FALSE
+                        ))
+                    ;
+                }
+            } else { // cuando se crea el registro
+                $formMapper
+                    ->add('activo', null, array(
+                        'label' => 'Activo',
+                        'required' => FALSE,
+                        'attr' => array(
+                            'checked' => 'checked'
+                    )))
+
                 ;
             }
     }

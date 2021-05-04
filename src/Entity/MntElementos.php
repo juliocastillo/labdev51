@@ -6,6 +6,7 @@ use App\Repository\MntElementosRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
+//@Assert\Regex(pattern="/^[A-Z]{1}+[a-zA-Z0-9]/", message = "La cantidad minina de caracteres es 5 y no se permiten numeros o caracteres especiales.")
 
 /**
  * @ORM\Entity(repositoryClass=MntElementosRepository::class)
@@ -21,23 +22,23 @@ class MntElementos
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=150)
+     * @ORM\Column(type="string", length=150, nullable=false)
      * @Assert\NotNull
-     * 
      * @Assert\Length(min=2,minMessage="No pueden ingresarse menos de 2 caracteres.")
+     * 
      */
     private $nombreElemento;
-    //@Assert\NotNull
-    //@Assert\Length(min=5,minMessage="No pueden ingresarse menos de 5 caracteres.")
-    //@Assert\Regex(pattern="/^[A-Z]{1}+[a-zA-Z0-9]/", message = "La cantidad minina de caracteres es 5 y no se permiten numeros o caracteres especiales.")
+    
 
     /**
      * @var \CtlExamen
      * 
      * @ORM\ManyToOne(targetEntity="CtlExamen")
      * @ORM\JoinColumns({
-     *  @ORM\JoinColumn(name="id_examen",referencedColumnName="id",nullable=false)
+     *  @ORM\JoinColumn(name="id_examen",referencedColumnName="id")
      * })
+     * 
+     * @Assert\NotNull
      */
     private $idExamen;
 
@@ -61,8 +62,9 @@ class MntElementos
      * 
      * @ORM\ManyToOne(targetEntity="CtlTipoElemento")
      * @ORM\JoinColumns({
-     *  @ORM\JoinColumn(name="id_tipo_elemento",referencedColumnName="id",nullable=false)
+     *  @ORM\JoinColumn(name="id_tipo_elemento",referencedColumnName="id")
      * })
+     * @Assert\NotNull
      */
     private $idTipoElemento;
 
@@ -73,6 +75,7 @@ class MntElementos
 
     /**
      * @ORM\Column(type="string", length=15, nullable=true)
+     * @Assert\NotNull
      */
     private $ordenamiento;
 
@@ -81,7 +84,7 @@ class MntElementos
      * 
      * @ORM\ManyToOne(targetEntity="CtlSexo")
      * @ORM\JoinColumns({
-     *  @ORM\JoinColumn(name="id_sexo",referencedColumnName="id",nullable=true)
+     *  @ORM\JoinColumn(name="id_sexo",referencedColumnName="id")
      * })
      */
     private $idSexo;
@@ -97,7 +100,8 @@ class MntElementos
     private $idRangoEdad;
 
     /**
-     * @ORM\Column(type="date", nullable=true)
+     * @ORM\Column(type="date", nullable=false)
+     * @Assert\NotNull
      */
     private $fechaInicio;
 

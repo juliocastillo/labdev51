@@ -149,6 +149,8 @@ services:
     admin.mnt_paciente:
         class: App\Admin\MntPacienteAdmin
         arguments: [~, App\Entity\MntPaciente,~, '@service_container']
+        calls:
+            - [setTemplate, ['edit', 'MntPaciente/edit.html.twig']]
         tags:
             - { name: sonata.admin, manager_type: orm, group: Mantenimientos, label: Paciente }
         public: true

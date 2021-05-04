@@ -3,13 +3,16 @@
 {% block javascripts %}
     {{ parent() }}
 
-    <script type="text/javascript" src="/bundles/sonatacore/vendor/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>    
+    <script type="text/javascript" src="/bundles/sonatacore/vendor/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
+    
 
     <script type="text/javascript">
         jQuery(document).ready(function($){
 
+            //$('input[id$="_NIT"]').mask(****-******-***-*);
+
             //Mostrar - Ocultar los campos para sub-elemento
-            let valor = $('select[id$="_idTipoElemento"]');
+            /* let valor = $('select[id$="_idTipoElemento"]');
             $('#subEle').hide();
             $(valor).change(function(){ 
                 //e.preventDefault();
@@ -20,10 +23,10 @@
                 }else{
                     $('#subEle').slideUp();
                 }
-            });
+            }); */
 
             //Si tiene fecha fin, desmarcar activo
-            let fFin = $('input[id$="_fechaFin"]');
+            /* let fFin = $('input[id$="_fechaFin"]');
             let act = $('input[id$="_activo"]');
             $(fFin).change(function(){
                 if($(this).val() != ""){
@@ -31,7 +34,7 @@
                 }else{
                     act.iCheck('check');
                 }
-            });
+            }); */
         })
     </script>
 {% endblock %}
@@ -47,57 +50,39 @@
                 <div class="box-header">
                     
 
-                    <h3 class="box-tittle" style="padding-left: 15px;"><span class="ion ion-edit" style="padding-right: 10px;" aria-hidden="true"></span>Crear Elemento</h3>
+                    <h3 class="box-tittle" style="padding-left: 15px;"><span class="ion ion-edit" style="padding-right: 10px;" aria-hidden="true"></span>Ingresar Nuevo Paciente</h3>
                 </div>
                 <div class="box-body">
                     <div class="row">
                         <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                            {{ form_row(form[form_group.fields.nombreElemento]) }}
+                            {{ form_row(form[form_group.fields.nombre]) }}
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                            {{ form_row(form[form_group.fields.idExamen]) }}
+                            {{ form_row(form[form_group.fields.apellido]) }}
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                            {{ form_row(form[form_group.fields.idTipoElemento]) }}
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                            {{ form_row(form[form_group.fields.ordenamiento]) }}
-                        </div>
-                    </div>
-                    <div id="subEle">
-                        <div class="row">
-                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                            {{ form_row(form[form_group.fields.unidades]) }}
-                        </div>
                         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                             {{ form_row(form[form_group.fields.idSexo]) }}
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                            {{ form_row(form[form_group.fields.idRangoEdad]) }}
+                            {{ form_row(form[form_group.fields.fechaNacimiento]) }}
                         </div>
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                            {{ form_row(form[form_group.fields.telefono]) }}
                         </div>
-                        <div class="row">
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                {{ form_row(form[form_group.fields.observacion]) }}
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                {{ form_row(form[form_group.fields.valorInicial]) }}
-                            </div>
-                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                {{ form_row(form[form_group.fields.valorFinal]) }}
-                            </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            {{ form_row(form[form_group.fields.direccionPaciente]) }}
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                            {{ form_row(form[form_group.fields.fechaInicio]) }}
+                            {{ form_row(form[form_group.fields.NRC]) }}
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                            {{ form_row(form[form_group.fields.fechaFin]) }}
+                            {{ form_row(form[form_group.fields.NIT]) }}
                         </div>
                     </div>
                     <div class="row">

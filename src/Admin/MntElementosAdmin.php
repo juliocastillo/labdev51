@@ -66,9 +66,7 @@ final class MntElementosAdmin extends AbstractAdmin
             ->addIdentifier('nombreElemento',null,[
                 'route' => array('name' => 'show')
             ])
-            ->add('idTipoElemento', EntityType::class,[
-                'label' => 'Tipo de Elemento',
-            ])
+            ->add('idTipoElemento')
             ->add('idExamen', EntityType::class,[
                 'label' => 'Examen',
             ])
@@ -102,33 +100,38 @@ final class MntElementosAdmin extends AbstractAdmin
         $fecha  = new \DateTime();
 
         $formMapper
-            ->add('nombreElemento', TextType::class, ['attr' => [
-                'placeholder' => 'nombre del elemento...'
-            ],
-            'label'     => 'Nombre*',
-            'required'  => FALSE
+            ->add('nombreElemento', TextType::class, [
+                'required'      => FALSE,
+                'label'         => 'Nombre de Elemento*',
+                'attr'          => [
+                    'placeholder'   => 'Linea Plaquetaria...'
+                ]
                 
             ])
             ->add('idTipoElemento', EntityType::class,[
-                'class' => CtlTipoElemento::class,
-                'label' => 'Tipo de Elemento',
-                'placeholder' => "Seleccionar..."
+                'class'         => CtlTipoElemento::class,
+                'label'         => 'Tipo de Elemento*',
+                'placeholder'   => 'Seleccionar...',
+                'required'   => FALSE
             ])
             ->add('idExamen', EntityType::class,[
                 'class' => CtlExamen::class,
-                'label' => 'Examen',
-                'placeholder' => "Seleccionar..."
+                'label' => 'Examen*',
+                'placeholder' => "Seleccionar...",
+                'required'   => FALSE
             ])
-            ->add('unidades', TextType::class,[ 'attr' => [
-                'placeholder' => 'mg/dL...'
+            ->add('unidades', TextType::class,[ 
+                'attr' => [
+                    'placeholder' => 'mg/dL...',
                 ],
-                'required' => FALSE,
+                'required'  => FALSE
             ])
             ->add('ordenamiento', IntegerType::class, ['attr' => [
-                    'min' => '1',
+                    'min'           => '1',
+                    'placeholder'   => '1'
                 ],
-                'label' => 'Orden',
-                'data'  => '1'
+                'label'         => 'Orden*',
+                'required'      => FALSE,
             ])
             ->add('idSexo', EntityType::class,[
                 'class' => CtlSexo::class,
@@ -163,7 +166,9 @@ final class MntElementosAdmin extends AbstractAdmin
                 'data'      => $fecha,
                 'attr'      => [
                     'style'     => 'width: 70%;',
-                ]
+                ],
+                'required'   => FALSE,
+                'label'     => 'Fecha Inicio*'
             ])
             ->add('fechaFin', DateType::class,[
                 'widget'    => 'single_text',
@@ -229,12 +234,6 @@ final class MntElementosAdmin extends AbstractAdmin
     }
     
     public function validate(ErrorElement $errorElement, $object): void {
-        //$nombreElemento     = $object->getNombreElemento();
-        //$idExamen           = $object->getIdExamen();
-        //$tipoElemento       = $object->getIdTipoElemento();
-        //$orden              = $object->getOrdenamiento();
-        //$idSexo             = $object->getIdSexo();
-        //$idRangoEdad        = $object->getIdRangoEdad();
         $fechaInicio        = $object->getFechaInicio();
         $fechaFin           = $object->getFechaFin();
 
@@ -243,15 +242,7 @@ final class MntElementosAdmin extends AbstractAdmin
                             ->addViolation('La fecha inicio no puede ser mayor a la fecha fin')
                          ->end();
         }
-
-        /* $errorElement->with('nombreElemento')
-                ->assertMinLength(array('limit' => 5))
-                ->assertNotNull(array())
-                ->addViolation('Este campo es requerido!')
-            ->end();*/
     }
-
-    
 
     public function preUpdate(object $alias) : void {
         $user = $this->container->get('security.token_storage')->getToken()->getUser();
