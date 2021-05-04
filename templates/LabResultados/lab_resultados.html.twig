@@ -29,6 +29,63 @@
                 });
             });
         })
+
+
+        function mostrarDetalle(idOrden) {
+            $(document).ready(function () {
+                //buscar las ordenes de trabajo con estado pendiente de resultado.
+                $.ajax({
+                url: "{{ path('lab_detalles_ordenes_pendientes') }}",
+                data : {idOrden : idOrden},
+                type: "GET",
+                dataType: "html",
+                success : function (html) {
+                    //console.log(html);
+                    $("#examenes").html(html);
+                }
+                //}).done(function(data) {
+                    //$("#ordenes").html("Resultados");
+                });
+            })
+        }
+
+
+         function mostrarElementos(idExamen) {
+            $(document).ready(function () {
+                //buscar las ordenes de trabajo con estado pendiente de resultado.
+                $.ajax({
+                url: "{{ path('lab_detalles_elementos') }}",
+                data : {idExamen : idExamen},
+                type: "GET",
+                dataType: "html",
+                success : function (html) {
+                    //console.log(html);
+                    $("#elementos").html(html);
+                }
+                });
+            })
+        }
+         function guardarResultadosElementos() {
+$( "lab_detalles_guardar_elementos" ).on( "submit", function( event ) {
+  event.preventDefault();
+  console.log( $( this ).serialize() );
+});
+ /*           //console.log(document.getElementById('elemento_2').value)
+            idElemento = document.getElementsByName('idElemento')
+            $(document).ready(function () {
+                //buscar las ordenes de trabajo con estado pendiente de resultado.
+                $.ajax({
+                url: "{{ path('lab_detalles_guardar_elementos') }}",
+                data : resultados_elementos.serialize(),
+                type: "GET",
+                dataType: "html",
+                success : function (html) {
+                    //console.log(html);
+                    $("#message").html(html);
+                }
+                });
+            }) */
+        }
     </script>
 
 {% endblock %}
@@ -63,7 +120,21 @@
             </div>
         </form>
         <div class="row">
-            <div id="ordenes" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 center-block">dd</div>
+            <div id="ordenes" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 center-block">
+            --resultados--
+            </div>
+            <div id="examenes" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 center-block">
+            --examenes--
+            </div>
+            <form name="resultados_elementos" method="get">
+                <div id="elementos" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 center-block">
+                --elementos--
+                </div>
+                <button type="button" id="btnGuardar" onclick="guardarResultadosElementos()" style="width: 200px; margin-top: 5px;" class="btn btn-info"><i class=""></i>&nbsp; Guardar</button>
+                <div id="message" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 center-block">
+                ----
+                </div>
+            </form>
         </div>
     </div>
 {% endblock %}
