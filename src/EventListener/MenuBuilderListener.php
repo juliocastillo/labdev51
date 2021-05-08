@@ -26,7 +26,18 @@ class MenuBuilderListener
             ->setLabel('Resultados')
             ->addChild('resultados_de_laboratorio', ['route' => 'admin_app_labresultados_index'])
             ->setLabel('Resultados de laboratorio')
-            ->getParent()
+            ->getParent();
+
+            $event->getMenu()
+            ->addChild('Ordenes', ['route' => ''])
+            ->setExtras(
+                [
+                    'icon' => '<span class="fa fa-file"></span>&nbsp;',
+                ]
+            )
+            ->setLabel('Ordenes')
+            ->addChild('orden_de_laboratorio', ['route' => 'admin_app_laborden_index'])
+            ->setLabel('Ordenes de laboratorio')
             ->getParent();
 
     }
