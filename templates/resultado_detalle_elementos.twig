@@ -1,12 +1,81 @@
 
-<table>
-    <tr><td>Elementos</td></tr>
-    {% for dato in datos %}
-    <tr>
+
+{% block javascripts %}
+
+    <script type="text/javascript">
+        jQuery(document).ready(function($){
+            
+            $("#saveResult").on("submit", function(e){
+                e.preventDefault();
+                let data = {};
+                $(this).serializeArray().forEach((object)=>{
+                    data[object.name] = object.value;
+                });
+
+                //console.log(data);
+            });
+
+            
+        });
+    </script>
+{% endblock %}
+{# <table>
+    <tr><td>Elementos...</td></tr> #}
+                
+            
+    
+
+    {# <tr>
         <td>{{dato.nombre_elemento}}</td>
         {% if (dato.id_tipo_elemento == 2) %}
         <td><input type="text" id="elemento_{{ dato.id }}" name="idElemento[]" /></td>
         {% endif %}
-    </tr>
-    {% endfor %}
-</table>
+    </tr> #}
+    
+{# </table> #}
+{% block notice %}
+    {% include '@SonataTwig/FlashMessage/render.html.twig' %}
+{% endblock %}
+<div class="container">
+    <div class="row">
+        {# <div class="col-sm-2"></div> #}
+        <div class="col-sm-7">
+            <form id="saveResult">
+                {# {% if (dato.id_tipo_elemento == 1) %}
+                    <div class="">
+                        
+                        <h4>{{dato.nombre_elemento}}</h4>
+                        
+                    </div>
+                {% endif %} #}
+                <table class="table table-responsive">
+                    <div >
+                        <tr style="background-color: skyblue; border-radius: 20px;">
+                            <th class="text-center" {# style="width: 100px;" #}>Nombre</th>
+                            <th class="text-center" {#style="width: 100px;" #}>Resultado</th>
+                            <th class="text-center" {# style="width: 100px;" #}>Rangos de Referencia</th>
+                            <th class="text-center" {# style="width: 100px;" #}>Unidades</th>
+                        </tr>
+                    </div>
+                    
+                    {% for dato in datos %}
+                    {% if (dato.id_tipo_elemento == 1) %}
+                    <tr><td colspan="4"><h4>{{dato.nombre_elemento}}</h4></td></tr>
+                    {% endif %}
+                    {% if (dato.id_tipo_elemento == 2) %}
+                    {# style="width: 50px;" #}
+                    <tr>
+                        <td><label for="elemento_{{ dato.id }}">{{dato.nombre_elemento}}</label></td>
+                        <td><input class="form-control" type="text" id="elemento_{{ dato.id }}"></td>
+                        <td class="text-center"><span class="badge" style="background-color: coral; padding: 2px 40px">70-100</span></td>
+                        <td class="text-center"><span class="badge" style="background-color: cadetblue; padding: 2px 40px">mg/dL</span></td>
+                    </tr>
+                    {% endif %}
+                    {% endfor %}
+                </table>
+                <button type="submit" id="btnGuardar" onclick="guardarResultadosElementos()" style="width: 200px; margin-top: 5px;" class="btn btn-info">Guardar</button>
+            </form> 
+        </div>
+        <div class="col-sm-5"></div>
+    </div>
+</div>
