@@ -1,0 +1,35 @@
+{% block notice %}
+    {% include '@SonataTwig/FlashMessage/render.html.twig' %}
+{% endblock %}
+<div class="container">
+    <div class="row">
+        <div class="col-sm-7">
+                <table class="table table-responsive">
+                    <div >
+                        <tr style="background-color: skyblue; border-radius: 20px;">
+                            <th class="text-center" {# style="width: 100px;" #}>Nombre</th>
+                            <th class="text-center" {#style="width: 100px;" #}>Resultado</th>
+                            <th class="text-center" {# style="width: 100px;" #}>Rangos de Referencia</th>
+                            <th class="text-center" {# style="width: 100px;" #}>Unidades</th>
+                        </tr>
+                    </div>
+                    
+                    {% for dato in datos %}
+                    {% if (dato.id_tipo_elemento == 1) %}
+                    <tr><td colspan="4"><h4>{{dato.nombre_elemento}}</h4></td></tr>
+                    {% endif %}
+                    {% if (dato.id_tipo_elemento == 2) %}
+                    <tr>
+                        <td><label for="idelemento_{{ dato.id }}">{{dato.nombre_elemento}}</label></td>
+                        <td><input class="form-control" type="text" name="idelemento_{{ dato.id }}" id="idelemento_{{ dato.id }}"></td>
+                        <td class="text-center"><span class="badge" style="background-color: coral; padding: 2px 40px">70-100</span></td>
+                        <td class="text-center"><span class="badge" style="background-color: cadetblue; padding: 2px 40px">mg/dL</span></td>
+                    </tr>
+                    {% endif %}
+                    {% endfor %}
+                </table>
+            </form> 
+        </div>
+        <div class="col-sm-5"></div>
+    </div>
+</div>

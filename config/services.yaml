@@ -185,6 +185,16 @@ services:
             - { name: sonata.admin, show_in_dashboard: false, manager_type: orm, group: admin, label: Resultados de examenes }
         public: true
         
+    admin.lab_orden:
+        class: App\Admin\LabOrdenAdmin
+        arguments: [~, App\Entity\LabOrden, App\Controller\LabOrdenAdminController]
+        calls:
+            - [setTemplate, ['lab_orden', 'LabOrden/lab_orden.html.twig']]
+        tags:
+            - { name: sonata.admin, show_in_dashboard: false, manager_type: orm, group: admin, label: Ordenes de examenes }
+        public: true
+
+
     admin.ctl_rango_edad:
         class: App\Admin\CtlRangoEdadAdmin
         arguments: [~, App\Entity\CtlRangoEdad, ~]
@@ -206,19 +216,19 @@ services:
             - { name: sonata.admin, manager_type: orm, group: Mantenimientos, label: Empleados }
         public: true
 
-    admin.lab_orden:
-        class: App\Admin\LabOrdenAdmin
-        arguments: [~, App\Entity\LabOrden, App\Controller\LabOrdenAdminController,'@service_container']
-        tags:
-            - { name: sonata.admin, manager_type: orm, group: Ordenes trabajo, label: LabOrden }
-        public: true
+#    admin.lab_orden:
+#        class: App\Admin\LabOrdenAdmin
+#        arguments: [~, App\Entity\LabOrden, App\Controller\LabOrdenAdminController,'@service_container']
+#        tags:
+#            - { name: sonata.admin, manager_type: orm, group: Ordenes trabajo, label: LabOrden }
+#        public: true
 
-    admin.lab_detalle_orden:
-        class: App\Admin\LabDetalleOrdenAdmin
-        arguments: [~, App\Entity\LabDetalleOrden, ~]
-        tags:
-            - { name: sonata.admin, manager_type: orm, show_in_dashboard: true, group: Ordenes trabajo, label: LabDetalleOrden }
-        public: true
+#    admin.lab_detalle_orden:
+#        class: App\Admin\LabDetalleOrdenAdmin
+#        arguments: [~, App\Entity\LabDetalleOrden, ~]
+#        tags:
+#            - { name: sonata.admin, manager_type: orm, show_in_dashboard: true, group: Ordenes trabajo, label: LabDetalleOrden }
+#        public: true
 
     admin.ctl_antibioticos:
         class: App\Admin\CtlAntibioticosAdmin

@@ -20,6 +20,7 @@ use App\Entity\MntPaciente;
 use App\Entity\MntMedico;
 use App\Entity\CtlFormaPago;
 use App\Entity\CtlTipoDocumento;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 
 final class LabOrdenAdmin extends AbstractAdmin
 {
@@ -121,26 +122,11 @@ final class LabOrdenAdmin extends AbstractAdmin
             ;
     }
     
-    public function prePersist($alias) : void {
-        // llenar campos de auditoria
-        $em = $this->container->get('doctrine')->getManager();
-        $user = $this->container->get('security.token_storage')->getToken()->getUser();
-        $alias->setIdUsuarioReg($user);
-        $alias->setFechahoraReg(new \DateTime());
-        $alias->setFechaOrden(new \DateTime());
-        $alias->setActivo(TRUE);
-        //$estadoExamen = $em->getRepository('App:CtlEstadoExamen')->find(1);
-        
-        $estadoOrden = $em->getRepository('App:CtlEstadoOrden'::class)->find(1);
-        $alias->setIdEstadoOrden($estadoOrden);
-    }
-
-    public function preUpdate($alias) : void {
-        // llenar campos de auditoria
-        $user = $this->container->get('security.token_storage')->getToken()->getUser();
-        $alias->setIdUsuarioMod($user);
-        $alias->setFechahoraMod(new \DateTime());
-    }
     
-    
+    protected function configureRoutes(RouteCollectionInterface $collection): void
+    {
+        // on clear para quitar rutas.
+        $collection
+            ->add('index', 'index');
+    }
 }
