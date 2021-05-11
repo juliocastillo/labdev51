@@ -4,7 +4,7 @@
     {% for dato in datos %}
     <tr>
         <td>{{dato.nombre_elemento}}</td>
-        {% if (dato.id_tipo_elemento == 2) %}
+        {% if (dato.id_tipo_elemento) %}
         <td><input type="text" id="elemento_{{ dato.id }}" name="idElemento[]" /></td>
         {% endif %}
     </tr>
