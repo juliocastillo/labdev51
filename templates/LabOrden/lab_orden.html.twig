@@ -1,7 +1,126 @@
+
 {% extends '@SonataAdmin/CRUD/action.html.twig' %}
 
 {% block stylesheets %}
     {{ parent() }}
 
     {# encore_entry_link_tags('role_edit') #}
+{% endblock %}
+{% block javascripts %}
+{{ parent() }}
+<script>
+    $(document).ready(function(){
+        $('#detalleOrden').DataTable();
+    }); 
+</script>
+{% endblock javascripts %}
+
+
+{% block content %}
+
+<div class="container-fluid">
+    <div class="row">
+        {# <div class="col-sm-2"></div> #}
+        <div class="col-sm-6">
+            <form>
+                {# {% if (dato.id_tipo_elemento == 1) %}
+                    <div class="">
+                        
+                        <h4>{{dato.nombre_elemento}}</h4>
+                        
+                    </div>
+                {% endif %} #}
+                <table class="table table-responsive">
+                    {# <div >
+                        <tr style="background-color: skyblue; border-radius: 20px;">
+                            <th class="text-center">Nombre</th>
+                            <th class="text-center">Resultado</th>
+                            <th class="text-center">Rangos de Referencia</th>
+                            <th class="text-center">Unidades</th>
+                        </tr>
+                    </div> #}
+                    
+                    {# {% for dato in datos %}
+                    {% if (dato.id_tipo_elemento == 1) %}
+                    <tr><td colspan="4"><h4>{{dato.nombre_elemento}}</h4></td></tr>
+                    {% endif %}
+                    {% if (dato.id_tipo_elemento == 2) %} #}
+                    {# style="width: 50px;" #}
+                    <tr>
+                        <td class="bg-primary text-right"><label for="idPaciente">Paciente</label></td>
+                        <td><input class="form-control" type="text" id="idPaciente"></td>
+                    </tr>
+                    <tr>
+                        <td class="bg-primary text-right"><label for="idMedico">Medico</label></td>
+                        <td><input class="form-control" type="text" id="idMedico"></td>
+                    </tr>
+                    <tr>
+                        <td class="bg-primary text-right" style="width:25%"><label for="idTipoDocumento">Numero de Documento</label></td>
+                        <td><input class="form-control" type="text" id="idTipoDocumento"></td>
+                    </tr>
+                    <tr>
+                        <td class="bg-primary text-right"><label for="idFormaPago">Forma de Pago</label></td>
+                        <td><input class="form-control" type="text" id="idFormaPago"></td>
+                    </tr>
+                    {# {% endif %}
+                    {% endfor %} #}
+                </table>
+                <button type="submit" id="btnGuardar" onclick="guardarResultadosElementos()" style="width: 200px; margin-top: 5px;" class="btn btn-info">Guardar</button>
+            </form> 
+        </div>
+        <div class="col-sm-6"></div>
+    </div>
+</div>
+<br><br>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="table-responsive">
+                <table id="detalleOrden" class="table table-striped">
+                    <thead class="text-center">
+                        <tr>
+                            <th>Examen</th>
+                            <th>Muestra</th>
+                            <th>Precio($)</th>
+                            <th>Accion</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Hemograma</td>
+                            <td>Sangre</td>
+                            <td>2.95</td>
+                            <td><a href="">detalle</a></td>
+                        </tr>
+                        <tr>
+                            <td>Glucosa</td>
+                            <td>Sangre</td>
+                            <td>2.25</td>
+                            <td><a href="">detalle</a></td>
+                        </tr>
+                        <tr>
+                            <td>Trigliceridos</td>
+                            <td>Sangre</td>
+                            <td>2.25</td>
+                            <td><a href="">detalle</a></td>
+                        </tr>
+                        <tr>
+                            <td>Urocultivo</td>
+                            <td>Secrecion</td>
+                            <td>5.25</td>
+                            <td><a href="">detalle</a></td>
+                        </tr>
+                        <tr>
+                            <td>General de Orina</td>
+                            <td>Orina</td>
+                            <td>1.75</td>
+                            <td><a href="">detalle</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
 {% endblock %}

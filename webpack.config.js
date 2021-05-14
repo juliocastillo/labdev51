@@ -1,4 +1,13 @@
 var Encore = require('@symfony/webpack-encore');
+const loader = require('sass-loader');
+
+//const jQuery = require('jquery');
+//window.jQuery = jQuery;
+//require('datatables.net');
+//require('datatables.net-bs');
+
+//var $  = require( 'jquery' );
+//var dt = require( 'datatables.net' );
 
 // Manually configure the runtime environment if not already configured yet by the "encore" command.
 // It's useful when you use tools that rely on webpack.config.js file.
@@ -77,6 +86,18 @@ Encore
     // uncomment if you use API Platform Admin (composer req api-admin)
     //.enableReactPreset()
     //.addEntry('admin', './assets/admin.js')
+    
 ;
 
-module.exports = Encore.getWebpackConfig();
+var config = Encore.getWebpackConfig();
+
+//disable amd loader
+config.module.rules.unshift({
+    parser: {
+      amd: false,
+    }
+  });
+
+//module.exports = Encore.getWebpackConfig();
+module.exports = config;
+

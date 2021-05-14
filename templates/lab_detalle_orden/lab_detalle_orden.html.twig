@@ -1,0 +1,42 @@
+{% extends '@SonataAdmin/CRUD/action.html.twig' %}
+
+
+{% block javascripts %}
+{{ parent() }}
+<script>
+    {{ parent() }}
+    $(document).ready(function(){
+        $table = $('#detalleOrden').dataTable();
+    }); 
+</script>
+{% endblock javascripts %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="table-responsive">
+                <table id="detalleOrden" class="table table-striped">
+                    <thead class="text-center">
+                        <tr>
+                            <td>Examen</td>
+                            <td>Muestra</td>
+                            <td>Precio($)</td>
+                            <td>Accion</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+    
+    
