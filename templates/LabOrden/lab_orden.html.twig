@@ -20,58 +20,52 @@
 
 <div class="container-fluid">
     <div class="row">
-        {# <div class="col-sm-2"></div> #}
         <div class="col-sm-6">
-            <form>
-                {# {% if (dato.id_tipo_elemento == 1) %}
-                    <div class="">
-                        
-                        <h4>{{dato.nombre_elemento}}</h4>
-                        
+            <div class="box box-primary">
+                <div class="box-body">
+                    <h3 class="text-primary"><strong><i class="ion ion-clipboard"></i>Búsqueda de Ordenes</strong></h3>
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                            <div class="sonata-ba-field sonata-ba-field-standard-natual">
+                                <form>
+                                    <table class="table table-responsive">
+                                        <tr>
+                                            <td class="bg-primary text-right"><label for="idPaciente">Paciente</label></td>
+                                            <td><input class="form-control" type="text" id="idPaciente"></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="bg-primary text-right"><label for="idMedico">Medico</label></td>
+                                            <td><input class="form-control" type="text" id="idMedico"></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="bg-primary text-right" style="width:25%"><label for="idTipoDocumento">Numero de Documento</label></td>
+                                            <td><input class="form-control" type="text" id="idTipoDocumento"></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="bg-primary text-right"><label for="idFormaPago">Forma de Pago</label></td>
+                                            <td><input class="form-control" type="text" id="idFormaPago"></td>
+                                        </tr>
+                                        {# {% endif %}
+                                        {% endfor %} #}
+                                    </table>
+                                    <button type="submit" id="btnGuardar" onclick="guardarResultadosElementos()" style="width: 200px; margin-top: 5px;" class="btn btn-info">Guardar</button>
+                                </form> 
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 text-center">
+                            {# <button type="button" id="btnBuscar" style="width: 200px; margin-top: 5px;" class="btn btn-info"><i class="glyphicon glyphicon-zoom-in"></i>&nbsp; Buscar</button> #}
+                        </div>
                     </div>
-                {% endif %} #}
-                <table class="table table-responsive">
-                    {# <div >
-                        <tr style="background-color: skyblue; border-radius: 20px;">
-                            <th class="text-center">Nombre</th>
-                            <th class="text-center">Resultado</th>
-                            <th class="text-center">Rangos de Referencia</th>
-                            <th class="text-center">Unidades</th>
-                        </tr>
-                    </div> #}
-                    
-                    {# {% for dato in datos %}
-                    {% if (dato.id_tipo_elemento == 1) %}
-                    <tr><td colspan="4"><h4>{{dato.nombre_elemento}}</h4></td></tr>
-                    {% endif %}
-                    {% if (dato.id_tipo_elemento == 2) %} #}
-                    {# style="width: 50px;" #}
-                    <tr>
-                        <td class="bg-primary text-right"><label for="idPaciente">Paciente</label></td>
-                        <td><input class="form-control" type="text" id="idPaciente"></td>
-                    </tr>
-                    <tr>
-                        <td class="bg-primary text-right"><label for="idMedico">Medico</label></td>
-                        <td><input class="form-control" type="text" id="idMedico"></td>
-                    </tr>
-                    <tr>
-                        <td class="bg-primary text-right" style="width:25%"><label for="idTipoDocumento">Numero de Documento</label></td>
-                        <td><input class="form-control" type="text" id="idTipoDocumento"></td>
-                    </tr>
-                    <tr>
-                        <td class="bg-primary text-right"><label for="idFormaPago">Forma de Pago</label></td>
-                        <td><input class="form-control" type="text" id="idFormaPago"></td>
-                    </tr>
-                    {# {% endif %}
-                    {% endfor %} #}
-                </table>
-                <button type="submit" id="btnGuardar" onclick="guardarResultadosElementos()" style="width: 200px; margin-top: 5px;" class="btn btn-info">Guardar</button>
-            </form> 
+                    <br>
+                </div>
+            </div>
+            
         </div>
         <div class="col-sm-6"></div>
     </div>
 </div>
 <br><br>
+{# TABLA  #}
 <div class="container">
     <div class="row">
         <div class="col-lg-12">
