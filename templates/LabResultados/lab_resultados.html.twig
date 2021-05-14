@@ -3,7 +3,6 @@
 {% block stylesheets %}
     {{ parent() }}
 
-    {# encore_entry_link_tags('role_edit') #}
 {% endblock %}
 
 {% block javascripts %}
@@ -14,18 +13,14 @@
             //buscar las ordenes de trabajo con estado pendiente de resultado.
             $('#btnBuscar').on('click', function () {
                 numeroOrden = $("#numeroOrden").val()
-                //$('#ordenes').waitMe({ text: 'Buscando...' });
                 $.ajax({
                 url: "{{ path('lab_resultados_ordenes_pendientes') }}",
                 data : {numeroOrden : numeroOrden},
                 type: "GET",
                 dataType: "html",
                 success : function (html) {
-                    //console.log(html);
                     $("#ordenes").html(html);
                 }
-                //}).done(function(data) {
-                    //$("#ordenes").html("Resultados");
                 });
             });
         })
@@ -43,8 +38,7 @@
                     //console.log(html);
                     $("#examenes").html(html);
                 }
-                //}).done(function(data) {
-                    //$("#ordenes").html("Resultados");
+
                 });
             })
         }
@@ -65,27 +59,21 @@
                 });
             })
         }
-         function guardarResultadosElementos() {
-$( "lab_detalles_guardar_elementos" ).on( "submit", function( event ) {
-  event.preventDefault();
-  console.log( $( this ).serialize() );
-});
- /*           //console.log(document.getElementById('elemento_2').value)
-            idElemento = document.getElementsByName('idElemento')
-            $(document).ready(function () {
-                //buscar las ordenes de trabajo con estado pendiente de resultado.
+
+        $(document).ready(function () {
+            $("#btnGuardar").on('click',function(){
                 $.ajax({
                 url: "{{ path('lab_detalles_guardar_elementos') }}",
-                data : resultados_elementos.serialize(),
-                type: "GET",
+                data : {datos : $('#envio').serialize()},
+                type: "POST",
                 dataType: "html",
                 success : function (html) {
                     //console.log(html);
                     $("#message").html(html);
                 }
                 });
-            }) */
-        }
+            });
+        });
     </script>
 
 {% endblock %}
@@ -94,7 +82,7 @@ $( "lab_detalles_guardar_elementos" ).on( "submit", function( event ) {
         {% include "SonataCoreBundle:FlashMessage:render.html.twig" %}
     {% endblock notice %}#}
     <div class="container-fluid">
-        <form name="envio" method="post" id="envio">
+
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="box box-primary">
@@ -124,7 +112,7 @@ $( "lab_detalles_guardar_elementos" ).on( "submit", function( event ) {
                     </div>
                 </div>
             </div>
-        </form>
+<form name="envio" method="post" id="envio">
         <div class="row">
             <div id="ordenes" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 center-block">
             --resultados--
@@ -132,12 +120,11 @@ $( "lab_detalles_guardar_elementos" ).on( "submit", function( event ) {
             <div id="examenes" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 center-block">
             --examenes--
             </div>
-            <form name="resultados_elementos" method="get">
                 <div id="elementos" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 center-block">
                 --elementos--
                 </div>
-{#                 <button type="button" id="btnGuardar" onclick="guardarResultadosElementos()" style="width: 200px; margin-top: 5px;" class="btn btn-info">Guardar</button>
- #}                <div id="message" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 center-block">
+                 <button type="button" id="btnGuardar" style="width: 200px; margin-top: 5px;" class="btn btn-info">Guardar</button>
+                 <div id="message" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 center-block">
                 ----
                 </div>
             </form>

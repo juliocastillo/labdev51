@@ -24,7 +24,7 @@ class LabResultadosController extends AbstractController
         $stm = $this->getDoctrine()->getConnection()->prepare($sql);
         $stm->execute();
         $result = $stm->fetchAll();
-        return $this->render("resultados_busqueda.twig",
+        return $this->render("resultados_busqueda.html.twig",
                 array("datos" => $result));
     }   
     /**
@@ -40,7 +40,7 @@ class LabResultadosController extends AbstractController
         $stm = $this->getDoctrine()->getConnection()->prepare($sql);
         $stm->execute();
         $result = $stm->fetchAll();
-        return $this->render("resultados_busqueda_detalle.twig",
+        return $this->render("resultados_busqueda_detalle.html.twig",
                 array("datos" => $result));
     }   
     /**
@@ -61,7 +61,8 @@ class LabResultadosController extends AbstractController
         $stm = $this->getDoctrine()->getConnection()->prepare($sql);
         $stm->execute();
         $result = $stm->fetchAll();
-        return $this->render("resultado_detalle_elementos.twig",
+        
+        return $this->render("resultado_detalle_elementos.html.twig",
                 array("datos" => $result));
     }   
     /**
@@ -70,21 +71,9 @@ class LabResultadosController extends AbstractController
     public function labDetallesGuardarElementos(): Response
     {
         $request = $this->container->get('request_stack')->getCurrentRequest();
-        $form = $request->get('resultados_elementos');
-        var_dump($form); exit();
+        parse_str($request->get('datos'), $datos);
+        var_dump($datos); exit();
 
-        $sql = "SELECT t01.id, t01.nombre_elemento, t01.id_tipo_elemento 
-                FROM mnt_elementos t01 
-                    left join lab_resultados t02 on t01.id = t02.id_elemento
-                    left join lab_detalle_orden t03 on t03.id = t02.id_detalle_orden
-                    left join lab_orden t04 on t04.id = t03.id_orden 
-                    left join mnt_paciente t05 on t05.id = t04.id_paciente 
-                WHERE t01.id_examen = $idExamen 
-                ORDER BY t01.ordenamiento";
-        $stm = $this->getDoctrine()->getConnection()->prepare($sql);
-        $stm->execute();
-        $result = $stm->fetchAll();
-        return $this->render("resultado_detalle_elementos.twig",
-                array("datos" => $result));
+        return new Response('guardado');
     }   
 }
