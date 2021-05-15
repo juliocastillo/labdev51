@@ -1,5 +1,5 @@
 
-<table>
+{# <table>
     <tr><td>Examen</td></tr>
     {% for dato in datos %}
     <tr>
@@ -7,4 +7,25 @@
         <td>{{dato.id_estado_examen}}</td>
     </tr>
     {% endfor %}
-</table>
+</table> #}
+
+<div class="table-responsive">
+    <table id="listarOrdenes" class="table table-striped">
+        <thead class="text-center">
+            <tr>
+                <th>Examen</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for dato in datos %}
+            <tr>
+                <td><div class="btn btn-success" id="idExamen" onclick="mostrarElementos({{ dato.id_examen }})">{{ dato.nombre_examen }}</div></td>
+                <td>{{ dato.estado_examen }}</td>
+                <td><div class="btn btn-danger">Borrar</div></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>

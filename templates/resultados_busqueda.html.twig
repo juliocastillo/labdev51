@@ -7,7 +7,7 @@
 
 {% endblock %}
 
-<table>
+{# <table>
     <tr><td>Paciente</td></tr>
     {% for dato in datos %}
     <tr>
@@ -15,4 +15,26 @@
         <td>{{dato.fecha_orden |date("d/m/Y")}}</td>
     </tr>
     {% endfor %}
-</table>
+</table> #}
+<div class="table-responsive">
+    <table id="listarOrdenes" class="table table-striped">
+        <thead class="text-center">
+            <tr>
+                <th>Muestra #</th>
+                <th>Fecha Orden</th>
+                <th>Paciente</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for dato in datos %}
+            <tr>
+                <td><div class="btn btn-success" id="idsolicitud" onclick="mostrarDetalle({{ dato.id }})">{{ dato.id }}</div></td>
+                <td>{{ dato.fecha_orden }}</td>
+                <td>{{ dato.nombre }} {{ dato.apellido }}</td>
+                <td><button class="btn btn-warning">Cancelar Orden</button></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>

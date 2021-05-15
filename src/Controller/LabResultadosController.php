@@ -34,9 +34,11 @@ class LabResultadosController extends AbstractController
     {
         $request = $this->container->get('request_stack')->getCurrentRequest();
         $idOrden = $request->get('idOrden');
-        $sql = "SELECT t02.nombre_examen, t01.id_examen, t01.id_estado_examen
-                FROM lab_detalle_orden t01, ctl_examen t02
-                WHERE t01.id_examen = t02.id and t01.id_orden = $idOrden";
+        $sql = "SELECT t02.nombre_examen, t01.id_examen, t03.estado_examen
+                    FROM lab_detalle_orden t01 
+                    INNER JOIN ctl_examen t02 ON t01.id_examen = t02.id
+                    INNER JOIN ctl_estado_examen t03 ON t01.id_estado_examen = t03.id
+                    WHERE t01.id_examen = t02.id and t01.id_orden = $idOrden";
         $stm = $this->getDoctrine()->getConnection()->prepare($sql);
         $stm->execute();
         $result = $stm->fetchAll();
