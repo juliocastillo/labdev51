@@ -1,0 +1,23 @@
+<div class="table table-responsive">
+    <table id="listarOrdenes" class="table table-striped table-condensed">
+        <thead class="bg-success">
+            <tr>
+                <th class="text-center">Muestra #</th>
+                <th class="text-center">Fecha Orden</th>
+                <th class="text-center">Paciente</th>
+                <th class="text-center">Acciones</th>
+            </tr>
+        </thead>
+        <tbody class="text-center">
+            {% for dato in datos %}
+            <tr>
+                <td><div class="btn btn-success" style="width: 75%;" id="idsolicitud" onclick="mostrarDetalle({{ dato.id }})">{{ dato.id }}</div></td>
+                <td>{{ dato.fecha_orden | date("d-m-Y H:i:s") }}</td>
+                <td>{{ dato.nombre }} {{ dato.apellido }}</td>
+                <td><button class="btn btn-warning">Cancelar Orden</button></td>
+                {# {% echo (new \DateTime())->format('d/m/Y H:i:s') %} #}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>

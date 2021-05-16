@@ -24,7 +24,7 @@ class LabResultadosController extends AbstractController
         $stm = $this->getDoctrine()->getConnection()->prepare($sql);
         $stm->execute();
         $result = $stm->fetchAll();
-        return $this->render("resultados_busqueda.html.twig",
+        return $this->render("LabResultados/resultados_busqueda.html.twig",
                 array("datos" => $result));
     }   
     /**
@@ -42,7 +42,7 @@ class LabResultadosController extends AbstractController
         $stm = $this->getDoctrine()->getConnection()->prepare($sql);
         $stm->execute();
         $result = $stm->fetchAll();
-        return $this->render("resultados_busqueda_detalle.html.twig",
+        return $this->render("LabResultados/resultados_busqueda_detalle.html.twig",
                 array("datos" => $result));
     }   
     /**
@@ -64,7 +64,7 @@ class LabResultadosController extends AbstractController
         $stm->execute();
         $result = $stm->fetchAll();
         
-        return $this->render("resultado_detalle_elementos.html.twig",
+        return $this->render("LabResultados/resultado_detalle_elementos.html.twig",
                 array("datos" => $result));
     }   
     /**
