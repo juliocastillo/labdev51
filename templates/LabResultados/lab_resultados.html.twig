@@ -9,6 +9,36 @@
     {{ parent() }}
 
     <script type="text/javascript">
+        $(document).ready(function(){
+            $('#listarOrdenes').DataTable({
+                /* 
+                TRADUCIENDO EL LENGUAJE
+                */
+                "language" : {
+                    "lengthMenu"    : "Mostrar _MENU_ registros",
+                    "zeroRecords"   : "No se encontraron resultados",
+                    "info"          : "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                    "infoEmpty"     : "Mostrando registros del 0 al 0 de un total de 0 registros",
+                    "infoFiltered"  : "(filtrado de un todal de _MAX_ registros)",
+                    "sSearch"       : "Buscar:",
+                    "oPaginate"     : {
+                        "sFirst"    : "Primero",
+                        "sLast"     : "Ultimo",
+                        "sNext"     : "Siguiente",
+                        "sPrevious" : "Anterios"
+                    },
+                    "sProcessing"   : "Procesando...",
+                }
+            });
+
+            /* 
+            OCULTAR BOTOR GUARDAR
+            */
+           $('#btnGuardar').hide();
+
+        });
+
+
         $(document).ready(function () {
             //buscar las ordenes de trabajo con estado pendiente de resultado.
             $('#btnBuscar').on('click', function () {
@@ -46,6 +76,7 @@
 
          function mostrarElementos(idExamen) {
             $(document).ready(function () {
+                $('#btnGuardar').show();
                 //buscar las ordenes de trabajo con estado pendiente de resultado.
                 $.ajax({
                 url: "{{ path('lab_detalles_elementos') }}",
@@ -86,45 +117,45 @@
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="box box-primary">
                     <div class="box-body">
-                        <h3 class="text-primary"><strong><i class="ion ion-clipboard"></i>Búsqueda de Ordenes</strong></h3>
                         <div class="row">
-                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                <div class="sonata-ba-field sonata-ba-field-standard-natual">
-                                    {# style="position: relative;" #}
-                                    <div class="form-group">
-                                        <label for="numeroOrden" class="control-label">No. Orden</label><br>
-                                        <input type="text" id="numeroOrden" name="numeroOrden" class="form-control">                                            
-                                    </div>
-                                    <div class="form-group">
-                                        <button type="button" id="btnBuscar" style="width: 200px; margin-top: 5px;" class="btn btn-info"><i class="glyphicon glyphicon-zoom-in"></i>&nbsp; Buscar</button>
-                                    </div>
+                            <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                                <h4 class="text-primary"><strong><i class="fa fa-search" style="color:lightseagreen;"></i>  Búsqueda de Ordenes</strong></h4>
+                                <div class="form-group">
+                                    <label for="numeroOrden" class="control-label">No. Orden</label><br>
+                                    <input type="text" id="numeroOrden" name="numeroOrden" class="form-control">                                            
+                                </div>
+                                <div class="form-group">
+                                    <button type="button" id="btnBuscar" style="width: 200px; margin-top: 5px;" class="btn btn-info"><i class="glyphicon glyphicon-zoom-in"></i>&nbsp; Buscar</button>
                                 </div>
                             </div>
-                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 text-center">
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 text-center">
                                 {# <button type="button" id="btnBuscar" style="width: 200px; margin-top: 5px;" class="btn btn-info"><i class="glyphicon glyphicon-zoom-in"></i>&nbsp; Buscar</button> #}
                             </div>
                         </div>
                         <br>
+                        <div class="row">
+                            <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                                <form name="envio" method="post" id="envio">
+                                    <div id="ordenes" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 center-block">
+                                    </div>
+                                    <div id="examenes" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 center-block">
+                                    </div>
+                                    <div id="elementos" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 center-block">
+                                    </div>
+                                    <button type="button" id="btnGuardar" style="width: 200px; margin-top: 5px;" class="btn btn-info">Guardar</button>
+                                    <div id="message" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 center-block">
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 text-center">
+                                {# <button type="button" id="btnBuscar" style="width: 200px; margin-top: 5px;" class="btn btn-info"><i class="glyphicon glyphicon-zoom-in"></i>&nbsp; Buscar</button> #}
+                            </div>
+                        </div>
+                        
                     </div>
                 </div>
             </div>
         </div>
-        <form name="envio" method="post" id="envio">
-            <div class="row">
-                <div id="ordenes" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 center-block">
-                    --resultados--
-                </div>
-                <div id="examenes" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 center-block">
-                    --examenes--
-                </div>
-                <div id="elementos" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 center-block">
-                    --elementos--
-                </div>
-                <button type="button" id="btnGuardar" style="width: 200px; margin-top: 5px;" class="btn btn-info">Guardar</button>
-                <div id="message" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 center-block">
-                    ----
-                </div>
-            </div>
-        </form>
+        
     </div>
 {% endblock %}
