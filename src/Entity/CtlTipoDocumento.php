@@ -20,26 +20,26 @@ class CtlTipoDocumento
     /**
      * @ORM\Column(type="string", length=80)
      */
-    private $tipoDocumento;
+    private $nombre;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getTipoDocumento(): ?string
+    public function getNombre(): ?string
     {
-        return $this->tipoDocumento;
+        return $this->nombre;
     }
 
-    public function setTipoDocumento(string $tipoDocumento): self
+    public function setNombre(string $nombre): self
     {
-        $this->tipoDocumento = $tipoDocumento;
+        $this->tipoNombre = $nombre;
 
         return $this;
     }
 
     public function __toString() {
-        return $this->tipoDocumento ? (string) $this->tipoDocumento : ''; 
+        return $this->nombre ? (string) $this->nombre : ''; 
     }
 }

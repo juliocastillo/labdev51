@@ -8,10 +8,10 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 
 
-class LabResultadosController extends AbstractController
+class LabOrdenController extends AbstractController
 {
     /**
-     * @Route("/lab/resultados/ordenes/pendientes", name="lab_resultados_ordenes_pendientes")
+     * @Route("/laborden/ordenes/save", name="laborden_ordenes_save")
      */
     public function labResultadosOrdenesPendientes(): Response
     {
@@ -24,7 +24,7 @@ class LabResultadosController extends AbstractController
         $stm = $this->getDoctrine()->getConnection()->prepare($sql);
         $stm->execute();
         $result = $stm->fetchAll();
-        return $this->render("LabResultados/resultados_busqueda.html.twig",
+        return $this->render("resultados_busqueda.html.twig",
                 array("datos" => $result));
     }   
     /**
@@ -34,15 +34,13 @@ class LabResultadosController extends AbstractController
     {
         $request = $this->container->get('request_stack')->getCurrentRequest();
         $idOrden = $request->get('idOrden');
-        $sql = "SELECT t02.nombre_examen, t01.id_examen, t03.estado_examen
-                    FROM lab_detalle_orden t01 
-                    INNER JOIN ctl_examen t02 ON t01.id_examen = t02.id
-                    INNER JOIN ctl_estado_examen t03 ON t01.id_estado_examen = t03.id
-                    WHERE t01.id_examen = t02.id and t01.id_orden = $idOrden";
+        $sql = "SELECT t02.nombre_examen, t01.id_examen, t01.id_estado_examen
+                FROM lab_detalle_orden t01, ctl_examen t02
+                WHERE t01.id_examen = t02.id and t01.id_orden = $idOrden";
         $stm = $this->getDoctrine()->getConnection()->prepare($sql);
         $stm->execute();
         $result = $stm->fetchAll();
-        return $this->render("LabResultados/resultados_busqueda_detalle.html.twig",
+        return $this->render("resultados_busqueda_detalle.html.twig",
                 array("datos" => $result));
     }   
     /**
@@ -64,7 +62,7 @@ class LabResultadosController extends AbstractController
         $stm->execute();
         $result = $stm->fetchAll();
         
-        return $this->render("LabResultados/resultado_detalle_elementos.html.twig",
+        return $this->render("resultado_detalle_elementos.html.twig",
                 array("datos" => $result));
     }   
     /**

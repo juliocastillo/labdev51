@@ -10,62 +10,90 @@
 {{ parent() }}
 <script>
     $(document).ready(function(){
-        $('#detalleOrden').DataTable();
+        $('#detalleOrden').DataTable({
+            /* 
+            TRADUCIENDO EL LENGUAJE
+            */
+            "language" : {
+                "lengthMenu"    : "Mostrar _MENU_ registros",
+                "zeroRecords"   : "No se encontraron resultados",
+                "info"          : "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                "infoEmpty"     : "Mostrando registros del 0 al 0 de un total de 0 registros",
+                "infoFiltered"  : "(filtrado de un todal de _MAX_ registros)",
+                "sSearch"       : "Buscar:",
+                "oPaginate"     : {
+                    "sFirst"    : "Primero",
+                    "sLast"     : "Ultimo",
+                    "sNext"     : "Siguiente",
+                    "sPrevious" : "Anterios"
+                },
+                "sProcessing"   : "Procesando...",
+            }
+        });
     }); 
 </script>
 {% endblock javascripts %}
 
 
 {% block content %}
-
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-sm-6">
-            <div class="box box-primary">
-                <div class="box-body">
-                    <h3 class="text-primary"><strong><i class="ion ion-clipboard"></i>Búsqueda de Ordenes</strong></h3>
-                    <div class="row">
-                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                            <div class="sonata-ba-field sonata-ba-field-standard-natual">
-                                <form>
-                                    <table class="table table-responsive">
-                                        <tr>
-                                            <td class="bg-primary text-right"><label for="idPaciente">Paciente</label></td>
-                                            <td><input class="form-control" type="text" id="idPaciente"></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="bg-primary text-right"><label for="idMedico">Medico</label></td>
-                                            <td><input class="form-control" type="text" id="idMedico"></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="bg-primary text-right" style="width:25%"><label for="idTipoDocumento">Numero de Documento</label></td>
-                                            <td><input class="form-control" type="text" id="idTipoDocumento"></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="bg-primary text-right"><label for="idFormaPago">Forma de Pago</label></td>
-                                            <td><input class="form-control" type="text" id="idFormaPago"></td>
-                                        </tr>
-                                        {# {% endif %}
-                                        {% endfor %} #}
-                                    </table>
-                                    <button type="submit" id="btnGuardar" onclick="guardarResultadosElementos()" style="width: 200px; margin-top: 5px;" class="btn btn-info">Guardar</button>
-                                </form> 
-                            </div>
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 text-center">
-                            {# <button type="button" id="btnBuscar" style="width: 200px; margin-top: 5px;" class="btn btn-info"><i class="glyphicon glyphicon-zoom-in"></i>&nbsp; Buscar</button> #}
-                        </div>
-                    </div>
-                    <br>
-                </div>
-            </div>
-            
-        </div>
-        <div class="col-sm-6"></div>
-    </div>
-</div>
-<br><br>
-{# TABLA  #}
+{{ action }}
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <div class="box box-primary">
+        <div class="box-body">
+            <h3 class="text-primary"><strong><i class="fa fa-search" style="color:lightseagreen;"></i>  Ordenes Laboratorio</strong></h3>
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="sonata-ba-field sonata-ba-field-standard-natual">
+                        <form method="get" name="datos" id="datos" action="">
+                            <hidden name="action" value="{{ action }}">
+                            <table class="table table-responsive">
+                                <tr>
+                                    <td class="bg-primary text-right"><label for="idPaciente">Paciente</label></td>
+                                    <td>
+                                    <select class="form-control" id="idPaciente" name="idPaciente">
+                                {% for paciente in pacientes %}
+                                    <option value="{{paciente.id}}">{{paciente.nombre}}{{paciente.apellido}}</option>
+                                {% endfor %}
+                                    </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="bg-primary text-right"><label for="idMedico">Medico</label></td>
+                                    <td>
+                                    <select class="form-control" id="idMedico" name="idMedico">
+                                {% for medico in medicos %}
+                                    <option value="{{medico.id}}">{{medico.nombre}}{{medico.apellido}}</option>
+                                {% endfor %}
+                                    </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="bg-primary text-right"><label for="idTipodocumento">Tipo Documento</label></td>
+                                    <td>
+                                    <select class="form-control" id="idTipodocumento" name="idTipodocumento">
+                                {% for tipodocumento in tiposdocumento %}
+                                    <option value="{{tipodocumento.id}}">{{tipodocumento.nombre}}</option>
+                                {% endfor %}
+                                    </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="bg-primary text-right" style="width:25%"><label for="idTipoDocumento">Numero de Documento</label></td>
+                                    <td><input class="form-control" required type="text" id="idTipoDocumento"></td>
+                                </tr>
+                                <tr>
+                                    <td class="bg-primary text-right"><label for="idFormaPago">Forma de Pago</label></td>
+                                    <td>
+                                    <select class="form-control" id="idFormapago" name="idFormapago">
+                                {% for formapago in formaspago %}
+                                    <option value="{{formapago.id}}">{{formapago.nombre}}</option>
+                                {% endfor %}
+                                    </select>
+                                    </td>                                </tr>
+                                {# {% endif %}
+                                {% endfor %} #}
+                            </table>
+                            <button type="submit" id="btnGuardar" onclick="guardarResultadosElementos()" style="width: 200px; margin-top: 5px;" class="btn btn-info">Guardar</button>
 <div class="container">
     <div class="row">
         <div class="col-lg-12">
@@ -76,45 +104,50 @@
                             <th>Examen</th>
                             <th>Muestra</th>
                             <th>Precio($)</th>
-                            <th>Accion</th>
                         </tr>
                     </thead>
                     <tbody>
+                    {% for i in 0..10 %}
                         <tr>
-                            <td>Hemograma</td>
-                            <td>Sangre</td>
-                            <td>2.95</td>
-                            <td><a href="">detalle</a></td>
+                                    <td>
+                                    <select class="form-control" id="idexamen" name="idexamen[]">
+                                    <option value=""></option>
+                                {% for examen in examenes %}
+                                    <option value="{{examen.id}}">{{examen.nombre_examen}}</option>
+                                {% endfor %}
+                                    </select>
+                                    </td>
+                                    <td>
+                                    <select class="form-control" id="idtipomuestra" name="idtipomuestra[]">
+                                    <option value=""></option>
+                                {% for tipomuestra in tiposmuestra %}
+                                    <option value="{{tipomuestra.id}}">{{tipomuestra.tipo_muestra}}</option>
+                                {% endfor %}
+                                    </select>
+                                    </td>
+                            <td>
+                            <input type="text" id="precio" name="precio[]"> 
+                            </td>
                         </tr>
-                        <tr>
-                            <td>Glucosa</td>
-                            <td>Sangre</td>
-                            <td>2.25</td>
-                            <td><a href="">detalle</a></td>
-                        </tr>
-                        <tr>
-                            <td>Trigliceridos</td>
-                            <td>Sangre</td>
-                            <td>2.25</td>
-                            <td><a href="">detalle</a></td>
-                        </tr>
-                        <tr>
-                            <td>Urocultivo</td>
-                            <td>Secrecion</td>
-                            <td>5.25</td>
-                            <td><a href="">detalle</a></td>
-                        </tr>
-                        <tr>
-                            <td>General de Orina</td>
-                            <td>Orina</td>
-                            <td>1.75</td>
-                            <td><a href="">detalle</a></td>
-                        </tr>
+                    {% endfor %}
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
+</div>              
+                        </form> 
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 text-center">
+                    {# <button type="button" id="btnBuscar" style="width: 200px; margin-top: 5px;" class="btn btn-info"><i class="glyphicon glyphicon-zoom-in"></i>&nbsp; Buscar</button> #}
+                </div>
+            </div>
+            <br>
+        </div>
+    </div>
 </div>
+
+
 
 {% endblock %}
