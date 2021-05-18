@@ -36,6 +36,43 @@
             */
            $('#btnGuardar').hide();
 
+           /* 
+           ACTUALIZAR ESTADO DE ORDEN
+           */
+            $('#btnCancelar').on('click',function(){
+                $.ajax({
+                    //Tipo de peticion: GET o POST
+                    type: "GET",
+                    //la URL para la peticion
+                    url: "{{ path('lab_resultados_ordenes_pendientes') }}",
+                    //La informacion a enviar
+                    //tambien es posible utilizar una cadena de datps
+                    data: {idOrden:idOrden},
+                    //El tipo de informacion que se espera de respuesta
+                    dataType: "dataType",
+                    //Codigo a ejecutar si la peticion es satisfactoria
+                    //La resṕuesta es pasada como argumento a la funcion
+                    success: function (response) {
+                        
+                    }
+
+                    //Codigo a ejecutar si la peticion falla
+                    //Son pasados como argumentos a la funcion
+                    //El objeto de la peticion en crudo y codigo de estatus de la peticion
+                    /* 
+                    error: function(xhr, status){
+                        alert('Error al realizar la peticion');
+                    } 
+                    */
+
+                    //Codigo a ejecutar si la peticion falla o no
+                    /* 
+                    complete: function(xhr, status){
+                        alert('Peticion realizada');
+                    }
+                    */
+                });
+            });
         });
 
 

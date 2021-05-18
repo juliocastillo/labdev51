@@ -14,7 +14,7 @@
                 <td><div class="btn btn-success" style="width: 75%;" id="idsolicitud" onclick="mostrarDetalle({{ dato.id }})">{{ dato.id }}</div></td>
                 <td>{{ dato.fecha_orden | date("d-m-Y H:i:s") }}</td>
                 <td>{{ dato.nombre }} {{ dato.apellido }}</td>
-                <td><button class="btn btn-warning">Cancelar Orden</button></td>
+                <td><button id="btnCancelar" class="btn btn-warning">Cancelar Orden</button></td>
                 {# {% echo (new \DateTime())->format('d/m/Y H:i:s') %} #}
             </tr>
             {% endfor %}
