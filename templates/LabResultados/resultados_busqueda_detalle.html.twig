@@ -22,10 +22,10 @@
         <tbody class="text-center">
             {% for dato in datos %}
             <tr>
-                <td><div class="btn btn-success" id="idExamen" onclick="mostrarElementos({{ dato.id_examen }})">{{ dato.nombre_examen }}</div></td>
-                <td>{{ dato.id_examen }}</td>
-                <td>{{ dato.estado_examen }}</td>
-                <td><div class="btn btn-danger">Borrar Examen</div></td>
+                <td style="width: 25%;"><div class="btn btn-success btn-block" id="idExamen" onclick="mostrarElementos({{ dato.id_examen }})">{{ dato.nombre_examen }}</div></td>
+                <td style="width: 25%;">{{ dato.id }}</td>
+                <td style="width: 25%;">{{ dato.estado_examen }}</td>
+                <td style="width: 25%;"><div class="btn btn-danger">Borrar Examen</div></td>
             </tr>
             {% endfor %}
         </tbody>
