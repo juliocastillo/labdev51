@@ -79,17 +79,20 @@ class LabResultadosController extends AbstractController
         return new Response('guardado');
     }   
 
+    /**
+     * @Route("/lab/cancelar/orden", name="lab_cancelar_orden")
+     */
     public function cambiarEstadoOrden(): Response
     {
-        $request = $this->container->get('request_stack')-> getCurrentRequest();
+        $request = $this->container->get('request_stack')->getCurrentRequest();
         $idOrden = $request->get('idOrden');
         $sql = "UPDATE lab_orden t01
                 SET t01.id_estado_orden = 3
                 WHERE t01.id = $idOrden";
         $stm = $this->getDoctrine()->getConnection()->prepare($sql);
         $stm->execute();
-        $result = $stm;
+        //$result = $stm;
 
-        return new Response($result);
+        return new Response("exito!");
     }
 }

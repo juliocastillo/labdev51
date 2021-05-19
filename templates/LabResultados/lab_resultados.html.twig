@@ -39,21 +39,28 @@
            /* 
            ACTUALIZAR ESTADO DE ORDEN
            */
-            $('#btnCancelar').on('click',function(){
-                $.ajax({
+            $(document).on('click','#btnCancelar',function(e){
+                rowOrden = $(this).closest('tr');
+                idOrden = parseInt(rowOrden.find('td:eq(0)').text());
+                //alert(idOrden);
+
+                const msgConfirm = confirm("Esta seguro de cancelar la orden " + idOrden + "?");
+                
+                if(msgConfirm){
+                    $.ajax({
                     //Tipo de peticion: GET o POST
                     type: "GET",
                     //la URL para la peticion
-                    url: "{{ path('lab_resultados_ordenes_pendientes') }}",
+                    url: "{{ path('lab_cancelar_orden') }}",
                     //La informacion a enviar
                     //tambien es posible utilizar una cadena de datps
                     data: {idOrden:idOrden},
                     //El tipo de informacion que se espera de respuesta
-                    dataType: "dataType",
+                    dataType: "text",
                     //Codigo a ejecutar si la peticion es satisfactoria
                     //La resṕuesta es pasada como argumento a la funcion
-                    success: function (response) {
-                        
+                    success: function (text) {
+                        alert('La orden fue cancelada con ' + text);
                     }
 
                     //Codigo a ejecutar si la peticion falla
@@ -71,7 +78,11 @@
                         alert('Peticion realizada');
                     }
                     */
-                });
+                    });
+                }else{
+                    e.preventDefault();
+                }
+                
             });
         });
 
