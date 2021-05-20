@@ -102,14 +102,14 @@ class LabResultadosController extends AbstractController
      public function borrarExamenSolicitud(): Response
      {
          $request = $this->container->get('request_stack')->getCurrentRequest();
-         $idOrden = $request->get('idExamen');
-         $sql = "UPDATE lab_orden t01
-                 SET t01.id_estado_orden = 3
-                 WHERE t01.id = $idOrden";
+         $idDetOrden = $request->get('idDetOrden');
+         $sql = "DELETE
+                 FROM lab_detalle_orden
+                 WHERE id = $idDetOrden";
          $stm = $this->getDoctrine()->getConnection()->prepare($sql);
-         //$stm->execute();
+         $stm->execute();
          //$result = $stm;
  
-         //return new Response("exito!");
+         return new Response("borrado");
      }
 }
