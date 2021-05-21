@@ -10,7 +10,7 @@
 
     <script type="text/javascript">
         $(document).ready(function(){
-            let $tableDetEx = $('#listarExamenesOrden');
+            //let $tableDetEx = $('#listarExamenesOrden');
 
 
             $('#listarOrdenes').DataTable({
@@ -113,7 +113,7 @@
                     //Codigo a ejecutar si la peticion es satisfactoria
                     //La resṕuesta es pasada como argumento a la funcion
                     success: function (text) {
-                        $tableDetEx.parents('tr').remove(rowDetOrden);
+                        rowDetOrden.remove();
                         alert('El examen ' + nombreExamen + ' fue ' + text + 'de esta orden!');
                     }
 
