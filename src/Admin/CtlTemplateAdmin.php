@@ -40,7 +40,7 @@ final class CtlTemplateAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
-            ->with('Templates', ['class' => 'col-md-6 col-xs-6 col-lg-6'])
+            ->with('Templates', ['class' => 'col-md-5 col-xs-6 col-lg-5'])
                 ->add('nombreTemplate', TextType::class, [
                     'label' => 'Nombre del Template*',
                     'required'  => FALSE
@@ -52,7 +52,7 @@ final class CtlTemplateAdmin extends AbstractAdmin
     protected function configureShowFields(ShowMapper $showMapper): void
     {
         $showMapper
-        ->with('Detalles', ['class' => 'col-md-6 col-xs-6 col-lg-6'])
+        ->with('Detalles', ['class' => 'col-md-4 col-xs-6 col-lg-4'])
             ->add('nombreTemplate', TextType::class, [
                 'label'     => 'Nombre del Template',
             ])

@@ -50,6 +50,7 @@ final class CtlRangoEdadAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
+        ->with('RangoEdad',['class' => 'col-md-5'])
             ->add('nombre', TextType::class, ['attr' => [
                 'placeholder' => 'Nombre Rango...',
                 ]
@@ -70,6 +71,7 @@ final class CtlRangoEdadAdmin extends AbstractAdmin
                 ],
             ])
             ->add('activo')
+        ->end()
             ;
     
     }

@@ -48,7 +48,7 @@ final class CtlDepartamentoAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
-        ->with('Datos',['class' => 'col-md-4'])
+        ->with('Datos',['class' => 'col-md-5'])
                 ->add('idPais', EntityType::class,[
                     'class' => CtlPais::class,
                     'label' => 'Pais'

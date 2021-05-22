@@ -39,22 +39,110 @@ Name: Nombre
 # Tabs y box
 Roles: Roles
 
-#CtlEstadoOrdenAdmin
-Ctl Estado Orden List : Lista de Estados
-Ctl Estado Orden Create : Crear Nuevo Estado
-
-#CtlMicroorganismo
-Ctl Microorganismo List :  Lista de Microorganismos
-Ctl Microorganismo Create : Crear Nuevo Microorganismo
+#CnfLaboratorio
+Cnf Laboratorio List : Datos Laboratorio
+Cnf Laboratorio Create : Crear Nuevo Laboratorio
 
 #CtlTemplate
 Ctl Template List : Lista de Templates
 Ctl Template Create : Crear Nuevo Template
 
+#CtlEstadoOrdenAdmin
+Ctl Estado Orden List : Lista de Estados
+Ctl Estado Orden Create : Crear Nuevo Estado
+
+#CtlPais
+Ctl Pais List : Lista Pais
+Ctl Pais Create : Crear Nuevo Pais
+
+#CtlDepartamento
+Ctl Departamento List : Lista de Departamentos
+Ctl Departamento Create : Agregar Nuevo Departamento
+
+#CtlMunicipio
+Ctl Municipio List : Lista de Municipios
+Ctl Municipio Create : Agregar Nuevo Municipio
+
+#CtlSexo
+Ctl Sexo List : Datos Sexo
+Ctl Sexo Create : Agregar Nuevo Sexo
+
+#CtlTipoElemento
+Ctl Tipo Elemento List : Lista de Elementos
+Ctl Tipo Elemento Create : Crear Nuevo Elemento
+
+#CtlCargoEmpleado
+Ctl Cargo Empleado List : Lista de Empleados
+Ctl Cargo Empleado Create : Agregar Nuevo Empleado
+
+#CtlExamen
+Ctl Examen List : Lista de Examenes
+Ctl Examen Create : Crear Nuevo Examen
+
+#CtlAreaLaboratorio
+Ctl Area Laboratorio List : Lista Áreas Laboratorio
+Ctl Area Laboratorio Create : Crear Nueva Área
+
+#CtlMicroorganismo
+Ctl Microorganismo List :  Lista de Microorganismos
+Ctl Microorganismo Create : Crear Nuevo Microorganismo
+
+#CtlRangoEdad
+Ctl Rango Edad List : Lista Rango Edad
+Ctl Rango Edad Create : Crear Nuevo Rango Edad
+
+#CtlTipoDocumento
+Ctl Tipo Documento List : Lista de Documentos
+Ctl Tipo Documento Create : Agregar Nuevo Documento
+
+#CtlAntibioticos
+Ctl Antibioticos List : Lista de Antibioticos
+Ctl Antibioticos Create : Crear Nuevo Antibiotico
+
+#CtlPosibleResultado
+Ctl Posible Resultado List : Lista Posibles Resultados
+Ctl Posible Resultado Create : Agregar Posible Resultado
+
+#CtlEspecialidad
+Ctl Especialidad List : Lista Especialidad Médica
+Ctl Especialidad Create : Crear Nueva Especialidad
+
+#CtlTipoMuestra
+Ctl Tipo Muestra List : Lista de Muestra
+Ctl Tipo Muestra Create : Crear Nueva Muestra
+
+#CtlFormaPago
+Ctl FormaPago List : Lista Formas de Pago
+Ctl FormaPago Create : Agregar Nueva Forma
+
+#CtlEmpresa
+Ctl Empresa List : Lista Empresas
+Ctl Empresa Create : Agregar Empresa
+
+#CtlDescuento
+Ctl Descuento List : Lista Descuentos
+Ctl Descuento Create : Crear Nuevo Descuento
+
+#MntMedico
+Mnt Medico List : Lista de Médicos
+Mnt Medico Create : Agregar Médico
+
+#MntPaciente
+Mnt Paciente List : Lista de Pacientes
+Mnt Paciente Create : Ingresar Nuevo Paciente
+
+#MntEmpleado
+Mnt Empleado List : Lista Empleados
+Mnt Empleado Create : Ingresar Nuevo Empleado
+
 #MntElemento
 Mnt Elementos List : Lista de Elementos
 Mnt Elementos Create : Crear Nuevo Elemento
 
-#MntPaciente
-Mnt Paciente List : Lista de Pacientes
-Mnt Paciente Create : Ingresar un Nuevo Paciente
+#LabResultados
+Lab Resultados List : Lista de Resultados
+Lab Resultados Create : Ingresar Nuevo Resultado
+
+#LabOrden
+Lab Orden List : Lista Ordenes
+Lab Orden Create : Ingresar Nueva Orden

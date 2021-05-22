@@ -70,7 +70,7 @@ final class LabOrdenAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
-            ->with('Datos de la orden', ['class' => 'col-md-6'])
+            ->with('Datos de la orden', ['class' => 'col-md-5'])
                 ->add('fechaTomaMuestra', DateType::class, [
                         'widget' => 'single_text',
                         'label' => 'Fecha de la muestra',

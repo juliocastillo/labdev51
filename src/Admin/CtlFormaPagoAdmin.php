@@ -38,8 +38,15 @@ final class CtlFormaPagoAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
-            ->add('nombre')
+         ->with('Forma Pago',['class' => 'col-md-5'])
+            ->add('nombre',  null, array(
+                'required' => TRUE,
+                'label' => 'Forma Pago'
+                ))
             ->add('activo')
+         ->end() 
+
+                     
             ;
     }
 

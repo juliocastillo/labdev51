@@ -115,14 +115,14 @@ services:
         class: App\Admin\CtlTipoElementoAdmin
         arguments: [~, App\Entity\CtlTipoElemento, ~]
         tags:
-            - { name: sonata.admin, manager_type: orm, group: Catalogos, label: TipoElemento }
+            - { name: sonata.admin, manager_type: orm, group: Catalogos, label: Tipo Elemento }
         public: true
 
     admin.ctl_cargo_empleado:
         class: App\Admin\CtlCargoEmpleadoAdmin
         arguments: [~, App\Entity\CtlCargoEmpleado, ~]
         tags:
-            - { name: sonata.admin, manager_type: orm, group: Catalogos, label: CargoEmpleado }
+            - { name: sonata.admin, manager_type: orm, group: Catalogos, label: Cargo de Empleado }
         public: true
 
     admin.ctl_empresa:
@@ -199,7 +199,7 @@ services:
         class: App\Admin\CtlRangoEdadAdmin
         arguments: [~, App\Entity\CtlRangoEdad, ~]
         tags:
-            - { name: sonata.admin, manager_type: orm, group: Catalogos, label: Rango_Edad }
+            - { name: sonata.admin, manager_type: orm, group: Catalogos, label: Rango Edad }
         public: true
 
     admin.ctl_tipo_documento:
@@ -234,7 +234,7 @@ services:
         class: App\Admin\CtlAntibioticosAdmin
         arguments: [~, App\Entity\CtlAntibioticos, ~]
         tags:
-            - { name: sonata.admin, manager_type: orm, group: Catalogos, label: CtlAntibioticos }
+            - { name: sonata.admin, manager_type: orm, group: Catalogos, label: Antibioticos }
         public: true
 
     admin.ctl_posible_resultado:

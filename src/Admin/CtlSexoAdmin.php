@@ -43,7 +43,7 @@ final class CtlSexoAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
-        ->with('Sexo',['class' => 'col-md-3'])
+        ->with('Sexo',['class' => 'col-md-5'])
             ->add('nombre', TextType::class,  ['attr' => [
                 'placeholder' => 'nombre del elemento...',
         ]    ])

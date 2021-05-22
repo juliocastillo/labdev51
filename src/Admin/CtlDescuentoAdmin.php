@@ -56,7 +56,7 @@ final class CtlDescuentoAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
-            ->with(' Descuento',['class' => 'col-md-6'])
+            ->with(' Descuento',['class' => 'col-md-5'])
                 ->add('descuento', IntegerType::class, ['row_attr' => [
                     'class' => 'col-md-12',
                 ]])

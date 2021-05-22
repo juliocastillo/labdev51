@@ -38,8 +38,12 @@ final class CtlPosibleResultadoAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
-          //  ->add('id')
-            ->add('nombrePosibleResultado')
+         ->with('Posible Resultado',['class' => 'col-md-5'])
+             ->add('nombrePosibleResultado',  null, array(
+                 'required' => TRUE,
+                 'label' => 'Posible Resultado'
+             ))
+         ->end() 
             ;
     }
 

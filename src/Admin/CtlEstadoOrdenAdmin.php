@@ -41,7 +41,7 @@ final class CtlEstadoOrdenAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
-            ->with('Estados de la Orden', ['class' => 'col-md-6 col-xs-6 col-lg-6'])
+            ->with('Estados de la Orden', ['class' => 'col-md-5 col-xs-6 col-lg-5'])
                 ->add('nombreEstado', TextType::class, [
                     'label' => 'Nombre del Estado*',
                     'required' => FALSE
@@ -53,7 +53,7 @@ final class CtlEstadoOrdenAdmin extends AbstractAdmin
     protected function configureShowFields(ShowMapper $showMapper): void
     {
         $showMapper
-        ->with('Detalles', ['class' => 'col-md-6 col-xs-6 col-lg-6'])
+        ->with('Detalles', ['class' => 'col-md-5 col-xs-6 col-lg-5'])
             ->add('nombreEstado', TextType::class, [
                 'label' => 'Nombre del Estado'
             ])
