@@ -47,7 +47,7 @@ final class CtlAreaLaboratorioAdmin extends AbstractAdmin
         $entity = $this->getSubject();   //obtiene el elemento seleccionado en un objeto
         $id = $entity->getId();
         $formMapper
-            ->with('Datos',['class' => 'col-md-4'])
+            ->with('Datos',['class' => 'col-md-5'])
                 ->add('nombreArea', TextType::class, ['row_attr' => [
                     ]])
                // ->add('activo')

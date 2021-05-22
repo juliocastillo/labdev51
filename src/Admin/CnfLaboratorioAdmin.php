@@ -11,6 +11,7 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 
 final class CnfLaboratorioAdmin extends AbstractAdmin
@@ -67,14 +68,16 @@ final class CnfLaboratorioAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
-            ->add('nombreLaboratorio')
+         ->with('Laboratorio',['class' => 'col-md-5'])
+            ->add('nombreLaboratorio', TextType::class)
             ->add('representanteLegal')
-            ->add('direccion')
-            ->add('telefono')
+            ->add('direccion', TextType::class)
+            ->add('telefono', TextType::class)
             ->add('correoElectronico')
             ->add('logo')
-            ->add('activo')
-            ;
+         ->end() 
+        ;
+           
     }
 
     protected function configureShowFields(ShowMapper $showMapper): void

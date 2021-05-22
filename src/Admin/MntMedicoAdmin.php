@@ -76,7 +76,7 @@ final class MntMedicoAdmin extends AbstractAdmin
         $entity = $this->getSubject();   //obtiene el elemento seleccionado en un objeto
         $id = $entity->getId();
         $formMapper
-        ->with('Medico',['class' => 'col-md-4'])
+        ->with('Medico',['class' => 'col-md-5'])
             ->add('nombre')
             ->add('apellido')
             ->add('correoElectronico')

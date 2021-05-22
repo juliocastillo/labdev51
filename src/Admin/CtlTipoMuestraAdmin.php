@@ -24,7 +24,7 @@ final class CtlTipoMuestraAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
-            ->add('id')
+            //->add('id')
             ->add('tipoMuestra')
             ->add('_action', null, [
                 'actions' => [
@@ -38,8 +38,12 @@ final class CtlTipoMuestraAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
-            ->add('id')
-            ->add('tipoMuestra')
+          ->with('Tipo Muestra',['class' => 'col-md-5'])
+              ->add('tipoMuestra',  null, array(
+                  'required' => TRUE,
+                 'label' => 'Tipo Muestra'
+                 ))
+          ->end() 
             ;
     }
 

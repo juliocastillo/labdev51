@@ -38,7 +38,7 @@ final class CtlCargoEmpleadoAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
-            ->with('Cargo Empleado',['class' => 'col-md-4'])
+            ->with('Cargo Empleado',['class' => 'col-md-5'])
                 ->add('nombre', TextType::class, ['row_attr' => [
                   ]])
             ->end()    

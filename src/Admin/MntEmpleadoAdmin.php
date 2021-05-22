@@ -68,7 +68,7 @@ final class MntEmpleadoAdmin extends AbstractAdmin
         $id = $entity->getId();
         
         $formMapper
-        ->with('Datos de Empleado',['class' => 'col-md-4'])
+        ->with('Datos de Empleado',['class' => 'col-md-5'])
             ->add('nombresEmpleado', TextType::class, ['attr' => [
                 'placeholder' => 'Nombre Empleado...',
                 ]

@@ -39,7 +39,7 @@ final class CtlEspecialidadAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
-        ->with('Especialidad',['class' => 'col-md-3'])
+        ->with('Especialidad',['class' => 'col-md-5'])
         ->add('nombre', TextType::class, ['row_attr' => [
             'label' => 'Especialidad'
          ]    ])

@@ -24,7 +24,7 @@ final class CtlAntibioticosAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
-            ->add('id')
+          //  ->add('id')
             ->add('nombreAntibiotico')
             ->add('_action', null, [
                 'actions' => [
@@ -38,8 +38,12 @@ final class CtlAntibioticosAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
-            ->add('id')
-            ->add('nombreAntibiotico')
+        ->with('Antibiotico',['class' => 'col-md-5'])
+           ->add('nombreAntibiotico',  null, array(
+            'required' => TRUE,
+            'label' => 'Antibiotico'
+                ))
+        ->end() 
             ;
     }
 
