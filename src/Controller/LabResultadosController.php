@@ -20,7 +20,7 @@ class LabResultadosController extends AbstractController
         $sql = "SELECT t01.id, t02.nombre,t02.apellido,t01.fecha_orden 
                 FROM lab_orden t01 
                 LEFT JOIN mnt_paciente t02 ON t01.id_paciente = t02.id 
-                WHERE t01.id = $numeroOrden";
+                WHERE t01.id = $numeroOrden AND t01.id_estado_orden = 1";
         $stm = $this->getDoctrine()->getConnection()->prepare($sql);
         $stm->execute();
         $result = $stm->fetchAll();
@@ -34,7 +34,7 @@ class LabResultadosController extends AbstractController
     {
         $request = $this->container->get('request_stack')->getCurrentRequest();
         $idOrden = $request->get('idOrden');
-        $sql = "SELECT t02.nombre_examen, t01.id_examen, t03.estado_examen
+        $sql = "SELECT t01.id, t02.nombre_examen, t01.id_examen, t03.estado_examen
                     FROM lab_detalle_orden t01 
                     INNER JOIN ctl_examen t02 ON t01.id_examen = t02.id
                     INNER JOIN ctl_estado_examen t03 ON t01.id_estado_examen = t03.id
@@ -78,4 +78,38 @@ class LabResultadosController extends AbstractController
 
         return new Response('guardado');
     }   
+
+    /**
+     * @Route("/lab/cancelar/orden", name="lab_cancelar_orden")
+     */
+    public function cambiarEstadoOrden(): Response
+    {
+        $request = $this->container->get('request_stack')->getCurrentRequest();
+        $idOrden = $request->get('idOrden');
+        $sql = "UPDATE lab_orden t01
+                SET t01.id_estado_orden = 3
+                WHERE t01.id = $idOrden";
+        $stm = $this->getDoctrine()->getConnection()->prepare($sql);
+        $stm->execute();
+        //$result = $stm;
+
+        return new Response("exito!");
+    }
+
+    /**
+     * @Route("/lab/borrar/examen/orden", name="lab_borrar_examen_orden")
+     */
+     public function borrarExamenSolicitud(): Response
+     {
+         $request = $this->container->get('request_stack')->getCurrentRequest();
+         $idDetOrden = $request->get('idDetOrden');
+         $sql = "DELETE
+                 FROM lab_detalle_orden
+                 WHERE id = $idDetOrden";
+         $stm = $this->getDoctrine()->getConnection()->prepare($sql);
+         $stm->execute();
+         //$result = $stm;
+ 
+         return new Response("borrado");
+     }
 }
