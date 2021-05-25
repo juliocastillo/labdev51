@@ -55,7 +55,7 @@ class LabResultados
      * @var \CtlMicroorganismo
      * 
      * @ORM\ManyToOne(targetEntity="CtlMicroorganismo")
-     * @ORM\JoinColumn(name="id_microorganismo",referencedColumnName="id",nullable=false)
+     * @ORM\JoinColumn(name="id_microorganismo",referencedColumnName="id",nullable=true)
      */
     private $idMicroorganismo;
 
