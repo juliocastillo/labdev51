@@ -52,7 +52,7 @@ class LabResultadosController extends AbstractController
     {
         $request = $this->container->get('request_stack')->getCurrentRequest();
         $idExamen = $request->get('idExamen');
-        $sql = "SELECT t01.id, t01.nombre_elemento, t01.id_tipo_elemento, t01.valor_inicial, t01.valor_final, t01.unidades 
+        $sql = "SELECT t01.id, t01.nombre_elemento, t01.id_tipo_elemento, t01.valor_inicial, t01.valor_final, t01.unidades";
         $idDetalleOrden = $request->get('idDetalleOrden');
         $sql = "SELECT t01.id, t01.nombre_elemento, t01.id_tipo_elemento
                 FROM mnt_elementos t01 

@@ -34,7 +34,7 @@ class CtlTipoDocumento
 
     public function setNombre(string $nombre): self
     {
-        $this->tipoNombre = $nombre;
+        $this->nombre = $nombre;
 
         return $this;
     }

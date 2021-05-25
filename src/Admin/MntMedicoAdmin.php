@@ -42,7 +42,7 @@ final class MntMedicoAdmin extends AbstractAdmin
             ->add('nombre')
             ->add('apellido')
             ->add('correoElectronico')
-            ->add('especialidad')
+            ->add('idEspecialidad')
             ->add('jvpm')
             ->add('telefono')
             ->add('activo')
@@ -56,7 +56,7 @@ final class MntMedicoAdmin extends AbstractAdmin
             ->add('nombre')
             ->add('apellido')
             ->add('correoElectronico')
-            ->add('especialidad')
+            ->add('idEspecialidad')
             ->add('jvpm')
             ->add('telefono')
             ->add('fechahoraReg')
@@ -80,7 +80,7 @@ final class MntMedicoAdmin extends AbstractAdmin
             ->add('nombre')
             ->add('apellido')
             ->add('correoElectronico')
-            ->add('especialidad', EntityType::class,[
+            ->add('idEspecialidad', EntityType::class,[
                 'class' => CtlEspecialidad::class,
                 'label' => 'Especialidad',
                 'placeholder' => "Seleccionar..."

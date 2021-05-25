@@ -91,7 +91,9 @@ class LabOrden
 
     /**
      * @ORM\ManyToOne(targetEntity=CtlFormaPago::class)
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_forma_pago", referencedColumnName="id")
+     * })
      */
     private $idFormaPago;
 
