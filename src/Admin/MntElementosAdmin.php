@@ -14,21 +14,39 @@ use Sonata\AdminBundle\Show\ShowMapper;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use App\Entity\CtlSexo;
 use App\Entity\CtlTipoElemento;
+use Exception;
+use Sonata\Form\Validator\ErrorElement;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 
 final class MntElementosAdmin extends AbstractAdmin
 {
+     /**
+     * @var ContainerInterface
+     */
+    private $container;
+
+    /**
+     * @param string $code
+     * @param string $class
+     * @param string $baseControllerName
+     */
+    public function __construct($code, $class, $baseControllerName, $container = null)
+    {
+        parent::__construct($code, $class, $baseControllerName);
+        $this->container = $container;
+    }
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
             ->add('id')
-            ->add('nombreElemento')
+            /* ->add('nombreElemento')
             ->add('valorInicial')
             ->add('valorFinal')
             ->add('unidades')
@@ -37,7 +55,7 @@ final class MntElementosAdmin extends AbstractAdmin
             ->add('fechaInicio')
             ->add('fechaFin')
             ->add('fechahoraReg')
-            ->add('fechahoraMod')
+            ->add('fechahoraMod') */
             ->add('activo')
             ;
     }
@@ -45,10 +63,10 @@ final class MntElementosAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
-            ->add('nombreElemento')
-            ->add('idTipoElemento', EntityType::class,[
-                'label' => 'Tipo de Elemento',
+            ->addIdentifier('nombreElemento',null,[
+                'route' => array('name' => 'show')
             ])
+            ->add('idTipoElemento')
             ->add('idExamen', EntityType::class,[
                 'label' => 'Examen',
             ])
@@ -78,124 +96,115 @@ final class MntElementosAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper): void
     {   
         $entity = $this->getSubject();   //obtiene el elemento seleccionado en un objeto
-        $id = $entity->getId();
+        $id     = $entity->getId();
+        $fecha  = new \DateTime();
 
         $formMapper
-            ->with('Datos',['class' => 'col-lg-6 col-md-6 col-xs-6 '])
-                ->add('nombreElemento', TextType::class, ['row_attr' => [
-                    //'class' => 'col-md-12',
-                    ]
-                ])
-                ->add('idTipoElemento', EntityType::class,[
-                    'class' => CtlTipoElemento::class,
-                    'label' => 'Tipo de Elemento',
-                    'row_attr' => [
-                        //'class' => 'col-md-12',
-                    ]
-                ])
-                ->add('idExamen', EntityType::class,[
-                    'class' => CtlExamen::class,
-                    'label' => 'Examen',
-                    'row_attr' => [
-                        //'class' => 'col-md-12',
-                    ]
-                ])
-                ->add('unidades', TextType::class, ['row_attr' => [
-                    //'class' => 'col-md-6',
-                    ],
-                    'required' => FALSE
-
-                ])
-                ->add('ordenamiento', IntegerType::class, ['row_attr' => [
-                    //'class' => 'col-md-6',
-                    ],
-                    'label' => 'Orden',
-                ])
-                ->add('idSexo', EntityType::class,[
-                    'class' => CtlSexo::class,
-                    'label' => 'Sexo',
-                    'row_attr' => [
-                        //'class' => 'col-md-6',
-                    ]
-                ])
-                ->add('idRangoEdad', EntityType::class,[
-                    'class' => CtlRangoEdad::class,
-                    'label' => 'Rango Edad',
-                    'row_attr' => [
-                        //'class' => 'col-md-6',
-                    ]
-                ])
-                ->add('observacion', TextareaType::class,['row_attr' => [
-                    //'class' => 'col-md-12',
-                    ],
-                    'required' => FALSE
-                ])
-            -> end()
-            ->with('Rangos',['class' => 'col-md-6'])
-                ->add('valorInicial', TextType::class, ['row_attr' => [
-                    //'class' => 'col-md-6',
-                    ],
-                    'required' => FALSE
-                ])
-                ->add('valorFinal', TextType::class, ['row_attr' => [
-                    //'class' => 'col-md-6',
-                    ],
-                    'required' => FALSE
-                ])
-                ->add('fechaInicio', DateType::class,[
-                    'widget' => 'single_text',
-                    'row_attr' => [
-                     //   'class' => 'col-md-6'
-                    ],
-                    'required' => FALSE
-                ])
-                ->add('fechaFin', DateType::class,[
-                    'widget' => 'single_text',
-                    'row_attr' => [
-                      //  'class' => 'col-md-6'
-                    ],
-                    'required' => FALSE
-                ])
-                ->add('activo', CheckboxType::class, [
-                    'row_attr' => [
-                       // 'class' => 'col-md-6',
-                    ]
-                ])
-            ->end()
+            ->add('nombreElemento', TextType::class, [
+                'required'      => FALSE,
+                'label'         => 'Nombre de Elemento*',
+                'attr'          => [
+                    'placeholder'   => 'Linea Plaquetaria...'
+                ]
+                
+            ])
+            ->add('idTipoElemento', EntityType::class,[
+                'class'         => CtlTipoElemento::class,
+                'label'         => 'Tipo de Elemento*',
+                'placeholder'   => 'Seleccionar...',
+                'required'   => FALSE
+            ])
+            ->add('idExamen', EntityType::class,[
+                'class' => CtlExamen::class,
+                'label' => 'Examen*',
+                'placeholder' => "Seleccionar...",
+                'required'   => FALSE
+            ])
+            ->add('unidades', TextType::class,[ 
+                'attr' => [
+                    'placeholder' => 'mg/dL...',
+                ],
+                'required'  => FALSE
+            ])
+            ->add('ordenamiento', IntegerType::class, ['attr' => [
+                    'min'           => '1',
+                    'placeholder'   => '1'
+                ],
+                'label'         => 'Orden*',
+                'required'      => FALSE,
+            ])
+            ->add('idSexo', EntityType::class,[
+                'class' => CtlSexo::class,
+                'label' => 'Sexo',
+                'placeholder' => "Seleccionar...",
+                'required' => FALSE
+            ])
+            ->add('idRangoEdad', EntityType::class,[
+                'class' => CtlRangoEdad::class,
+                'label' => 'Rango Edad',
+                'placeholder' => "Seleccionar...",
+                'required' => FALSE
+            ])
+            ->add('observacion', TextareaType::class,['attr' => [
+                ],
+                'required' => FALSE,
+            ])
+            ->add('valorInicial', NumberType::class, ['attr' => [
+                'style' => 'width: 70%',
+                'placeholder' => "0.0",
+                ],
+                'required' => FALSE
+            ])
+            ->add('valorFinal', NumberType::class, ['attr' => [
+                'style' => 'width: 70%',
+                'placeholder' => "0.0",
+                ],
+                'required' => FALSE
+            ])
+            ->add('fechaInicio', DateType::class,[
+                'widget'    => 'single_text',
+                'data'      => $fecha,
+                'attr'      => [
+                    'style'     => 'width: 70%;',
+                ],
+                'required'   => FALSE,
+                'label'     => 'Fecha Inicio*'
+            ])
+            ->add('fechaFin', DateType::class,[
+                'widget'    => 'single_text',
+                'required' => FALSE,
+                'attr'      => [
+                    'style'     => 'width: 70%;',
+                ]
+            ])
             ;
             
             if ($id) {  // cuando se edite el registro
                 if ($entity->getActivo() == TRUE) { // si el registro esta activo
                     $formMapper
-                    ->with('Datos',['class' => 'col-md-6'])
-                            ->add('activo', null, array(
-                                'label' => 'Activo',
-                                'required' => FALSE,
-                                'attr' => array(
-                                    'checked' => 'checked',
-                    )))
-                    ->end()
-                    ;
-                } else { // si el registro esta inactivo
-                    $formMapper
-                    ->with('Datos',['class' => 'col-md-6'])
-                            ->add('activo', null, array(
-                                'label' => 'Activo',
-                                'required' => FALSE
-                    ))
-                    ->end()
-                    ;
-                }
-            } else { // cuando se crea el registro
-                $formMapper
-                ->with('Datos',['class' => 'col-md-6'])
                         ->add('activo', null, array(
                             'label' => 'Activo',
                             'required' => FALSE,
                             'attr' => array(
-                                'checked' => 'checked'
+                                'checked' => 'checked',
+                    )))
+                    ;
+                } else { // si el registro esta inactivo
+                    $formMapper
+                        ->add('activo', null, array(
+                            'label' => 'Activo',
+                            'required' => FALSE
+                    ))
+                    ;
+                }
+            } else { // cuando se crea el registro
+                $formMapper
+                    ->add('activo', null, array(
+                        'label' => 'Activo',
+                        'required' => FALSE,
+                        'attr' => array(
+                            'checked' => 'checked'
                 )))
-                ->end()
                 ;
             }
     }
@@ -218,32 +227,27 @@ final class MntElementosAdmin extends AbstractAdmin
             ;
     }
 
-    /* public function getTemplate($name) {
-        switch ($name) {
-            case 'list':
-                return 'CRUD/CtlEmpresa/list.html.twig';
-                break;
-            case 'edit':
-                return 'CRUD/CtlEmpresa/edit.html.twig';
-                break;
-            default:
-                return parent::getTemplate($name);
-                break;
-        }
-    } */
-
-
-    public function prePersist($alias) : void {
-        // llenar campos de auditoria
-        $user = $this->getConfigurationPool()->getContainer()->get('security.token_storage')->getToken()->getUser();
+    public function prePersist(object $alias) : void {
+        $user = $this->container->get('security.token_storage')->getToken()->getUser();
         $alias->setIdUsuarioReg($user);
         $alias->setFechahoraReg(new \DateTime());
     }
+    
+    public function validate(ErrorElement $errorElement, $object): void {
+        $fechaInicio        = $object->getFechaInicio();
+        $fechaFin           = $object->getFechaFin();
 
-    public function preUpdate($alias) : void {
-        // llenar campos de auditoria
-        $user = $this->getConfigurationPool()->getContainer()->get('security.token_storage')->getToken()->getUser();
+        if ($fechaInicio > $fechaFin && $fechaFin != null) {
+            $errorElement->with('fechaInicio')
+                            ->addViolation('La fecha inicio no puede ser mayor a la fecha fin')
+                         ->end();
+        }
+    }
+
+    public function preUpdate(object $alias) : void {
+        $user = $this->container->get('security.token_storage')->getToken()->getUser();
         $alias->setIdUsuarioMod($user);
         $alias->setFechahoraMod(new \DateTime());
     }
+    
 }

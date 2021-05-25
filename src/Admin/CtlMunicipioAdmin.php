@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Admin;
 
+use App\Entity\CtlDepartamento;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -15,6 +16,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+
 
 final class CtlMunicipioAdmin extends AbstractAdmin
 {
@@ -48,11 +51,12 @@ final class CtlMunicipioAdmin extends AbstractAdmin
         $entity = $this->getSubject();   //obtiene el elemento seleccionado en un objeto
         $id = $entity->getId();
         $formMapper
-            ->with('Datos',['class' => 'col-md-4'])
-                ->add('idDepartamento',null ,array(
-                    'required' => TRUE,
+            ->with('Datos',['class' => 'col-md-5'])
+                ->add('idDepartamento', EntityType::class,[
+                    'class' => CtlDepartamento::class,
                     'label' => 'Departamento'
-                ))
+                    ]
+                    )
                 ->add('nombreMunicipio', TextType::class, ['row_attr' => [
                   //  'class' => 'col-md-12',
                 ]])

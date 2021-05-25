@@ -115,57 +115,52 @@ services:
         class: App\Admin\CtlTipoElementoAdmin
         arguments: [~, App\Entity\CtlTipoElemento, ~]
         tags:
-            - { name: sonata.admin, manager_type: orm, group: Catalogos, label: TipoElemento }
+            - { name: sonata.admin, manager_type: orm, group: Catalogos, label: Tipo Elemento }
         public: true
 
     admin.ctl_cargo_empleado:
         class: App\Admin\CtlCargoEmpleadoAdmin
         arguments: [~, App\Entity\CtlCargoEmpleado, ~]
         tags:
-            - { name: sonata.admin, manager_type: orm, group: Catalogos, label: CargoEmpleado }
+            - { name: sonata.admin, manager_type: orm, group: Catalogos, label: Cargo de Empleado }
         public: true
 
     admin.ctl_empresa:
         class: App\Admin\CtlEmpresaAdmin
-        arguments: [~, App\Entity\CtlEmpresa, App\Controller\CtlEmpresaAdminController]
+        arguments: [~, App\Entity\CtlEmpresa, ~, '@service_container']
         tags:
             - { name: sonata.admin, manager_type: orm, group: Mantenimientos, label: Empresa }
         public: true
 
     admin.ctl_descuento:
         class: App\Admin\CtlDescuentoAdmin
-        arguments: [~, App\Entity\CtlDescuento, ~]
+        arguments: [~, App\Entity\CtlDescuento, ~, '@service_container']
         tags:
             - { name: sonata.admin, manager_type: orm, group: Mantenimientos, label: Descuento }
         public: true
 
     admin.mnt_medico:
         class: App\Admin\MntMedicoAdmin
-        arguments: [~, App\Entity\MntMedico, ~]
+        arguments: [~, App\Entity\MntMedico, ~, '@service_container']
         tags:
             - { name: sonata.admin, manager_type: orm, group: Mantenimientos, label: Medico }
         public: true
 
     admin.mnt_paciente:
         class: App\Admin\MntPacienteAdmin
-        arguments: [~, App\Entity\MntPaciente, App\Controller\MntPacienteController]
+        arguments: [~, App\Entity\MntPaciente,~, '@service_container']
+        calls:
+            - [setTemplate, ['edit', 'MntPaciente/edit.html.twig']]
         tags:
             - { name: sonata.admin, manager_type: orm, group: Mantenimientos, label: Paciente }
         public: true
 
     admin.ctl_examen:
         class: App\Admin\CtlExamenAdmin
-        arguments: [~, App\Entity\CtlExamen, App\Controller\CtlExamenAdminController]
+        arguments: [~, App\Entity\CtlExamen, ~, '@service_container']
         tags:
             - { name: sonata.admin, manager_type: orm, group: Catalogos, label: Examen }
         public: true
-
-    #admin.mnt_elementos:
-        #class: App\Admin\MntElementosAdmin
-        #arguments: [~, App\Entity\MntElementos, ~]
-        #tags:
-        #    - { name: sonata.admin, manager_type: orm, group: Mantenimientos, label: Elementos }
-        #public: true
     
     admin.ctl_area_laboratorio:
         class: App\Admin\CtlAreaLaboratorioAdmin
@@ -181,15 +176,6 @@ services:
             - { name: sonata.admin, manager_type: orm, group: Catalogos, label: Microorganismos }
         public: true
 
-    admin.carga_data:
-        class: App\Admin\CargaDataAdmin
-        arguments: [~, App\Entity\CargaData, App\Controller\CargaDataAdminController]
-        calls:
-            - [setTemplate, ['load', 'CargaData/load.html.twig']]
-        tags:
-            - { name: sonata.admin, show_in_dashboard: false, manager_type: orm, group: admin, label: CargaData }
-        public: true
-
     admin.lab_resultados:
         class: App\Admin\LabResultadosAdmin
         arguments: [~, App\Entity\LabResultados, App\Controller\LabResultadosAdminController]
@@ -199,11 +185,21 @@ services:
             - { name: sonata.admin, show_in_dashboard: false, manager_type: orm, group: admin, label: Resultados de examenes }
         public: true
         
+    admin.lab_orden:
+        class: App\Admin\LabOrdenAdmin
+        arguments: [~, App\Entity\LabOrden, App\Controller\LabOrdenAdminController]
+        calls:
+            - [setTemplate, ['lab_orden', 'LabOrden/lab_orden.html.twig']]
+        tags:
+            - { name: sonata.admin, show_in_dashboard: false, manager_type: orm, group: admin, label: Ordenes de examenes }
+        public: true
+
+
     admin.ctl_rango_edad:
         class: App\Admin\CtlRangoEdadAdmin
         arguments: [~, App\Entity\CtlRangoEdad, ~]
         tags:
-            - { name: sonata.admin, manager_type: orm, group: Catalogos, label: Rango_Edad }
+            - { name: sonata.admin, manager_type: orm, group: Catalogos, label: Rango Edad }
         public: true
 
     admin.ctl_tipo_documento:
@@ -215,37 +211,39 @@ services:
 
     admin.mnt_empleado:
         class: App\Admin\MntEmpleadoAdmin
-        arguments: [~, App\Entity\MntEmpleado, ~]
+        arguments: [~, App\Entity\MntEmpleado, ~, '@service_container']
         tags:
             - { name: sonata.admin, manager_type: orm, group: Mantenimientos, label: Empleados }
         public: true
 
-    admin.lab_orden:
-        class: App\Admin\LabOrdenAdmin
-        arguments: [~, App\Entity\LabOrden, App\Controller\LabOrdenAdminController]
-        tags:
-            - { name: sonata.admin, manager_type: orm, group: Ordenes trabajo, label: LabOrden }
-        public: true
+#    admin.lab_orden:
+#        class: App\Admin\LabOrdenAdmin
+#        arguments: [~, App\Entity\LabOrden, App\Controller\LabOrdenAdminController,'@service_container']
+#        tags:
+#            - { name: sonata.admin, manager_type: orm, group: Ordenes trabajo, label: LabOrden }
+#        public: true
 
-    admin.lab_detalle_orden:
-        class: App\Admin\LabDetalleOrdenAdmin
-        arguments: [~, App\Entity\LabDetalleOrden, ~]
-        tags:
-            - { name: sonata.admin, manager_type: orm, show_in_dashboard: false, group: Ordenes trabajo, label: LabDetalleOrden }
-        public: true
+#    admin.lab_detalle_orden:
+#        class: App\Admin\LabDetalleOrdenAdmin
+#        arguments: [~, App\Entity\LabDetalleOrden, ~]
+#        tags:
+#            - { name: sonata.admin, manager_type: orm, show_in_dashboard: true, group: Ordenes trabajo, label: LabDetalleOrden }
+#        public: true
 
     admin.ctl_antibioticos:
         class: App\Admin\CtlAntibioticosAdmin
         arguments: [~, App\Entity\CtlAntibioticos, ~]
         tags:
-            - { name: sonata.admin, manager_type: orm, group: Catalogos, label: CtlAntibioticos }
+            - { name: sonata.admin, manager_type: orm, group: Catalogos, label: Antibioticos }
         public: true
 
     admin.ctl_posible_resultado:
         class: App\Admin\CtlPosibleResultadoAdmin
         arguments: [~, App\Entity\CtlPosibleResultado, ~]
         tags:
-            - { name: sonata.admin, manager_type: orm, group: Catalogos, label: CtlPosibleResultado }
+            - { name: sonata.admin, manager_type: orm, group: Catalogos, label: Posible Resultados }
+        public: true
+
     admin.ctl_especialidad:
         class: App\Admin\CtlEspecialidadAdmin
         arguments: [~, App\Entity\CtlEspecialidad, ~]
@@ -264,12 +262,21 @@ services:
         class: App\Admin\MntPosibleResultadoElementoAdmin
         arguments: [~, App\Entity\MntPosibleResultadoElemento, ~]
         tags:
-            - { name: sonata.admin, manager_type: orm, group: Mantenimientos, label: MntPosibleResultadoElemento }
+            - { name: sonata.admin, manager_type: orm,  show_in_dashboard: false, group: Mantenimientos, label: Posible Resultado Elemento }
         public: true
 
     admin.mnt_elementos:
         class: App\Admin\MntElementosAdmin
-        arguments: [~, App\Entity\MntElementos, App\Controller\MntElementosAdminController]
+        arguments: [~, App\Entity\MntElementos, ~, '@service_container']
+        calls:
+            - [setTemplate, ['edit', 'MntElementos/edit.html.twig']]
         tags:
             - { name: sonata.admin, manager_type: orm, group: Mantenimientos, label: Elementos }
+        public: true
+
+    admin.ctl_forma_pago:
+        class: App\Admin\CtlFormaPagoAdmin
+        arguments: [~, App\Entity\CtlFormaPago, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Catalogos, label: Forma de Pago }
         public: true

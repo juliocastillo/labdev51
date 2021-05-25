@@ -52,7 +52,7 @@ final class LabResultadosAdmin extends AbstractAdmin
         $id = $entity->getId();
 
         $formMapper
-            ->with('Datos',['class' => 'col-md-6'])
+            ->with('Datos',['class' => 'col-md-5'])
                 ->add('idDetalleOrden', EntityType::class,[
                     'class' => LabDetalleOrden::class,
                     'label' => 'Detalle Orden',
@@ -70,7 +70,7 @@ final class LabResultadosAdmin extends AbstractAdmin
                     'label' => 'Microorganismo',
                 ])
             ->end()
-            ->with('Complemento',['class' => 'col-md-6'])
+            ->with('Complemento',['class' => 'col-md-5'])
                 ->add('cantidad')
                 ->add('observacion', TextareaType::class, [
                     'required' => FALSE,
@@ -82,7 +82,7 @@ final class LabResultadosAdmin extends AbstractAdmin
             if ($id) {  // cuando se edite el registro
                 if ($entity->getActivo() == TRUE) { // si el registro esta activo
                     $formMapper
-                    ->with('Complemento',['class' => 'col-md-6'])
+                    ->with('Complemento',['class' => 'col-md-5'])
                             ->add('activo', null, array(
                                 'label' => 'Activo',
                                 'required' => FALSE,
@@ -93,7 +93,7 @@ final class LabResultadosAdmin extends AbstractAdmin
                     ;
                 } else { // si el registro esta inactivo
                     $formMapper
-                    ->with('Complemento',['class' => 'col-md-6'])
+                    ->with('Complemento',['class' => 'col-md-5'])
                             ->add('activo', null, array(
                                 'label' => 'Activo',
                                 'required' => FALSE
@@ -103,7 +103,7 @@ final class LabResultadosAdmin extends AbstractAdmin
                 }
             } else { // cuando se crea el registro
                 $formMapper
-                ->with('Complemento',['class' => 'col-md-6'])
+                ->with('Complemento',['class' => 'col-md-5'])
                         ->add('activo', null, array(
                             'label' => 'Activo',
                             'required' => FALSE,
@@ -134,8 +134,7 @@ final class LabResultadosAdmin extends AbstractAdmin
             ->add('index', 'index');
     }
     
-    
-    
+      
     
 //
 //    public function getTemplate($name) {

@@ -27,16 +27,9 @@ final class LabResultadosAdminController extends CRUDController
         }
 
         $template = $this->admin->getTemplateRegistry()->getTemplate('lab_resultados');
-
-         $sql = "SELECT * FROM lab_orden";
-         
-        $stm = $this->getDoctrine()->getConnection()->prepare($sql);
-        $stm->execute();
-        $ordenes = $stm->fetchAll();
         
         return $this->renderWithExtraParams($template, [
             'action' => 'index',
-            'ordenes' => $ordenes,
             'csrf_token' => $this->getCsrfToken('sonata.batch'),
         ], null);
     }
@@ -49,5 +42,7 @@ final class LabResultadosAdminController extends CRUDController
     {
         return null;
     }
+
+    
 }
 

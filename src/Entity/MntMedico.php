@@ -33,9 +33,14 @@ class MntMedico
     private $correoElectronico;
 
     /**
-     * @ORM\Column(type="string", length=100, nullable=false)
+     * @var \CtlEspecialidad
+     *
+     * @ORM\ManyToOne(targetEntity="CtlEspecialidad")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_especialidad", referencedColumnName="id")
+     * })
      */
-    private $especialidad;
+    private $idEspecialidad;
 
     /**
      * @ORM\Column(type="string", length=25, nullable=false)
@@ -135,14 +140,14 @@ class MntMedico
         return $this;
     }
 
-    public function getEspecialidad(): ?string
+    public function getIdEspecialidad(): ?CtlEspecialidad
     {
-        return $this->especialidad;
+        return $this->idEspecialidad;
     }
 
-    public function setEspecialidad(?string $especialidad): self
+    public function setIdEspecialidad(?CtlEspecialidad $idEspecialidad): self
     {
-        $this->especialidad = $especialidad;
+        $this->idEspecialidad = $idEspecialidad;
 
         return $this;
     }
@@ -232,7 +237,7 @@ class MntMedico
     }
     
     public function __toString() {
-        return  $this->nombre . " " . $this->apellido ? (string)  $this->nombre . " " . $this->apellido : ''; 
+        return  $this->nombre . " " . $this->apellido ? $this->nombre . " " . $this->apellido : ''; 
     }
     
 }

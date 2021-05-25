@@ -21,9 +21,7 @@ class LabResultados
      * @var \MntElementos
      * 
      * @ORM\ManyToOne(targetEntity="MntElementos")
-     * @ORM\JoinColumns({
-     *  @ORM\JoinColumn(name="id_elemento",referencedColumnName="id",nullable=false)
-     * })
+     * @ORM\JoinColumn(name="id_elemento",referencedColumnName="id",nullable=false)
      */
     private $idElemento;
 
@@ -31,9 +29,7 @@ class LabResultados
      * @var \MntEmpleado
      * 
      * @ORM\ManyToOne(targetEntity="MntEmpleado")
-     * @ORM\JoinColumns({
-     *  @ORM\JoinColumn(name="id_empleado",referencedColumnName="id",nullable=false)
-     * })
+     * @ORM\JoinColumn(name="id_empleado",referencedColumnName="id",nullable=false)
      */
     private $idEmpleado;
 
@@ -41,9 +37,7 @@ class LabResultados
      * @var \LabDetalleOrden
      * 
      * @ORM\ManyToOne(targetEntity="LabDetalleOrden")
-     * @ORM\JoinColumns({
-     *  @ORM\JoinColumn(name="id_detalle_orden",referencedColumnName="id",nullable=false)
-     * })
+     * @ORM\JoinColumn(nullable=false, name="id_detalle_orden", referencedColumnName="id")
      */
     private $idDetalleOrden;
 
@@ -51,14 +45,17 @@ class LabResultados
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $observacion;
+    
+    /**
+     * @ORM\Column(type="string", length=15, nullable=true)
+     */
+    private $resultado;
 
     /**
      * @var \CtlMicroorganismo
      * 
      * @ORM\ManyToOne(targetEntity="CtlMicroorganismo")
-     * @ORM\JoinColumns({
-     *  @ORM\JoinColumn(name="id_microorganismo",referencedColumnName="id",nullable=false)
-     * })
+     * @ORM\JoinColumn(name="id_microorganismo",referencedColumnName="id",nullable=true)
      */
     private $idMicroorganismo;
 
@@ -71,9 +68,7 @@ class LabResultados
      * @var \User
      * 
      * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumns({
-     *  @ORM\JoinColumn(name="id_usuario_reg",referencedColumnName="id",nullable=true)
-     * })
+     * @ORM\JoinColumn(name="id_usuario_reg",referencedColumnName="id",nullable=false)
      */
     private $idUsuarioReg;
 
@@ -86,9 +81,7 @@ class LabResultados
      * @var \User
      * 
      * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumns({
-     *  @ORM\JoinColumn(name="id_usuario_mod",referencedColumnName="id",nullable=true)
-     * })
+     * @ORM\JoinColumn(name="id_usuario_mod",referencedColumnName="id",nullable=true)
      */
     private $idUsuarioMod;
 
@@ -151,6 +144,18 @@ class LabResultados
     public function setObservacion(?string $observacion): self
     {
         $this->observacion = $observacion;
+
+        return $this;
+    }
+
+    public function getResultado(): ?string
+    {
+        return $this->resultado;
+    }
+
+    public function setResultado(?string $resultado): self
+    {
+        $this->resultado = $resultado;
 
         return $this;
     }

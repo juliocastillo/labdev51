@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Admin;
 
-//use App\Entity\CtlDepartamento;
-//use App\Entity\CtlMunicipio;
 use DateTime;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
@@ -16,9 +14,27 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use App\Entity\CtlSexo;
+use Sonata\AdminBundle\Form\Type\Filter\NumberType;
 
 final class MntPacienteAdmin extends AbstractAdmin
 {
+
+    /**
+     * @var ContainerInterface
+     */
+    private $container;
+
+    /**
+     * @param string $code
+     * @param string $class
+     * @param string $baseControllerName
+     */
+    
+    public function __construct($code, $class, $baseControllerName, $container = null)
+    {
+        parent::__construct($code, $class, $baseControllerName);
+        $this->container = $container;
+    }
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
@@ -26,7 +42,7 @@ final class MntPacienteAdmin extends AbstractAdmin
             ->add('nombre')
             ->add('apellido')
             ->add('idSexo')
-            ->add('fechaNacimiento')
+            //->add('fechaNacimiento')
             ->add('telefono')
             ->add('direccionPaciente')
             ->add('NRC')
@@ -39,10 +55,8 @@ final class MntPacienteAdmin extends AbstractAdmin
     {
         $listMapper
             ->add('nombre')
-            ->add('apellidos')
-            ->add('idSexo', EntityType::class, [
-                'label' => 'Sexo',
-            ])
+            ->add('apellido')
+            ->add('idSexo')
             ->add('fechaNacimiento')
             ->add('telefono')
             ->add('direccionPaciente')
@@ -62,71 +76,86 @@ final class MntPacienteAdmin extends AbstractAdmin
     {
         $entity = $this->getSubject();   //obtiene el elemento seleccionado en un objeto
         $id = $entity->getId();
+        $fecha  = new \DateTime();
         
         $formMapper
-            ->with('Datos Paciente',['class' => 'col-md-6'])
-                ->add('nombre', TextType::class, [
-                    'label' => 'Nombre',
+            ->add('nombre', TextType::class, [
+                'label'     => 'Nombre Paciente*',
+                'required'  => FALSE,
+            ])
+            ->add('apellido', TextType::class,[
+                'label'     => 'Apellido Paciente*',
+                'required'  => FALSE,
+            ])
+            ->add('idSexo', EntityType::class,[
+                'class' => CtlSexo::class,
+                'label' => 'Sexo*',
+                'placeholder' => "Seleccionar...",
+                'required'  => FALSE,
                 ])
-                ->add('apellido')
-                ->add('idSexo', EntityType:: class, [
-                    'class' => CtlSexo::class,
-                    'label' => 'Sexo',
-                ])
-                ->add('fechaNacimiento')
-                ->add('fechaNacimiento', DateType::class, [
-                    'widget' => 'single_text',
-                ])
-                ->add('telefono')
-            ->end()
-            ->with('Dirección y Documentación', ['class' => 'col-md-6'])
-                ->add('direccionPaciente')
-                /* ->add('idDepartamento', EntityType::class, [
-                    'class' => CtlDepartamento::class,
-                    'label' => 'Departamento',
-                ])
-                ->add('idMunicipio', EntityType::class, [
-                    'class' => CtlMunicipio::class,
-                    'label' => 'Municipio',
-                ]) */
-                ->add('NRC')
-                ->add('NIT')
-                ->add('activo')
+            ->add('fechaNacimiento', DateType::class, [
+                'widget' => 'single_text',
+                'data'      => $fecha,
+                'attr'      => [
+                    
+                ],
                 
-            ->end()
+            ])
+            ->add('telefono', TextType::class,[
+                'attr'      => [
+                    'placeholder' => '8888-8888',
+                ],
+                'required'  => FALSE,
+            ])
+            ->add('direccionPaciente')
+            /* ->add('idDepartamento', EntityType::class, [
+                'class' => CtlDepartamento::class,
+                'label' => 'Departamento',
+            ])
+            ->add('idMunicipio', EntityType::class, [
+                'class' => CtlMunicipio::class,
+                'label' => 'Municipio',
+            ]) */
+            ->add('NRC', TextType::class,[
+                'attr' => [
+                    'placeholder' => '888888-8',
+                ],
+                'required'  => FALSE,
+            ])
+            ->add('NIT', TextType::class,[
+                'attr' => [
+                    'placeholder' => '8888-888888-888-8',
+                ],
+                'required'  => FALSE,
+            ])
             ;
             if ($id) {  // cuando se edite el registro
                 if ($entity->getActivo() == TRUE) { // si el registro esta activo
                     $formMapper
-                    ->with('Dirección y Documentación',['class' => 'col-md-6'])
-                            ->add('activo', null, array(
-                                'label' => 'Activo',
-                                'required' => FALSE,
-                                'attr' => array(
-                                    'checked' => 'checked',
-                    )))
-                    ->end()
-                    ;
-                } else { // si el registro esta inactivo
-                    $formMapper
-                    ->with('Dirección y Documentación',['class' => 'col-md-6'])
-                            ->add('activo', null, array(
-                                'label' => 'Activo',
-                                'required' => FALSE
-                    ))
-                    ->end()
-                    ;
-                }
-            } else { // cuando se crea el registro
-                $formMapper
-                ->with('Dirección y Documentación',['class' => 'col-md-6'])
                         ->add('activo', null, array(
                             'label' => 'Activo',
                             'required' => FALSE,
                             'attr' => array(
-                                'checked' => 'checked'
-                )))
-                ->end()
+                                'checked' => 'checked',
+                    )))
+                    ;
+                } else { // si el registro esta inactivo
+                    $formMapper
+                        ->add('activo', null, array(
+                            'label' => 'Activo',
+                            'required' => FALSE
+                        ))
+                    ;
+                }
+            } else { // cuando se crea el registro
+                $formMapper
+                    ->add('activo', null, array(
+                        'label' => 'Activo',
+                        'required' => FALSE,
+                        'attr' => array(
+                            'checked' => 'checked'
+                    )))
+
                 ;
             }
     }
@@ -148,14 +177,14 @@ final class MntPacienteAdmin extends AbstractAdmin
 
     public function prePersist($alias) : void {
         // llenar campos de auditoria
-        $user = $this->getConfigurationPool()->getContainer()->get('security.token_storage')->getToken()->getUser();
+        $user = $this->container->get('security.token_storage')->getToken()->getUser();
         $alias->setIdUsuarioReg($user);
         $alias->setFechahoraReg(new \DateTime());
     }
 
     public function preUpdate($alias) : void {
         // llenar campos de auditoria
-        $user = $this->getConfigurationPool()->getContainer()->get('security.token_storage')->getToken()->getUser();
+        $user = $this->container->get('security.token_storage')->getToken()->getUser();
         $alias->setIdUsuarioMod($user);
         $alias->setFechahoraMod(new \DateTime());
     }

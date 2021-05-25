@@ -38,7 +38,7 @@ final class CtlTipoElementoAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper 
-            ->with('Tipo Elemento',['class' => 'col-md-4'])
+            ->with('Tipo Elemento',['class' => 'col-md-5'])
                 ->add('nombre', TextType::class, ['row_attr' => [
                  ]])
             ->end()    

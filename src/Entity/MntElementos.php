@@ -4,9 +4,13 @@ namespace App\Entity;
 
 use App\Repository\MntElementosRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
+//@Assert\Regex(pattern="/^[A-Z]{1}+[a-zA-Z0-9]/", message = "La cantidad minina de caracteres es 5 y no se permiten numeros o caracteres especiales.")
 
 /**
  * @ORM\Entity(repositoryClass=MntElementosRepository::class)
+ * @ORM\HasLifecycleCallbacks
  */
 class MntElementos
 {
@@ -18,17 +22,23 @@ class MntElementos
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=150)
+     * @ORM\Column(type="string", length=150, nullable=false)
+     * @Assert\NotNull
+     * @Assert\Length(min=2,minMessage="No pueden ingresarse menos de 2 caracteres.")
+     * 
      */
     private $nombreElemento;
+    
 
     /**
      * @var \CtlExamen
      * 
      * @ORM\ManyToOne(targetEntity="CtlExamen")
      * @ORM\JoinColumns({
-     *  @ORM\JoinColumn(name="id_examen",referencedColumnName="id",nullable=false)
+     *  @ORM\JoinColumn(name="id_examen",referencedColumnName="id")
      * })
+     * 
+     * @Assert\NotNull
      */
     private $idExamen;
 
@@ -52,8 +62,9 @@ class MntElementos
      * 
      * @ORM\ManyToOne(targetEntity="CtlTipoElemento")
      * @ORM\JoinColumns({
-     *  @ORM\JoinColumn(name="id_tipo_elemento",referencedColumnName="id",nullable=false)
+     *  @ORM\JoinColumn(name="id_tipo_elemento",referencedColumnName="id")
      * })
+     * @Assert\NotNull
      */
     private $idTipoElemento;
 
@@ -63,7 +74,8 @@ class MntElementos
     private $observacion;
 
     /**
-     * @ORM\Column(type="smallint")
+     * @ORM\Column(type="string", length=15, nullable=true)
+     * @Assert\NotNull
      */
     private $ordenamiento;
 
@@ -72,7 +84,7 @@ class MntElementos
      * 
      * @ORM\ManyToOne(targetEntity="CtlSexo")
      * @ORM\JoinColumns({
-     *  @ORM\JoinColumn(name="id_sexo",referencedColumnName="id",nullable=false)
+     *  @ORM\JoinColumn(name="id_sexo",referencedColumnName="id")
      * })
      */
     private $idSexo;
@@ -82,13 +94,14 @@ class MntElementos
      * 
      * @ORM\ManyToOne(targetEntity="CtlRangoEdad")
      * @ORM\JoinColumns({
-     *  @ORM\JoinColumn(name="id_rango_edad",referencedColumnName="id",nullable=false)
+     *  @ORM\JoinColumn(name="id_rango_edad",referencedColumnName="id",nullable=true)
      * })
      */
     private $idRangoEdad;
 
     /**
-     * @ORM\Column(type="date", nullable=true)
+     * @ORM\Column(type="date", nullable=false)
+     * @Assert\NotNull
      */
     private $fechaInicio;
 
@@ -221,12 +234,12 @@ class MntElementos
         return $this;
     }
 
-    public function getOrdenamiento(): ?int
+    public function getOrdenamiento(): ?string
     {
         return $this->ordenamiento;
     }
 
-    public function setOrdenamiento(int $ordenamiento): self
+    public function setOrdenamiento(?string $ordenamiento): self
     {
         $this->ordenamiento = $ordenamiento;
 
@@ -344,4 +357,12 @@ class MntElementos
     public function __toString() {
         return $this->nombreElemento ? (string) $this->nombreElemento : ''; 
     }
+
+    /**
+     *Gets triggered only in insert
+     *@ORM\PrePersist 
+    */
+    /* public function onPrePersist(){
+        $this->fechahoraReg = new \DateTime('now');
+    } */
 }

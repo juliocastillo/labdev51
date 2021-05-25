@@ -11,9 +11,29 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use App\Entity\CtlEspecialidad;
 
 final class MntMedicoAdmin extends AbstractAdmin
 {
+    /**
+     * @var ContainerInterface
+     */
+    private $container;
+
+    /**
+     * @param string $code
+     * @param string $class
+     * @param string $baseControllerName
+     */
+    
+    public function __construct($code, $class, $baseControllerName, $container = null)
+    {
+        parent::__construct($code, $class, $baseControllerName);
+        $this->container = $container;
+    }
+
+
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
@@ -22,11 +42,9 @@ final class MntMedicoAdmin extends AbstractAdmin
             ->add('nombre')
             ->add('apellido')
             ->add('correoElectronico')
-            ->add('especialidad')
+            ->add('idEspecialidad')
             ->add('jvpm')
             ->add('telefono')
-            ->add('fechahoraReg')
-            ->add('fechahoraMod')
             ->add('activo')
             ;
     }
@@ -38,7 +56,7 @@ final class MntMedicoAdmin extends AbstractAdmin
             ->add('nombre')
             ->add('apellido')
             ->add('correoElectronico')
-            ->add('especialidad')
+            ->add('idEspecialidad')
             ->add('jvpm')
             ->add('telefono')
             ->add('fechahoraReg')
@@ -58,11 +76,15 @@ final class MntMedicoAdmin extends AbstractAdmin
         $entity = $this->getSubject();   //obtiene el elemento seleccionado en un objeto
         $id = $entity->getId();
         $formMapper
-        ->with('Medico',['class' => 'col-md-4'])
+        ->with('Medico',['class' => 'col-md-5'])
             ->add('nombre')
             ->add('apellido')
             ->add('correoElectronico')
-            ->add('especialidad')
+            ->add('idEspecialidad', EntityType::class,[
+                'class' => CtlEspecialidad::class,
+                'label' => 'Especialidad',
+                'placeholder' => "Seleccionar..."
+            ])
             ->add('jvpm')
             ->add('telefono')
             ->add('activo')
@@ -113,14 +135,14 @@ final class MntMedicoAdmin extends AbstractAdmin
 
     public function prePersist($alias) : void {
         // llenar campos de auditoria
-        $user = $this->getConfigurationPool()->getContainer()->get('security.token_storage')->getToken()->getUser();
+        $user = $this->container->get('security.token_storage')->getToken()->getUser();
         $alias->setIdUsuarioReg($user);
         $alias->setFechahoraReg(new \DateTime());
     }
 
     public function preUpdate($alias) : void {
         // llenar campos de auditoria
-        $user = $this->getConfigurationPool()->getContainer()->get('security.token_storage')->getToken()->getUser();
+        $user = $this->container->get('security.token_storage')->getToken()->getUser();
         $alias->setIdUsuarioMod($user);
         $alias->setFechahoraMod(new \DateTime());
     }

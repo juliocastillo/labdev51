@@ -14,6 +14,22 @@ use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 
 final class CtlDescuentoAdmin extends AbstractAdmin
 {
+    /**
+     * @var ContainerInterface
+     */
+    private $container;
+
+    /**
+     * @param string $code
+     * @param string $class
+     * @param string $baseControllerName
+     */
+    
+    public function __construct($code, $class, $baseControllerName, $container = null)
+    {
+        parent::__construct($code, $class, $baseControllerName);
+        $this->container = $container;
+    }
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
@@ -40,7 +56,7 @@ final class CtlDescuentoAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
-            ->with(' Descuento',['class' => 'col-md-6'])
+            ->with(' Descuento',['class' => 'col-md-5'])
                 ->add('descuento', IntegerType::class, ['row_attr' => [
                     'class' => 'col-md-12',
                 ]])
@@ -60,17 +76,16 @@ final class CtlDescuentoAdmin extends AbstractAdmin
     }
 
 
-
     public function prePersist($alias) : void {
         // llenar campos de auditoria
-        $user = $this->getConfigurationPool()->getContainer()->get('security.token_storage')->getToken()->getUser();
+        $user = $this->container->get('security.token_storage')->getToken()->getUser(); 
         $alias->setIdUsuarioReg($user);
         $alias->setFechahoraReg(new \DateTime());
     }
 
     public function preUpdate($alias) : void {
         // llenar campos de auditoria
-        $user = $this->getConfigurationPool()->getContainer()->get('security.token_storage')->getToken()->getUser();
+        $user = $this->container->get('security.token_storage')->getToken()->getUser();
         $alias->setIdUsuarioMod($user);
         $alias->setFechahoraMod(new \DateTime());
     }

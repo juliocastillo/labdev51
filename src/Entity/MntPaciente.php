@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\MntPacienteRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=MntPacienteRepository::class)
@@ -19,11 +20,15 @@ class MntPaciente
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @Assert\NotNull(message="Este campo no puede quedar vacío.")
+     * @Assert\Regex(pattern="/^[A-Z]{1}+[a-zA-Z]/", message="El nombre debe iniciar con una letra Mayuscula. | No se permite sólo números o caracteres especiales.")
      */
     private $nombre;
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @Assert\NotNull(message="Este campo no puede quedar vacío.")
+     * @Assert\Regex(pattern="/^[A-Z]{1}+[a-zA-Z]/", message="El nombre debe iniciar con una letra Mayuscula. | No se permite sólo números o caracteres especiales.")
      */
     private $apellido;
 
@@ -34,16 +39,21 @@ class MntPaciente
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_sexo", referencedColumnName="id")
      * })
+     * @Assert\NotNull(message="Este campo no puede quedar vacío.")
+     * 
      */
     private $idSexo;
 
     /**
      * @ORM\Column(type="date")
+     * @Assert\NotNull(message="Este campo no puede quedar vacío.")
+     * 
      */
     private $fechaNacimiento;
 
     /**
      * @ORM\Column(type="string", length=15, nullable=true)
+     * @Assert\Regex(pattern="/^[0-9]{4}\-[0-9]{4}$/", message = "Por favor complete el formato indicado.")
      */
     private $telefono;
 
@@ -69,11 +79,13 @@ class MntPaciente
 
     /**
      * @ORM\Column(type="string", length=10, nullable=true)
+     * @Assert\Regex(pattern="/^[0-9]{6}\-[0-9]{1}$/", message = "Por favor complete el formato indicado.")
      */
     private $NRC;
 
     /**
      * @ORM\Column(type="string", length=20, nullable=true)
+     * @Assert\Regex(pattern="/^[0-9]{4}\-[0-9]{6}\-[0-9]{3}\-[0-9]{1}$/", message = "Por favor complete el formato indicado.")
      */
     private $NIT;
 
@@ -310,7 +322,7 @@ class MntPaciente
     }
     
     
-     public function __toString() {
+    public function __toString() {
         return  $this->nombre . " " . $this->apellido ? (string)  $this->nombre . " " . $this->apellido : ''; 
     }
 }

@@ -40,9 +40,10 @@ final class CtlMicroorganismoAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
-            ->with('Microorganismos', ['class' => 'col-lg-6 col-md-6 col-xs-6 col-lg-6'])
+            ->with('Microorganismos', ['class' => 'col-lg-5 col-md-6 col-xs-6 col-lg-5'])
                 ->add('nombreMicroorganismo', TextType::class, [
-                    'label' => 'Nombre del Microorganismo'
+                    'label' => 'Nombre del Microorganismo*',
+                    'required' => FALSE
                 ])
             ->end()
             ;

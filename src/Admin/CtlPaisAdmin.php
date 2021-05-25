@@ -43,7 +43,7 @@ final class CtlPaisAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
-            ->with(' Datos Paises',['class' => 'col-md-3'])
+            ->with(' Datos Paises',['class' => 'col-md-5'])
                 ->add('nombrePais',  null, array(
                     'required' => TRUE,
                     'label' => 'Pais'

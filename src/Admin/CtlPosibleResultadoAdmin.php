@@ -16,7 +16,7 @@ final class CtlPosibleResultadoAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
-            ->add('id')
+           // ->add('id')
             ->add('nombrePosibleResultado')
             ;
     }
@@ -24,7 +24,7 @@ final class CtlPosibleResultadoAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
-            ->add('id')
+         //   ->add('id')
             ->add('nombrePosibleResultado')
             ->add('_action', null, [
                 'actions' => [
@@ -38,8 +38,12 @@ final class CtlPosibleResultadoAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
-            ->add('id')
-            ->add('nombrePosibleResultado')
+         ->with('Posible Resultado',['class' => 'col-md-5'])
+             ->add('nombrePosibleResultado',  null, array(
+                 'required' => TRUE,
+                 'label' => 'Posible Resultado'
+             ))
+         ->end() 
             ;
     }
 

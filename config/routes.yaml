@@ -8,3 +8,8 @@ homepage:
 # lexik/jwt-authentication-bundle
 api_login_check:
     path: /api/login_check
+    
+#   
+#fos_js_routing:
+#    resource: "Symfony\Bundle\friendsofsymfony\jsrouting-Bundle\Resources\config\routing\routing.xml"
+#    

@@ -17,7 +17,7 @@ final class CtlTipoDocumentoAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
-           ->add('tipoDocumento')
+           ->add('nombre')
             ;
     }
 
@@ -25,7 +25,7 @@ final class CtlTipoDocumentoAdmin extends AbstractAdmin
     {
         $listMapper
             ->add('id')
-            ->add('tipoDocumento')
+            ->add('nombre')
             ->add('_action', null, [
                 'actions' => [
                     'show' => [],
@@ -38,8 +38,8 @@ final class CtlTipoDocumentoAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
-        ->with('Documento',['class' => 'col-md-3'])
-            ->add('tipoDocumento', TextType::class, ['row_attr' => [
+        ->with('Documento',['class' => 'col-md-5'])
+            ->add('nombre', TextType::class, ['row_attr' => [
                 'label' => 'Documento'
              ]    ])
          ->end() 
@@ -50,7 +50,7 @@ final class CtlTipoDocumentoAdmin extends AbstractAdmin
     {
         $showMapper
             ->add('id')
-            ->add('tipoDocumento')
+            ->add('nombre')
             ;
     }
 }
