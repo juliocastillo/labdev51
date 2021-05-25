@@ -53,6 +53,8 @@ class LabResultadosController extends AbstractController
         $request = $this->container->get('request_stack')->getCurrentRequest();
         $idExamen = $request->get('idExamen');
         $sql = "SELECT t01.id, t01.nombre_elemento, t01.id_tipo_elemento, t01.valor_inicial, t01.valor_final, t01.unidades 
+        $idDetalleOrden = $request->get('idDetalleOrden');
+        $sql = "SELECT t01.id, t01.nombre_elemento, t01.id_tipo_elemento
                 FROM mnt_elementos t01 
                     left join lab_resultados t02 on t01.id = t02.id_elemento
                     left join lab_detalle_orden t03 on t03.id = t02.id_detalle_orden
@@ -63,9 +65,16 @@ class LabResultadosController extends AbstractController
         $stm = $this->getDoctrine()->getConnection()->prepare($sql);
         $stm->execute();
         $result = $stm->fetchAll();
+        $nElementos = 0;
+        foreach ($result as $r){
+            if ($r["id_tipo_elemento"] == 2)
+                $nElementos++; 
+        }
         
         return $this->render("LabResultados/resultado_detalle_elementos.html.twig",
-                array("datos" => $result));
+                array("datos" => $result,
+                "idDetalleOrden" => $idDetalleOrden,
+                "nElementos" => $nElementos));
     }   
     /**
      * @Route("/lab/detalles/guardar/elementos", name="lab_detalles_guardar_elementos")
@@ -74,9 +83,22 @@ class LabResultadosController extends AbstractController
     {
         $request = $this->container->get('request_stack')->getCurrentRequest();
         parse_str($request->get('datos'), $datos);
-        var_dump($datos); exit();
+        $row = "";
+        $now = date_create('now')->format('Y-m-d H:i:s');
+        //var_dump($datos);
+        //exit();
+        for ($i = 0; $i < $datos["nElementos"]*2;$i+=2){
+                $row = $row."('".$datos["idElemento"][$i]."','1','".$datos["idDetalleOrden"].  "','1','".$datos["idElemento"][$i+1]."','".$now."',true)";
+                if($datos["nElementos"]*2-2 != $i)
+                    $row =$row.",";
+        }
 
-        return new Response('guardado');
+        $sql = "INSERT INTO lab_resultados(id_elemento,id_empleado,id_detalle_orden,id_usuario_reg,resultado,fechahora_reg,activo)
+                VALUES ".$row.";";
+        $stm = $this->getDoctrine()->getConnection()->prepare($sql);
+        $stm->execute();        
+
+        return new Response('Guardado Exitosamente');
     }   
 
     /**

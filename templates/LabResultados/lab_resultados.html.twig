@@ -10,29 +10,26 @@
 
     <script type="text/javascript">
         $(document).ready(function(){
-            //let $tableDetEx = $('#listarExamenesOrden');
-
-
-            $('#listarOrdenes').DataTable({
-                /* 
-                TRADUCIENDO EL LENGUAJE
-                */
-                "language" : {
-                    "lengthMenu"    : "Mostrar _MENU_ registros",
-                    "zeroRecords"   : "No se encontraron resultados",
-                    "info"          : "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-                    "infoEmpty"     : "Mostrando registros del 0 al 0 de un total de 0 registros",
-                    "infoFiltered"  : "(filtrado de un todal de _MAX_ registros)",
-                    "sSearch"       : "Buscar:",
-                    "oPaginate"     : {
-                        "sFirst"    : "Primero",
-                        "sLast"     : "Ultimo",
-                        "sNext"     : "Siguiente",
-                        "sPrevious" : "Anterios"
-                    },
-                    "sProcessing"   : "Procesando...",
-                }
-            });
+          //  $('#listarOrdenes').DataTable({
+          //      /* 
+          //      TRADUCIENDO EL LENGUAJE
+          //      */
+          //      "language" : {
+          //          "lengthMenu"    : "Mostrar _MENU_ registros",
+          //          "zeroRecords"   : "No se encontraron resultados",
+          //          "info"          : "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+          //          "infoEmpty"     : "Mostrando registros del 0 al 0 de un total de 0 registros",
+          //          "infoFiltered"  : "(filtrado de un todal de _MAX_ registros)",
+          //          "sSearch"       : "Buscar:",
+          //          "oPaginate"     : {
+          //              "sFirst"    : "Primero",
+          //              "sLast"     : "Ultimo",
+          //              "sNext"     : "Siguiente",
+          //              "sPrevious" : "Anterios"
+          //          },
+          //          "sProcessing"   : "Procesando...",
+          //      }
+          //  });
 
             /* 
             OCULTAR BOTOR GUARDAR
@@ -198,13 +195,14 @@
         }
 
 
-         function mostrarElementos(idExamen) {
+         function mostrarElementos(idExamen,idDetalleOrden) {
             $(document).ready(function () {
                 $('#btnGuardar').show();
                 //buscar las ordenes de trabajo con estado pendiente de resultado.
                 $.ajax({
                 url: "{{ path('lab_detalles_elementos') }}",
-                data : {idExamen : idExamen},
+                data : {idExamen : idExamen,
+                        idDetalleOrden: idDetalleOrden},
                 type: "GET",
                 dataType: "html",
                 success : function (html) {
@@ -219,7 +217,8 @@
             $("#btnGuardar").on('click',function(){
                 $.ajax({
                 url: "{{ path('lab_detalles_guardar_elementos') }}",
-                data : {datos : $('#envio').serialize()},
+                data : {datos : $('#envio').serialize(),
+                        },
                 type: "POST",
                 dataType: "html",
                 success : function (html) {
