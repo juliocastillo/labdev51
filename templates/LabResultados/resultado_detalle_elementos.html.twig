@@ -32,11 +32,11 @@
             {% else %}
             <td style="width: 25%;" class="text-center"><span class="badge" style="background-color: cadetblue; padding: 8px 40px; width: 80%;">{{dato.unidades}}</span></td>
             {% endif %}
-            <td><label for="idelemento_{{ dato.id }}">{{dato.nombre_elemento}}</label></td>
+           {# <td><label for="idelemento_{{ dato.id }}">{{dato.nombre_elemento}}</label></td>
             <td><input class="form-control" type="hidden" name="idElemento[]" value="{{dato.id}}"></td>
             <td><input class="form-control" type="text" name="idElemento[]" id="idelemento_{{ dato.id }}"></td>
             <td class="text-center"><span class="badge" style="background-color: coral; padding: 2px 40px">70-100</span></td>
-            <td class="text-center"><span class="badge" style="background-color: cadetblue; padding: 2px 40px">mg/dL</span></td>
+            <td class="text-center"><span class="badge" style="background-color: cadetblue; padding: 2px 40px">mg/dL</span></td>#}
         </tr>
         {% endif %}
         {% endfor %}

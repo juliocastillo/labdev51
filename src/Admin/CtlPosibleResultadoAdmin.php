@@ -50,7 +50,7 @@ final class CtlPosibleResultadoAdmin extends AbstractAdmin
     protected function configureShowFields(ShowMapper $showMapper): void
     {
         $showMapper
-            ->add('id')
+            //->add('id')
             ->add('nombrePosibleResultado')
             ;
     }
