@@ -65,15 +65,4 @@ class LabOrdenController extends AbstractController
         return $this->render("resultado_detalle_elementos.html.twig",
                 array("datos" => $result));
     }   
-    /**
-     * @Route("/lab/detalles/guardar/elementos", name="lab_detalles_guardar_elementos")
-     */
-    public function labDetallesGuardarElementos(): Response
-    {
-        $request = $this->container->get('request_stack')->getCurrentRequest();
-        parse_str($request->get('datos'), $datos);
-        var_dump($datos); exit();
-
-        return new Response('guardado');
-    }   
 }
