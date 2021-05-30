@@ -85,6 +85,11 @@
                 
             });
             
+            
+
+
+            
+
             $(document).on('click','#btnBorrarEx',function(e){
                 rowDetOrden = $(this).closest('tr');
                 nombreExamen = rowDetOrden.find('td:eq(0)').text();
@@ -194,6 +199,12 @@
             })
         }
 
+        function asignarPosibleResultado(obj,elemento){
+            $(document).ready(function(){
+                console.log(elemento);
+                document.getElementById(elemento).value = obj.options[obj.selectedIndex].innerHTML;
+            });
+        }
 
          function mostrarElementos(idExamen,idDetalleOrden) {
             $(document).ready(function () {
@@ -208,6 +219,7 @@
                 success : function (html) {
                     //console.log(html);
                     $("#elementos").html(html);
+                    
                 }
                 });
             })
