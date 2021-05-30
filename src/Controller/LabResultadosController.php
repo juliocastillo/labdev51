@@ -54,6 +54,10 @@ class LabResultadosController extends AbstractController
         $idExamen = $request->get('idExamen');
         //$sql = "SELECT t01.id, t01.nombre_elemento, t01.id_tipo_elemento, t01.valor_inicial, t01.valor_final, t01.unidades";
         $idDetalleOrden = $request->get('idDetalleOrden');
+        $sqlPosibleResultado = "select * from ctl_posible_resultado";
+        $stm = $this->getDoctrine()->getConnection()->prepare($sqlPosibleResultado);
+        $stm->execute();
+        $posiblesResultado = $stm->fetchAll();
         $sql = "SELECT t01.id, t01.nombre_elemento, t01.id_tipo_elemento, t01.valor_inicial, t01.valor_final, t01.unidades
                 FROM mnt_elementos t01 
                     left join lab_resultados t02 on t01.id = t02.id_elemento
@@ -74,7 +78,9 @@ class LabResultadosController extends AbstractController
         return $this->render("LabResultados/resultado_detalle_elementos.html.twig",
                 array("datos" => $result,
                 "idDetalleOrden" => $idDetalleOrden,
-                "nElementos" => $nElementos));
+                "nElementos" => $nElementos,
+                "posiblesResultados" => $posiblesResultado
+            ));
     }   
     /**
      * @Route("/lab/detalles/guardar/elementos", name="lab_detalles_guardar_elementos")
@@ -85,14 +91,12 @@ class LabResultadosController extends AbstractController
         parse_str($request->get('datos'), $datos);
         $row = "";
         $now = date_create('now')->format('Y-m-d H:i:s');
-        //var_dump($datos);
-        //exit();
+
         for ($i = 0; $i < $datos["nElementos"]*2;$i+=2){
-                $row = $row."('".$datos["idElemento"][$i]."','1','".$datos["idDetalleOrden"].  "','1','".$datos["idElemento"][$i+1]."','".$now."',true)";
+                $row = $row."('".$datos["idElemento"][$i]."','3','".$datos["idDetalleOrden"].  "','1','".$datos["idElemento"][$i+1]."','".$now."',true)";
                 if($datos["nElementos"]*2-2 != $i)
                     $row =$row.",";
         }
-
         $sql = "INSERT INTO lab_resultados(id_elemento,id_empleado,id_detalle_orden,id_usuario_reg,resultado,fechahora_reg,activo)
                 VALUES ".$row.";";
         $stm = $this->getDoctrine()->getConnection()->prepare($sql);
