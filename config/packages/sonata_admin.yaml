@@ -2,11 +2,11 @@ sonata_admin:
     show_mosaic_button: false
     security:
         handler: sonata.admin.security.handler.role
-    title: 'LABORATORIO CLINICO MB'
-    title_logo: build/images/web-logo.png
+    title: ' '
+    title_logo: build/images/logo-lab-MB.png
     dashboard:
         blocks:
-            - { type: sonata.admin.block.admin_list, position: letf }
+            - { type: sonata.admin.block.admin_list, position: left }
 sonata_block:
     blocks:
         sonata.admin.block.admin_list:
