@@ -206,14 +206,15 @@
             });
         }
 
-         function mostrarElementos(idExamen,idDetalleOrden) {
+         function mostrarElementos(idExamen,idDetalleOrden,idOrden) {
             $(document).ready(function () {
                 $('#btnGuardar').show();
                 //buscar las ordenes de trabajo con estado pendiente de resultado.
                 $.ajax({
                 url: "{{ path('lab_detalles_elementos') }}",
                 data : {idExamen : idExamen,
-                        idDetalleOrden: idDetalleOrden},
+                        idDetalleOrden: idDetalleOrden,
+                        idOrden:idOrden},
                 type: "GET",
                 dataType: "html",
                 success : function (html) {

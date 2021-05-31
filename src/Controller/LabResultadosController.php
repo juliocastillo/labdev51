@@ -43,7 +43,9 @@ class LabResultadosController extends AbstractController
         $stm->execute();
         $result = $stm->fetchAll();
         return $this->render("LabResultados/resultados_busqueda_detalle.html.twig",
-                array("datos" => $result));
+                array("datos" => $result,
+                      "idOrden" => $idOrden
+                    ));
     }   
     /**
      * @Route("/lab/detalles/elementos", name="lab_detalles_elementos")
@@ -54,6 +56,7 @@ class LabResultadosController extends AbstractController
         $idExamen = $request->get('idExamen');
         //$sql = "SELECT t01.id, t01.nombre_elemento, t01.id_tipo_elemento, t01.valor_inicial, t01.valor_final, t01.unidades";
         $idDetalleOrden = $request->get('idDetalleOrden');
+        $idOrden = $request->get('idOrden');
         $sqlPosibleResultado = "select * from ctl_posible_resultado";
         $stm = $this->getDoctrine()->getConnection()->prepare($sqlPosibleResultado);
         $stm->execute();
@@ -79,7 +82,8 @@ class LabResultadosController extends AbstractController
                 array("datos" => $result,
                 "idDetalleOrden" => $idDetalleOrden,
                 "nElementos" => $nElementos,
-                "posiblesResultados" => $posiblesResultado
+                "posiblesResultados" => $posiblesResultado,
+                "idOrden" => $idOrden
             ));
     }   
     /**
@@ -101,7 +105,9 @@ class LabResultadosController extends AbstractController
                 VALUES ".$row.";";
         $stm = $this->getDoctrine()->getConnection()->prepare($sql);
         $stm->execute();        
-
+        $sql = "UPDATE lab_orden SET id_estado_orden = '2' WHERE id=".$datos["idOrden"].";";
+        $stm = $this->getDoctrine()->getConnection()->prepare($sql);
+        $stm->execute();
         return new Response('Guardado Exitosamente');
     }   
 
