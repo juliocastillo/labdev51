@@ -1,15 +1,4 @@
-
-{# <table>
-    <tr><td>Examen</td></tr>
-    {% for dato in datos %}
-    <tr>
-        <td><a href="#" id="idExamen" onclick="mostrarElementos({{ dato.id_examen }})">{{dato.nombre_examen}}</a></td>
-        <td>{{dato.id_estado_examen}}</td>
-    </tr>
-    {% endfor %}
-</table> #}
-
-<div class="table-responsive">
+2<div class="table-responsive">
     <table id="listarExamenesOrden" class="table table-striped table-condensed">
         <thead class="bg-success">
             <tr>
@@ -24,8 +13,13 @@
             <tr>
                 <td style="width: 25%;"><div class="btn btn-success btn-block" id="idExamen" onclick="mostrarElementos({{ dato.id_examen }}, {{dato.id}})">{{ dato.nombre_examen }}</div></td>
                 <td style="width: 25%;">{{ dato.id }}</td>
+                <td style="display: none;">{{ dato.id_examen }}</td>
                 <td style="width: 25%;">{{ dato.estado_examen }}</td>
-                <td style="width: 25%;"><div class="btn btn-danger" id="btnBorrarEx">Borrar Examen</div></td>
+                <td style="width: 25%;">
+                    <div class="btn btn-danger" id="btnBorrarEx">Borrar</div>
+                    <a id="btnImprimirEx" class="btn btn-warning"><i class="glyphicon glyphicon-print"></i></a>
+                    <!-- href="" target="_blank" -->
+                </td>
             </tr>
             {% endfor %}
         </tbody>

@@ -1,0 +1,126 @@
+{% block stylesheets %}
+    <style>
+        body{
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+        }
+
+        .mainDiv{
+            background-color: azure;
+        }
+
+        .tableDiv{
+            width: 612px;
+            height: 792px;
+            background-color: white;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        table{
+            border: none;
+            width: 100%;
+        }
+       tr th{
+            /*margin-top: 0;*/
+            text-align: center;
+            font-size: small;
+        }
+
+        tr td{
+            text-align: center;
+            font-size: small;
+        }
+
+        .datosP td{
+            text-align: left;
+            font-size: small;
+            
+        }
+
+        .datosP td strong{
+            /* margin-left: 20px; */
+            font-size: 10px;
+        }
+
+        img{
+            width: 180px;
+        }
+
+        hr{
+            width: 85%;
+        }
+    </style>
+{% endblock stylesheets%}
+<body>
+    <div class="mainDiv">
+        <div class="tableDiv">
+            <table>
+                <tr>
+                    <th><img src="{{ asset('build/images/logo-lab.png') }}" alt=""></th>
+                </tr>
+                <tr>
+                    <th>N° DE INSCRIPCION 742</th>
+                </tr>
+                <tr>
+                    <td>1ra calle oriente y 22 avenida norte #1-9</td>
+                </tr>
+                <tr>
+                    <td>Telefono: 2451 9607 - WhatsApp: 7769 9792</td>
+                </tr>
+            </table>
+            <hr>
+            <table>
+                <tr class="datosP">
+                    <td >
+                        <strong style="margin-left: 40px;">Medico:</strong>
+                    </td>
+                </tr>
+                <tr class="datosP">
+                    <td style="width: 50%;">
+                        <strong style="margin-left: 40px;">Paciente:</strong>
+                    </td>
+                    <td style="width: 20%;">
+                        <strong>Edad:</strong>
+                    </td>
+                    <td style="width: 30%;">
+                        <strong>Fecha:</strong>
+                    </td>
+                </tr>
+            </table>
+            <hr>
+            <table>
+                <tr class="">
+                    <th>
+                        Examen/Elemento
+                    </th>
+                    <th>
+                        Resultado
+                    </th>
+                    <th>
+                        Unidades
+                    </th>
+                    <th>
+                        Rangos de Referencia
+                    </th>
+                </tr>
+                <tr class="datosP">
+                    <td style="width: 25%;">
+                    
+                    </td>
+                    <td style="width: 25%;">
+                    
+                    </td>
+                    <td style="width: 25%;">
+                    
+                    </td>
+                    <td style="width: 25%;">
+                    
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    
+    
+</body>
+

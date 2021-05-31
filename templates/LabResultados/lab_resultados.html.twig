@@ -139,6 +139,31 @@
                 }
                 
             });
+
+            $(document).on('click','#btnImprimirEx',function(e){
+                rowDetOrden = $(this).closest('tr');
+                nombreExamen = rowDetOrden.find('td:eq(0)').text();
+                idDetOrden = parseInt(rowDetOrden.find('td:eq(1)').text());
+                idExamen = parseInt(rowDetOrden.find('td:eq(2)').text());
+                idEstadoExamen = rowDetOrden.find('td:eq(3)').text();
+                
+                if(idEstadoExamen == "Completo"){
+                    $.ajax({
+                        type: "GET",
+                        url: "{{ path('cargar_datos') }}",
+                        data: {idDetOrden:idDetOrden, idExamen:idExamen},
+                        dataType: "html",
+                        
+                        success : function (url) {
+                            window.open(url, "_blank");
+                        }
+                    });
+                    //e.preventDefault();
+                }else{
+                    alert("Este examen no tiene resultado!");
+                    e.preventDefault();
+                }
+            });
         });
 
 
@@ -152,7 +177,9 @@
                 $('#btnGuardar').hide();
     
                 numeroOrden = $("#numeroOrden").val()
-                        $.ajax({
+
+                if(numeroOrden != ""){
+                    $.ajax({
                         url: "{{ path('lab_resultados_ordenes_pendientes') }}",
                         data : {numeroOrden : numeroOrden},
                         type: "GET",
@@ -161,6 +188,9 @@
                             $("#ordenes").html(html);
                         }
                     });
+                }else{
+                    alert("Debe digitar un valor para realizar la busqueda!");
+                }
                 /* if($('#ordenes').children().length == 0){
                     numeroOrden = $("#numeroOrden").val()
                         $.ajax({
@@ -276,7 +306,7 @@
                                     </div>
                                     <div id="elementos" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 center-block">
                                     </div>
-                                    <button type="button" id="btnGuardar" style="width: 200px; margin-top: 5px;" class="btn btn-info">Guardar   <i class="fa fa-save"></i></button>
+                                    <button type="button" id="btnGuardar" style="width: 200px; margin-top: 5px;" class="btn btn-info">Guardar   <i class="glyphicon glyphicon-save"></i></button>
                                     <div id="message" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 center-block">
                                     </div>
                                 </form>
