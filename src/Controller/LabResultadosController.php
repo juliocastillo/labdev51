@@ -7,7 +7,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 
-
 class LabResultadosController extends AbstractController
 {
     /**
@@ -61,13 +60,17 @@ class LabResultadosController extends AbstractController
         $stm = $this->getDoctrine()->getConnection()->prepare($sqlPosibleResultado);
         $stm->execute();
         $posiblesResultado = $stm->fetchAll();
-        $sql = "SELECT t01.id, t01.nombre_elemento, t01.id_tipo_elemento, t01.valor_inicial, t01.valor_final, t01.unidades
+        $sqlEmpleados = "select * from mnt_empleado";
+        $stm = $this->getDoctrine()->getConnection()->prepare($sqlEmpleados);
+        $stm->execute();
+        $empleados = $stm->fetchAll();
+        $sql = "SELECT t01.id, t01.nombre_elemento, t01.id_tipo_elemento, t01.valor_inicial, t01.valor_final, t01.unidades,t02.resultado
                 FROM mnt_elementos t01 
                     left join lab_resultados t02 on t01.id = t02.id_elemento
                     left join lab_detalle_orden t03 on t03.id = t02.id_detalle_orden
                     left join lab_orden t04 on t04.id = t03.id_orden 
-                    left join mnt_paciente t05 on t05.id = t04.id_paciente 
-                WHERE t01.id_examen = $idExamen 
+                    left join mnt_paciente t05 on t05.id = t04.id_paciente
+                WHERE t01.id_examen = $idExamen
                 ORDER BY t01.ordenamiento";
         $stm = $this->getDoctrine()->getConnection()->prepare($sql);
         $stm->execute();
@@ -83,6 +86,7 @@ class LabResultadosController extends AbstractController
                 "idDetalleOrden" => $idDetalleOrden,
                 "nElementos" => $nElementos,
                 "posiblesResultados" => $posiblesResultado,
+                "empleados" => $empleados,
                 "idOrden" => $idOrden
             ));
     }   
@@ -95,9 +99,9 @@ class LabResultadosController extends AbstractController
         parse_str($request->get('datos'), $datos);
         $row = "";
         $now = date_create('now')->format('Y-m-d H:i:s');
-
+        $userId = $this->getUser()->getId();
         for ($i = 0; $i < $datos["nElementos"]*2;$i+=2){
-                $row = $row."('".$datos["idElemento"][$i]."','3','".$datos["idDetalleOrden"].  "','1','".$datos["idElemento"][$i+1]."','".$now."',true)";
+                $row = $row."('".$datos["idElemento"][$i]."',".$datos["empleado"].",'".$datos["idDetalleOrden"].  "',".$userId.",'".$datos["idElemento"][$i+1]."','".$now."',true)";
                 if($datos["nElementos"]*2-2 != $i)
                     $row =$row.",";
         }

@@ -201,8 +201,14 @@
 
         function asignarPosibleResultado(obj,elemento){
             $(document).ready(function(){
-                console.log(elemento);
                 document.getElementById(elemento).value = obj.options[obj.selectedIndex].innerHTML;
+            });
+        }
+
+        function obtenerEmpleado(obj){
+            $(document).ready(function(){      
+                console.log(obj);          
+                document.getElementById(empleado).value = obj.value;
             });
         }
 
