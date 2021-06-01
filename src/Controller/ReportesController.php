@@ -21,21 +21,24 @@ class ReportesController extends AbstractController
         $idExamen = $request->get('idExamen');
         $idDetOrden = $request->get('idDetOrden');
 
-        $sql = "SELECT t01.id, t01.nombre_elemento, t01.id_tipo_elemento, t01.valor_inicial, t01.valor_final, t01.unidades
+        $sql = "SELECT t01.id, t01.nombre_elemento, t01.id_tipo_elemento, t01.valor_inicial, t01.valor_final, t01.unidades,
+                t02.resultado
         FROM mnt_elementos t01 
             left join lab_resultados t02 on t01.id = t02.id_elemento
             left join lab_detalle_orden t03 on t03.id = t02.id_detalle_orden
             left join lab_orden t04 on t04.id = t03.id_orden 
             left join mnt_paciente t05 on t05.id = t04.id_paciente 
         WHERE t01.id_examen = $idExamen 
-        AND t03.id_orden = $idDetOrden
+        AND t03.id = $idDetOrden
         ORDER BY t01.ordenamiento";
 
         $stm = $this->getDoctrine()->getConnection()->prepare($sql);
         $stm->execute();
         $result = $stm->fetchAll();
 
-        return $this->redirectToRoute('mostrar_datos',
+        //var_dump($result); exit();
+
+        return $this->render('Reportes/reporte_resultados.html.twig',
             array(
                 "datos" => $result,
             )
@@ -45,13 +48,13 @@ class ReportesController extends AbstractController
     /**
     * @Route("/mostrar-datos", name="mostrar_datos")
     */
-    public function loadPage(){
+    /* public function loadPage(){
         return $this->render("Reportes/reporte_resultados.html.twig"
-            /* array(
+            array(
                 "datos" => $datos,
-            ) */
+            )
         );
-    }
+    } */
 
     /**
     * @Route("/generate-pdf", name="generate_pdf")

@@ -26,6 +26,10 @@
             font-size: small;
         }
 
+        .h-reporte{
+            font-size: 10px;
+        }
+
         tr td{
             text-align: center;
             font-size: small;
@@ -40,6 +44,14 @@
         .datosP td strong{
             /* margin-left: 20px; */
             font-size: 10px;
+        }
+
+        .dataE{
+            text-align: left;
+        }
+
+        .dataE td{
+            margin-left: 40px;
         }
 
         img{
@@ -89,34 +101,42 @@
             </table>
             <hr>
             <table>
-                <tr class="">
-                    <th>
-                        Examen/Elemento
-                    </th>
-                    <th>
-                        Resultado
-                    </th>
-                    <th>
-                        Unidades
-                    </th>
-                    <th>
-                        Rangos de Referencia
-                    </th>
+                <thead>
+                    <tr class="">
+                        <th class="h-reporte">
+                            Examen/Elemento
+                        </th>
+                        <th class="h-reporte">
+                            Resultado
+                        </th>
+                        <th class="h-reporte">
+                            Unidades
+                        </th>
+                        <th class="h-reporte">
+                            Rangos de Referencia
+                        </th>
+                    </tr>
+                </thead>
+                
+                {% for dato in datos %}
+                {% if (dato.id_tipo_elemento == 1) %}
+                <tr><td colspan="5"><strong>{{dato.nombre_elemento}}</strong></td></tr>
+                {% endif %}
+                <tr class="dataE">
+                    <td style="width: 25%; text-align:left; padding-left:40px;">
+                        {{ dato.nombre_elemento }}
+                    </td>
+                    <td style="width: 25%;">
+                        {{ dato.resultado }}
+                    </td>
+                    <td style="width: 25%;">
+                        {{ dato.unidades }}
+                    </td>
+                    <td style="width: 25%;">
+                        {{ dato.valor_inicial }} - {{ dato.valor_final }}
+                    </td>
                 </tr>
-                <tr class="datosP">
-                    <td style="width: 25%;">
-                    
-                    </td>
-                    <td style="width: 25%;">
-                    
-                    </td>
-                    <td style="width: 25%;">
-                    
-                    </td>
-                    <td style="width: 25%;">
-                    
-                    </td>
-                </tr>
+                {% endfor %}
             </table>
         </div>
     </div>

@@ -149,13 +149,13 @@
                 
                 if(idEstadoExamen == "Completo"){
                     $.ajax({
-                        type: "GET",
+                        type: "POST",
                         url: "{{ path('cargar_datos') }}",
                         data: {idDetOrden:idDetOrden, idExamen:idExamen},
                         dataType: "html",
                         
-                        success : function (url) {
-                            window.open(url, "_blank");
+                        success : function (html) {
+                            $('#reportes').html(html);
                         }
                     });
                     //e.preventDefault();
@@ -308,6 +308,8 @@
                                     </div>
                                     <button type="button" id="btnGuardar" style="width: 200px; margin-top: 5px;" class="btn btn-info">Guardar   <i class="glyphicon glyphicon-save"></i></button>
                                     <div id="message" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 center-block">
+                                    </div>
+                                    <div id="reportes" class="col-md-12">
                                     </div>
                                 </form>
                             </div>
