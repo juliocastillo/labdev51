@@ -253,8 +253,14 @@
                 type: "GET",
                 dataType: "html",
                 success : function (html) {
-                    //console.log(html);
-                    $("#elementos").html(html);
+                    //console.log(typeof html);
+                    if(html == 'true'){
+                        alert("El examen ya tienen resultado!");
+                    }else{
+                        $("#elementos").html(html);
+                        
+                    }
+                    //
                     
                 }
                 });

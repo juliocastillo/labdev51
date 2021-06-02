@@ -10,7 +10,7 @@
 
         .tableDiv{
             width: 612px;
-            height: 792px;
+            /*height: 792px;*/
             background-color: white;
             margin-left: auto;
             margin-right: auto;
@@ -20,19 +20,22 @@
             border: none;
             width: 100%;
         }
-       tr th{
+        
+        tr th{
             /*margin-top: 0;*/
             text-align: center;
-            font-size: small;
+            font-size: 10px;
         }
 
         .h-reporte{
             font-size: 10px;
+            padding-left: auto;
+            padding-right: auto;
         }
 
         tr td{
             text-align: center;
-            font-size: small;
+            font-size: 10px;
         }
 
         .datosP td{
@@ -120,8 +123,9 @@
                 
                 {% for dato in datos %}
                 {% if (dato.id_tipo_elemento == 1) %}
-                <tr><td colspan="5"><strong>{{dato.nombre_elemento}}</strong></td></tr>
+                <tr><td colspan="4" style="padding-left: 40px; padding-top:10px; text-align: left; font-size: 10px;"><strong>{{dato.nombre_elemento}}</strong></td></tr>
                 {% endif %}
+                {% if (dato.id_tipo_elemento == 2) %}
                 <tr class="dataE">
                     <td style="width: 25%; text-align:left; padding-left:40px;">
                         {{ dato.nombre_elemento }}
@@ -136,6 +140,7 @@
                         {{ dato.valor_inicial }} - {{ dato.valor_final }}
                     </td>
                 </tr>
+                {% endif %}
                 {% endfor %}
             </table>
         </div>

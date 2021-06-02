@@ -29,7 +29,7 @@ class ReportesController extends AbstractController
             left join lab_orden t04 on t04.id = t03.id_orden 
             left join mnt_paciente t05 on t05.id = t04.id_paciente 
         WHERE t01.id_examen = $idExamen 
-        AND t03.id = $idDetOrden
+        -- AND t03.id = $idDetOrden
         ORDER BY t01.ordenamiento";
 
         $stm = $this->getDoctrine()->getConnection()->prepare($sql);

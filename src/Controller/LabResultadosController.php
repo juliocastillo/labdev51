@@ -56,6 +56,16 @@ class LabResultadosController extends AbstractController
         //$sql = "SELECT t01.id, t01.nombre_elemento, t01.id_tipo_elemento, t01.valor_inicial, t01.valor_final, t01.unidades";
         $idDetalleOrden = $request->get('idDetalleOrden');
         $idOrden = $request->get('idOrden');
+        $sqlExamenCompleto = "SELECT id_estado_examen
+                                FROM lab_detalle_orden
+                                WHERE id = $idDetalleOrden";
+        $stm = $this->getDoctrine()->getConnection()->prepare($sqlExamenCompleto);
+        $stm->execute();
+        $examenCompleto = $stm->fetch();
+        //var_dump($examenCompleto); exit();
+        if ($examenCompleto['id_estado_examen'] == '2') {
+            return new Response(true);
+        }
         $sqlPosibleResultado = "select * from ctl_posible_resultado";
         $stm = $this->getDoctrine()->getConnection()->prepare($sqlPosibleResultado);
         $stm->execute();
