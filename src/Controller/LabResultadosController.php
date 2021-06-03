@@ -109,20 +109,37 @@ class LabResultadosController extends AbstractController
         parse_str($request->get('datos'), $datos);
         $row = "";
         $now = date_create('now')->format('Y-m-d H:i:s');
+        //var_dump($datos); exit();
         $userId = $this->getUser()->getId();
         for ($i = 0; $i < $datos["nElementos"]*2;$i+=2){
                 $row = $row."('".$datos["idElemento"][$i]."',".$datos["empleado"].",'".$datos["idDetalleOrden"].  "',".$userId.",'".$datos["idElemento"][$i+1]."','".$now."',true)";
                 if($datos["nElementos"]*2-2 != $i)
                     $row =$row.",";
         }
-        $sql = "INSERT INTO lab_resultados(id_elemento,id_empleado,id_detalle_orden,id_usuario_reg,resultado,fechahora_reg,activo)
+        /* $sql = "INSERT INTO lab_resultados(id_elemento,id_empleado,id_detalle_orden,id_usuario_reg,resultado,fechahora_reg,activo)
                 VALUES ".$row.";";
         $stm = $this->getDoctrine()->getConnection()->prepare($sql);
         $stm->execute();        
         $sql = "UPDATE lab_detalle_orden SET id_estado_examen = '2' WHERE id=".$datos["idDetalleOrden"].";";
         $stm = $this->getDoctrine()->getConnection()->prepare($sql);
+        $stm->execute(); */
+
+        $sqlIdExamen = "SELECT id_examen
+                            FROM lab_detalle_orden
+                            WHERE id =". $datos['idDetalleOrden'].";";
+        $stm = $this->getDoctrine()->getConnection()->prepare($sqlIdExamen);
         $stm->execute();
-        return new Response('Guardado Exitosamente');
+        $idExamen = $stm->fetch();
+
+        $response = json_encode(array(
+            "mesage" => 'Guardado Exitosamente',
+            "idExamen" => $idExamen["id_examen"],
+            "idOrden" => $datos["idOrden"],
+            "idDetalleOrden" => $datos["idDetalleOrden"]
+        ));
+
+        //idExamen,idDetalleOrden,idOrden
+        return new Response($response);
     }   
 
     /**

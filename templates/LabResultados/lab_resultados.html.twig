@@ -140,7 +140,7 @@
                 
             });
 
-            $(document).on('click','#btnBorrarEx',function(e){
+            $(document).on('click','#btnBorrarResEx',function(e){
                 rowDetOrden = $(this).closest('tr');
                 nombreExamen = rowDetOrden.find('td:eq(0)').text();
                 idDetOrden = parseInt(rowDetOrden.find('td:eq(1)').text());
@@ -168,7 +168,7 @@
                         //La resṕuesta es pasada como argumento a la funcion
                         success: function (text) {
                             //rowDetOrden.remove();
-                            alert('El resultado para ' + nombreExamen + ' fue ' + text + '!');
+                            alert('El resultado de ' + nombreExamen + ' fue ' + text + '!');
                         }
                     });
                 }else{
@@ -310,13 +310,15 @@
                 data : {datos : $('#envio').serialize(),
                         },
                 type: "POST",
-                dataType: "html",
-                success : function (html) {
-                    //console.log(html);
-                    $("#message").html(html);
-                    $('#elementos').empty();
-                    $('#btnGuardar').hide();    
-                    mostrarElementos(idExamen,idDetalleOrden,idOrden);
+                dataType: "json",
+                success : function (data) {
+                    console.log(data.idExamen,data.idDetalleOrden,data.idOrden);
+
+                    // //console.log(html);
+                    // $("#message").html(html);
+                    // $('#elementos').empty();
+                    // $('#btnGuardar').hide();    
+                    //mostrarElementos(data.idExamen,data.idDetalleOrden,data.idOrden);
                 }
                 });
             });
