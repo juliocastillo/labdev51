@@ -12,11 +12,18 @@
             {% for dato in datos %}
             <tr>
                 <td style="width: 25%;"><div class="btn btn-success btn-block" id="idExamen" onclick="mostrarElementos({{ dato.id_examen }}, {{dato.id}},{{idOrden}})">{{ dato.nombre_examen }}</div></td>
-                <td style="width: 25%;">{{ dato.id }}</td>
+                <td style="width: 20%;">{{ dato.id }}</td>
                 <td style="display: none;">{{ dato.id_examen }}</td>
-                <td style="width: 25%;">{{ dato.estado_examen }}</td>
-                <td style="width: 25%;">
-                    <div class="btn btn-danger" id="btnBorrarEx">Borrar</div>
+                <td style="width: 20%;">{{ dato.estado_examen }}</td>
+                <td style="width: 35%;">
+                    
+                    {% if dato.estado_examen == '1' %}
+                    <div class="btn btn-danger" id="btnBorrarEx">Borrar Examen</div>
+                    {% else %}
+                    <div class="btn btn-danger" id="btnBorrarResEx">Borrar Resultado</div>
+                    {% endif %}
+                        
+                    
                     <a id="btnImprimirEx" class="btn btn-warning"><i class="glyphicon glyphicon-print"></i></a>
                     <!-- href="" target="_blank" -->
                 </td>

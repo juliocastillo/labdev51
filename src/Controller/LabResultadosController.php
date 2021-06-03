@@ -64,7 +64,7 @@ class LabResultadosController extends AbstractController
         $examenCompleto = $stm->fetch();
         //var_dump($examenCompleto); exit();
         if ($examenCompleto['id_estado_examen'] == '2') {
-            return new Response(true);
+            return new Response(2);
         }
         $sqlPosibleResultado = "select * from ctl_posible_resultado";
         $stm = $this->getDoctrine()->getConnection()->prepare($sqlPosibleResultado);
@@ -119,7 +119,7 @@ class LabResultadosController extends AbstractController
                 VALUES ".$row.";";
         $stm = $this->getDoctrine()->getConnection()->prepare($sql);
         $stm->execute();        
-        $sql = "UPDATE lab_orden SET id_estado_orden = '2' WHERE id=".$datos["idOrden"].";";
+        $sql = "UPDATE lab_detalle_orden SET id_estado_examen = '2' WHERE id=".$datos["idDetalleOrden"].";";
         $stm = $this->getDoctrine()->getConnection()->prepare($sql);
         $stm->execute();
         return new Response('Guardado Exitosamente');
@@ -152,6 +152,33 @@ class LabResultadosController extends AbstractController
          $sql = "DELETE
                  FROM lab_detalle_orden
                  WHERE id = $idDetOrden";
+         $stm = $this->getDoctrine()->getConnection()->prepare($sql);
+         $stm->execute();
+         //$result = $stm;
+ 
+         return new Response("borrado");
+     }
+
+     /**
+     * @Route("/borrar/resultado/examen", name="borrar_resultado_examen")
+     */
+     public function borrarResultadoExamen(): Response
+     {
+        $request = $this->container->get('request_stack')->getCurrentRequest();
+        $idDetOrden = $request->get('idDetOrden');
+        $idElemento = $request->get('idExamen');
+
+        $sqlIdResultado = "SELECT id
+                            FROM lab_resultado
+                            WHERE id_detalle_orden = $idDetOrden
+                            AND id_elemento = $idElemento";
+        $stm = $this->getDoctrine()->getConnection()->prepare($sqlIdResultado);
+        $stm->execute();
+        $idResultado = $stm->fetch();
+        
+        $sql = "DELETE
+                FROM lab_resultados    
+                WHERE id = $idResultado";
          $stm = $this->getDoctrine()->getConnection()->prepare($sql);
          $stm->execute();
          //$result = $stm;

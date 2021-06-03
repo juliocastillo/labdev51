@@ -140,6 +140,43 @@
                 
             });
 
+            $(document).on('click','#btnBorrarEx',function(e){
+                rowDetOrden = $(this).closest('tr');
+                nombreExamen = rowDetOrden.find('td:eq(0)').text();
+                idDetOrden = parseInt(rowDetOrden.find('td:eq(1)').text());
+                idExamen = parseInt(rowDetOrden.find('td:eq(2)').text());
+
+                
+                //alert(nombreExamen);
+
+                const msgConfirm = confirm("Se eliminara el resultado para: " + nombreExamen + ", confirmar!");
+                
+                //alert(msgConfirm);
+
+                if(msgConfirm){
+                    $.ajax({
+                        //Tipo de peticion: GET o POST
+                        type: "GET",
+                        //la URL para la peticion
+                        url: "{{ path('lab_borrar_examen_orden') }}",
+                        //La informacion a enviar
+                        //tambien es posible utilizar una cadena de datps
+                        data: {idDetOrden:idDetOrden, idExamen:idExamen},
+                        //El tipo de informacion que se espera de respuesta
+                        dataType: "text",
+                        //Codigo a ejecutar si la peticion es satisfactoria
+                        //La resṕuesta es pasada como argumento a la funcion
+                        success: function (text) {
+                            //rowDetOrden.remove();
+                            alert('El resultado para ' + nombreExamen + ' fue ' + text + '!');
+                        }
+                    });
+                }else{
+                    e.preventDefault();
+                }
+                
+            });
+
             $(document).on('click','#btnImprimirEx',function(e){
                 rowDetOrden = $(this).closest('tr');
                 nombreExamen = rowDetOrden.find('td:eq(0)').text();
@@ -254,11 +291,10 @@
                 dataType: "html",
                 success : function (html) {
                     //console.log(typeof html);
-                    if(html == 'true'){
+                    if(html == '2'){
                         alert("El examen ya tienen resultado!");
                     }else{
                         $("#elementos").html(html);
-                        
                     }
                     //
                     
@@ -278,6 +314,9 @@
                 success : function (html) {
                     //console.log(html);
                     $("#message").html(html);
+                    $('#elementos').empty();
+                    $('#btnGuardar').hide();    
+                    mostrarElementos(idExamen,idDetalleOrden,idOrden);
                 }
                 });
             });
