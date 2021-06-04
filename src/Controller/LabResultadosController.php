@@ -116,13 +116,13 @@ class LabResultadosController extends AbstractController
                 if($datos["nElementos"]*2-2 != $i)
                     $row =$row.",";
         }
-        /* $sql = "INSERT INTO lab_resultados(id_elemento,id_empleado,id_detalle_orden,id_usuario_reg,resultado,fechahora_reg,activo)
+        $sql = "INSERT INTO lab_resultados(id_elemento,id_empleado,id_detalle_orden,id_usuario_reg,resultado,fechahora_reg,activo)
                 VALUES ".$row.";";
         $stm = $this->getDoctrine()->getConnection()->prepare($sql);
         $stm->execute();        
         $sql = "UPDATE lab_detalle_orden SET id_estado_examen = '2' WHERE id=".$datos["idDetalleOrden"].";";
         $stm = $this->getDoctrine()->getConnection()->prepare($sql);
-        $stm->execute(); */
+        $stm->execute();
 
         $sqlIdExamen = "SELECT id_examen
                             FROM lab_detalle_orden
@@ -132,7 +132,7 @@ class LabResultadosController extends AbstractController
         $idExamen = $stm->fetch();
 
         $response = json_encode(array(
-            "mesage" => 'Guardado Exitosamente',
+            "message" => 'Guardado Exitosamente',
             "idExamen" => $idExamen["id_examen"],
             "idOrden" => $datos["idOrden"],
             "idDetalleOrden" => $datos["idDetalleOrden"]
@@ -183,23 +183,34 @@ class LabResultadosController extends AbstractController
      {
         $request = $this->container->get('request_stack')->getCurrentRequest();
         $idDetOrden = $request->get('idDetOrden');
-        $idElemento = $request->get('idExamen');
 
-        $sqlIdResultado = "SELECT id
-                            FROM lab_resultado
-                            WHERE id_detalle_orden = $idDetOrden
-                            AND id_elemento = $idElemento";
-        $stm = $this->getDoctrine()->getConnection()->prepare($sqlIdResultado);
+        $sql = "SELECT id_orden
+                FROM lab_detalle_orden
+                WHERE id = $idDetOrden";
+        $stm = $this->getDoctrine()->getConnection()->prepare($sql);
         $stm->execute();
-        $idResultado = $stm->fetch();
+        $idOrdenArray = $stm->fetch();
+        $idOrden = $idOrdenArray['id_orden'];
+
         
         $sql = "DELETE
                 FROM lab_resultados    
-                WHERE id = $idResultado";
-         $stm = $this->getDoctrine()->getConnection()->prepare($sql);
-         $stm->execute();
-         //$result = $stm;
+                WHERE id_detalle_orden = $idDetOrden";
+        $stm = $this->getDoctrine()->getConnection()->prepare($sql);
+        $stm->execute();
+
+        $sql = "UPDATE lab_detalle_orden
+                SET id_estado_examen = 1
+                WHERE id = $idDetOrden";
+        $stm = $this->getDoctrine()->getConnection()->prepare($sql);
+        $stm->execute();
  
-         return new Response("borrado");
+        $response = json_encode(array(
+            "message" => 'borrado',
+            "idOrden" => $idOrden
+        ));
+
+        //idExamen,idDetalleOrden,idOrden
+        return new Response($response);
      }
 }

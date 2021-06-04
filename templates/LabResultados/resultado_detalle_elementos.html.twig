@@ -53,7 +53,7 @@
     </table>
     <input type="hidden" id="empleado" name="empleado">
     <label>Profesional que proceso las muestras</label>
-    <select class="form-control" onclick="obtenerEmpleado(this)" id="empleado" name="empleado">
+    <select class="form-control" onclick="obtenerEmpleado(this)" id="seleccionarEmpleado" name="seleccionarEmpleado">
                 <option value=""></option>
                 {% for empleado in empleados %}
                     <option value="{{empleado.id}}">{{empleado.nombres_empleado}} {{empleado.apellidos_empleado}}</option>

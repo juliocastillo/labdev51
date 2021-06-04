@@ -158,17 +158,18 @@
                         //Tipo de peticion: GET o POST
                         type: "GET",
                         //la URL para la peticion
-                        url: "{{ path('lab_borrar_examen_orden') }}",
+                        url: "{{ path('borrar_resultado_examen') }}",
                         //La informacion a enviar
                         //tambien es posible utilizar una cadena de datps
                         data: {idDetOrden:idDetOrden, idExamen:idExamen},
                         //El tipo de informacion que se espera de respuesta
-                        dataType: "text",
+                        dataType: "json",
                         //Codigo a ejecutar si la peticion es satisfactoria
                         //La resṕuesta es pasada como argumento a la funcion
-                        success: function (text) {
+                        success: function (data) {
                             //rowDetOrden.remove();
-                            alert('El resultado de ' + nombreExamen + ' fue ' + text + '!');
+                            alert('El resultado de ' + nombreExamen + ' fue ' + data.message + '!');
+                            mostrarDetalle(data.idOrden);
                         }
                     });
                 }else{
@@ -228,22 +229,6 @@
                 }else{
                     alert("Debe digitar un valor para realizar la busqueda!");
                 }
-                /* if($('#ordenes').children().length == 0){
-                    numeroOrden = $("#numeroOrden").val()
-                        $.ajax({
-                        url: "{{ path('lab_resultados_ordenes_pendientes') }}",
-                        data : {numeroOrden : numeroOrden},
-                        type: "GET",
-                        dataType: "html",
-                        success : function (html) {
-                            $("#ordenes").html(html);
-                        }
-                    });
-                }else{
-                    $('#ordenes').empty();
-                } */
-
-                
             });
         })
 
@@ -273,8 +258,11 @@
 
         function obtenerEmpleado(obj){
             $(document).ready(function(){      
-                console.log(obj);          
-                document.getElementById(empleado).value = obj.value;
+                //console.log(obj);
+                $('#empleado').val(obj.value);
+                //let x = document.getElementById(empleado).value;           
+                //console.log(obj.value);
+                //document.getElementById(empleado).value = obj.value;
             });
         }
 
@@ -312,12 +300,12 @@
                 type: "POST",
                 dataType: "json",
                 success : function (data) {
-                    console.log(data.idExamen,data.idDetalleOrden,data.idOrden);
-
-                    // //console.log(html);
-                    // $("#message").html(html);
-                    // $('#elementos').empty();
-                    // $('#btnGuardar').hide();    
+                    //console.log(data.idExamen,data.idDetalleOrden,data.idOrden);
+                    //$("#message").html(html);
+                    alert(data.message);
+                    $('#elementos').empty();
+                    $('#btnGuardar').hide();
+                    mostrarDetalle(data.idOrden);
                     //mostrarElementos(data.idExamen,data.idDetalleOrden,data.idOrden);
                 }
                 });
