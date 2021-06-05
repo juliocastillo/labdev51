@@ -23,8 +23,8 @@ final class LabOrdenAdminController extends CRUDController {
         $detalles = array();
         $laborden = array();
 
-        if (isset($_GET['action'])) {
-            extract($_GET);
+        if (isset($_POST['action'])) {
+            extract($_POST);
         } else {
             $action = 'create';
         }
@@ -67,14 +67,14 @@ final class LabOrdenAdminController extends CRUDController {
                         id_paciente,
                         id_medico,
                         id_tipo_documento,
-                        fecha_orden,
                         id_forma_pago,
+                        fecha_orden,
                         numero_documento,
                         id_estado_orden,
                         id_usuario_reg,
                         fechahora_reg,
                         activo)
-                        VALUES (1,1,1,NOW(),1,1,1,1,NOW(),1)";
+                        VALUES ($idPaciente,$idMedico,$idTipodocumento,$idFormapago,NOW(),$numeroDocumento,1,1,NOW(),1)";
 
                 $stm = $this->getDoctrine()->getConnection()->prepare($sql);
                 $stm->execute();
@@ -85,15 +85,14 @@ final class LabOrdenAdminController extends CRUDController {
                         id_examen,
                         id_tipo_muestra,
                         id_estado_examen,
-                        precio,
                         id_usuario_reg,
                         fechahora_reg)
-                        VALUES ($idOrden,$idexamen,$idtipomuestra,1,$precio,1,NOW())";
+                        VALUES ($idOrden,$idexamen,$idtipomuestra,1,1,NOW())";
 
                 $stm = $this->getDoctrine()->getConnection()->prepare($sql);
                 $stm->execute();
 
-                $sql = "SELECT t01.id, t02.nombre,t02.apellido,t01.fecha_orden 
+                $sql = "SELECT t01.id, t02.nombre,t02.apellido,t01.fecha_orden, t01.numero_documento 
                 FROM lab_orden t01 
                 LEFT JOIN mnt_paciente t02 ON t01.id_paciente = t02.id 
                 WHERE t01.id = $idOrden";
@@ -101,10 +100,11 @@ final class LabOrdenAdminController extends CRUDController {
                 $stm->execute();
                 $laborden = $stm->fetch();
 
-                $sql = "SELECT t01.id, t02.nombre_examen, t01.id_examen, t03.estado_examen
+                $sql = "SELECT t01.id, t02.nombre_examen, t01.id_examen, t02.nombre_examen, t03.estado_examen, t04.tipo_muestra, t01.precio
                     FROM lab_detalle_orden t01 
                     INNER JOIN ctl_examen t02 ON t01.id_examen = t02.id
                     INNER JOIN ctl_estado_examen t03 ON t01.id_estado_examen = t03.id
+                    INNER JOIN ctl_tipo_muestra t04 ON t04.id = t01.id_tipo_muestra
                     WHERE t01.id_orden=$idOrden";
                 $stm = $this->getDoctrine()->getConnection()->prepare($sql);
                 $stm->execute();
@@ -145,16 +145,17 @@ final class LabOrdenAdminController extends CRUDController {
         }
 
         return $this->renderWithExtraParams($template, [
-                    'action' => $action,
-                    'pacientes' => $pacientes,
-                    'medicos' => $medicos,
-                    'formaspago' => $formaspago,
-                    'tiposdocumento' => $tiposdocumento,
-                    'examenes' => $examenes,
-                    'tiposmuestra' => $tiposmuestra,
-                    'idorden' => $idOrden,
-                    'detalles' => $detalles,
-                    'csrf_token' => $this->getCsrfToken('sonata.batch'),
+                    'action'            => $action,
+                    'pacientes'         => $pacientes,
+                    'medicos'           => $medicos,
+                    'formaspago'        => $formaspago,
+                    'tiposdocumento'    => $tiposdocumento,
+                    'examenes'          => $examenes,
+                    'tiposmuestra'      => $tiposmuestra,
+                    'orden'             => $laborden,
+                    'idorden'           => $idOrden,
+                    'detalles'          => $detalles,
+                    'csrf_token'        => $this->getCsrfToken('sonata.batch'),
                         ], null);
     }
 

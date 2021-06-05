@@ -10,25 +10,24 @@
     {{ parent() }}
     <script type="text/javascript">
         function guardarExamen(idOrden) {
-                idExamen      = $("#idexamen").val();
-                idTipoMuestra = $("#idtipomuestra").val();
-                precio        = $("#precio").val();
-                $.ajax({
-                    //Tipo de peticion: GET o POST
-                    type: "POST",
-                    //la URL para la peticion
-                    url: "{{ path('lab_detalles_guardar_examenes') }}",
-                    //La informacion a enviar
-                    //tambien es posible utilizar una cadena de datps
-                    data: {idOrden:idOrden, idExamen:idExamen, idTipoMuestra : idTipoMuestra, precio:precio},
-                    //El tipo de informacion que se espera de respuesta
-                    dataType: "html",
-                    //Codigo a ejecutar si la peticion es satisfactoria
-                    //La resṕuesta es pasada como argumento a la funcion
-                    success: function (text) {
-                        $("#ordenExamenes").html(text);
-                    }
-                })
+            idExamen = $("#idexamen").val();
+            idTipoMuestra = $("#idtipomuestra").val();
+            $.ajax({
+                //Tipo de peticion: GET o POST
+                type: "POST",
+                //la URL para la peticion
+                url: "{{ path('lab_detalles_guardar_examenes') }}",
+                //La informacion a enviar
+                //tambien es posible utilizar una cadena de datps
+                data: {idOrden: idOrden, idExamen: idExamen, idTipoMuestra: idTipoMuestra},
+                //El tipo de informacion que se espera de respuesta
+                dataType: "html",
+                //Codigo a ejecutar si la peticion es satisfactoria
+                //La resṕuesta es pasada como argumento a la funcion
+                success: function (text) {
+                    $("#ordenExamenes").html(text);
+                }
+            })
         }
     </script>
 {% endblock javascripts %}
@@ -41,100 +40,114 @@
                 <div class="row">
                     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                         <div class="sonata-ba-field sonata-ba-field-standard-natual">
-                            <form method="get" name="datos" id="datos" action="">
+                            <form method="post" name="datos" id="datos" action="">
                                 <input type="hidden" name="action" value="{{ action }}">
                                 <input type="hidden" name="idorden" value="{{ idorden }}">
-                                    <table class="table table-responsive">
-                                        <tr>
-                                            <td class="bg-primary text-right"><label for="idPaciente">Paciente</label></td>
-                                            <td>
-                                                <select class="form-control" id="idPaciente" name="idPaciente">
-                                                    {% for paciente in pacientes %}
-                                                        <option value="{{paciente.id}}">{{paciente.nombre}}{{paciente.apellido}}</option>
-                                                    {% endfor %}
-                                                </select>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="bg-primary text-right"><label for="idMedico">Medico</label></td>
-                                            <td>
-                                                <select class="form-control" id="idMedico" name="idMedico">
-                                                    {% for medico in medicos %}
-                                                        <option value="{{medico.id}}">{{medico.nombre}}{{medico.apellido}}</option>
-                                                    {% endfor %}
-                                                </select>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="bg-primary text-right"><label for="idTipodocumento">Tipo Documento</label></td>
-                                            <td>
-                                                <select class="form-control" id="idTipodocumento" name="idTipodocumento">
-                                                    {% for tipodocumento in tiposdocumento %}
-                                                        <option value="{{tipodocumento.id}}">{{tipodocumento.nombre}}</option>
-                                                    {% endfor %}
-                                                </select>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="bg-primary text-right" style="width:25%"><label for="idTipoDocumento">Numero de Documento</label></td>
-                                            <td><input class="form-control" required type="text" id="idTipoDocumento"></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="bg-primary text-right"><label for="idFormaPago">Forma de Pago</label></td>
-                                            <td>
-                                                <select class="form-control" id="idFormapago" name="idFormapago">
-                                                    {% for formapago in formaspago %}
-                                                        <option value="{{formapago.id}}">{{formapago.nombre}}</option>
-                                                    {% endfor %}
-                                                </select>
-                                            </td>                                </tr>
-                                            {# {% endif %}
-                                            {% endfor %} #}
-                                    </table>
-                                    <button type="submit" id="btnGuardar" style="width: 200px; margin-top: 5px;" class="btn btn-info">Guardar</button>
-                                    <div class="container">
-                                        <div class="row">
-                                            <div class="col-lg-12">
-                                                <div class="table-responsive">
-                                                    <table id="detalleOrden" class="table table-striped">
-                                                        <thead class="text-center">
-                                                            <tr>
-                                                                <th>Examen</th>
-                                                                <th>Muestra</th>
-                                                                <th>Precio($)</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr>
-                                                                <td>
-                                                                    <select class="form-control" id="idexamen" name="idexamen">
-                                                                        <option value=""></option>
-                                                                        {% for examen in examenes %}
-                                                                            <option value="{{examen.id}}">{{examen.nombre_examen}}</option>
-                                                                        {% endfor %}
-                                                                    </select>
-                                                                </td>
-                                                                <td>
-                                                                    <select class="form-control" id="idtipomuestra" name="idtipomuestra">
-                                                                        <option value=""></option>
-                                                                        {% for tipomuestra in tiposmuestra %}
-                                                                            <option value="{{tipomuestra.id}}">{{tipomuestra.tipo_muestra}}</option>
-                                                                        {% endfor %}
-                                                                    </select>
-                                                                </td>
-                                                                <td>
-                                                                    <input type="text" id="precio" name="precio"> 
-                                                                </td>
+                                <table class="table table-responsive">
+                                    <tr>
+                                        <td class="bg-primary text-right"><label for="idPaciente" >Paciente</label></td>
+                                        <td>
+                                            <select class="form-control" id="idPaciente" name="idPaciente" required>
+                                                {% if (action == "save") %}
+                                                    <option value="">...seleccione...</option>
+                                                {% endif %}
+                                                {% for paciente in pacientes %}
+                                                    <option value="{{paciente.id}}">{{paciente.nombre}} {{paciente.apellido}}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bg-primary text-right"><label for="idMedico">Medico</label></td>
+                                        <td>
+                                            <select class="form-control" id="idMedico" name="idMedico" required>
+                                                {% if (action == "save") %}
+                                                    <option value="">...seleccione...</option>
+                                                {% endif %}
+                                                {% for medico in medicos %}
+                                                    <option value="{{medico.id}}">{{medico.nombre}} {{medico.apellido}}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bg-primary text-right"><label for="idTipodocumento">Tipo Documento</label></td>
+                                        <td>
+                                            <select class="form-control" id="idTipodocumento" name="idTipodocumento" required>
+                                                {% if (action == "save") %}
+                                                    <option value="">...seleccione...</option>
+                                                {% endif %}
+                                                {% for tipodocumento in tiposdocumento %}
+                                                    <option value="{{tipodocumento.id}}">{{tipodocumento.nombre}}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bg-primary text-right" style="width:25%"><label for="numeroDocumento">Numero de Documento</label></td>
+                                        <td>
+                                            {% if (action == "save") %}
+                                                <input class="form-control" type="text" id="numeroDocumento" name="numeroDocumento" required>
+                                            {% elseif (action == "edit") %}
+                                                <input class="form-control" type="text" id="numeroDocumento" name="numeroDocumento" required value="{{ orden.numero_documento }}" readonly>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bg-primary text-right"><label for="idFormaPago">Forma de Pago</label></td>
+                                        <td>
+                                            <select class="form-control" id="idFormapago" name="idFormapago" required>
+                                                {% for formapago in formaspago %}
+                                                    <option value="{{formapago.id}}">{{formapago.nombre}}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </td>                                
+                                    </tr>
+                                </table>
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="table-responsive">
+                                                <table id="detalleOrden" class="table table-striped">
+                                                    <thead class="text-center">
+                                                        <tr>
+                                                            <th>Examen</th>
+                                                            <th>Tipo de muestra</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td style="width: 500px;">
+                                                                <select class="form-control" id="idexamen" name="idexamen" required>
+                                                                    <option value="">...seleccione...</option>
+                                                                    {% for examen in examenes %}
+                                                                        <option value="{{examen.id}}">{{examen.nombre_examen}}</option>
+                                                                    {% endfor %}
+                                                                </select>
+                                                            </td>
+                                                            <td style="width: 300px;">
+                                                                <select class="form-control" id="idtipomuestra" name="idtipomuestra" required>
+                                                                    <option value="">...seleccione...</option>
+                                                                    {% for tipomuestra in tiposmuestra %}
+                                                                        <option value="{{tipomuestra.id}}">{{tipomuestra.tipo_muestra}}</option>
+                                                                    {% endfor %}
+                                                                </select>
+                                                            </td>
+                                                            {% if (action == "edit") %}
                                                                 <td>
                                                                     <button type="button" onclick="guardarExamen({{ idorden }})" class="btn btn-primary">Agregar examen</button>
                                                                 </td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
+                                                            {% endif %}
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
                                             </div>
                                         </div>
-                                    </div>              
+                                    </div>
+                                </div>              
+                                {% if (action == "save") %}
+                                    <button type="submit" id="btnGuardar" style="width: 200px; margin-top: 5px;" class="btn btn-info">Crear orden de trabajo</button>
+                                {% endif %}
                             </form> 
                         </div>
                     </div>
@@ -144,10 +157,10 @@
         </div>
     </div>
 
-<div id="ordenExamenes">
-{% for detalle in detalles %}
-    + {{detalle.nombre_examen}} <br>
-{% endfor %}
-</div>
+    <div id="ordenExamenes">
+        {% for detalle in detalles %}
+            + {{detalle.nombre_examen}} {{detalle.tipo_muestra}} {{detalle.precio}} <br>
+        {% endfor %}
+    </div>
 
 {% endblock %}
