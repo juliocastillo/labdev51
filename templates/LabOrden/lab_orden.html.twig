@@ -32,7 +32,6 @@
     </script>
 {% endblock javascripts %}
 {% block content %}
-    {{ action }}
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="box box-primary">
             <div class="box-body">
@@ -104,7 +103,7 @@
                                         </td>                                
                                     </tr>
                                 </table>
-                                <div class="container">
+                                <div class="container" style="width: 800px;">
                                     <div class="row">
                                         <div class="col-lg-12">
                                             <div class="table-responsive">
@@ -117,7 +116,7 @@
                                                     </thead>
                                                     <tbody>
                                                         <tr>
-                                                            <td style="width: 500px;">
+                                                            <td style="width: 400px;">
                                                                 <select class="form-control" id="idexamen" name="idexamen" required>
                                                                     <option value="">...seleccione...</option>
                                                                     {% for examen in examenes %}
@@ -125,7 +124,7 @@
                                                                     {% endfor %}
                                                                 </select>
                                                             </td>
-                                                            <td style="width: 300px;">
+                                                            <td style="width: 200px;">
                                                                 <select class="form-control" id="idtipomuestra" name="idtipomuestra" required>
                                                                     <option value="">...seleccione...</option>
                                                                     {% for tipomuestra in tiposmuestra %}
