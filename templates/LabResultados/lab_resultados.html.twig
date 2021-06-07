@@ -8,27 +8,15 @@
 {% block javascripts %}
     {{ parent() }}
     <script type="text/javascript">
-        $(document).ready(function(){
-          //  $('#listarOrdenes').DataTable({
-          //      /* 
-          //      TRADUCIENDO EL LENGUAJE
-          //      */
-          //      "language" : {
-          //          "lengthMenu"    : "Mostrar _MENU_ registros",
-          //          "zeroRecords"   : "No se encontraron resultados",
-          //          "info"          : "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-          //          "infoEmpty"     : "Mostrando registros del 0 al 0 de un total de 0 registros",
-          //          "infoFiltered"  : "(filtrado de un todal de _MAX_ registros)",
-          //          "sSearch"       : "Buscar:",
-          //          "oPaginate"     : {
-          //              "sFirst"    : "Primero",
-          //              "sLast"     : "Ultimo",
-          //              "sNext"     : "Siguiente",
-          //              "sPrevious" : "Anterios"
-          //          },
-          //          "sProcessing"   : "Procesando...",
-          //      }
-          //  });
+        $(document).ready(function() {
+            $('#tOrdenes').DataTable( {
+                "ajax": {
+                    "url": "{{ path('lab_resultados_ordenes_pendientes') }}",
+                    "dataType": "json"
+                }
+            } );
+
+
 
             /* 
             OCULTAR BOTOR GUARDAR
@@ -187,12 +175,15 @@
                 
                 if(idEstadoExamen == "Completo"){
                     $.ajax({
-                        type: "POST",
+                        type: "GET",
                         url: "{{ path('cargar_datos') }}",
                         data: {idDetOrden:idDetOrden, idExamen:idExamen},
                         dataType: "html",
                         
-                        success : function (html) {
+                        success : function (html, url) {
+                            /* PASARLE LOS PARAMETROS A LA URL */
+                            //window.open("{{ path('cargar_datos') }}","_blank");
+                            //window.open(url,"_blank").html(html);
                             $('#reportes').html(html);
                         }
                     });
@@ -324,7 +315,7 @@
                 <div class="box box-primary">
                     <div class="box-body">
                         <div class="row">
-                            <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                            {# <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
                                 <h4 class="text-primary"><strong><i class="fa fa-search" style="color:lightseagreen;"></i>  Búsqueda de Ordenes</strong></h4>
                                 <div class="form-group">
                                     <label for="numeroOrden" class="control-label">No. Orden</label><br>
@@ -333,10 +324,27 @@
                                 <div class="form-group">
                                     <button type="button" id="btnBuscar" style="width: 200px; margin-top: 5px;" class="btn btn-info"><i class="glyphicon glyphicon-zoom-in"></i>&nbsp; Buscar</button>
                                 </div>
-                            </div>
-                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 text-center">
+                            </div> #}
+                            {# <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 text-center"> #}
                                 {# <button type="button" id="btnBuscar" style="width: 200px; margin-top: 5px;" class="btn btn-info"><i class="glyphicon glyphicon-zoom-in"></i>&nbsp; Buscar</button> #}
+                            {# </div> #}
+                            {#  #}
+                            <div class="col-lg-12">
+                                <table id="tOrdenes" class="table table-striped">
+                                    <thead class="text-center">
+                                        <tr>
+                                            <td>N Orden</td>
+                                            <td>Fecha</td>
+                                            <td>Paciente</td>
+                                            <td>Accion</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                    </tbody>
+                                </table>
                             </div>
+                            
                         </div>
                         <br>
                         <div class="row">

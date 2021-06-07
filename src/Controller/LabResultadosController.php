@@ -15,16 +15,49 @@ class LabResultadosController extends AbstractController
     public function labResultadosOrdenesPendientes(): Response
     {
         $request = $this->container->get('request_stack')->getCurrentRequest();
-        $numeroOrden = $request->get('numeroOrden');
+        //$numeroOrden = $request->get('numeroOrden');
         $sql = "SELECT t01.id, t02.nombre,t02.apellido,t01.fecha_orden 
                 FROM lab_orden t01 
                 LEFT JOIN mnt_paciente t02 ON t01.id_paciente = t02.id 
-                WHERE t01.id = $numeroOrden AND t01.id_estado_orden = 1";
+                WHERE t01.id_estado_orden = 1";
         $stm = $this->getDoctrine()->getConnection()->prepare($sql);
         $stm->execute();
         $result = $stm->fetchAll();
-        return $this->render("LabResultados/resultados_busqueda.html.twig",
-                array("datos" => $result));
+        $array = array();
+        foreach ($result as $r) {
+            $array2 = array(
+                '<div class="btn btn-success btn-block" id="idsolicitud" onclick="mostrarDetalle('.$r['id'].')">'.$r['id'].'</div>'
+                , $r['fecha_orden'], $r['nombre'] . $r["apellido"], "<button>borrar</button>");
+            array_push($array, $array2);
+        }
+
+        $array = json_encode(array(
+            "data" => $array
+        ));
+
+        $array1 = '{
+                "draw": 1,
+                "recordsTotal": 57,
+                "recordsFiltered": 57,
+                "data": [
+                    [
+                        "Airi",
+                        "Satou",
+                        "Accountant",
+                        "Tokyo"
+                    ],
+                    [
+                        "Angelica",
+                        "Ramos",
+                        "Chief Executive Officer (CEO)",
+                        "London"
+                    ]
+                ]
+            }';
+
+        return new Response($array);
+
+        //$this->render("LabResultados/resultados_busqueda.html.twig",
     }   
     /**
      * @Route("/lab/detalles/ordenes/pendientes", name="lab_detalles_ordenes_pendientes")

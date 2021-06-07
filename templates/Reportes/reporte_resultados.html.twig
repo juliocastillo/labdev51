@@ -71,7 +71,7 @@
         <div class="tableDiv">
             <table>
                 <tr>
-                    <th><img src="{{ asset('build/images/logo-lab.png') }}" alt=""></th>
+                    <th><img src="{{ asset('build/images/log-lab-MB-ori.ed37b20d.png') }}" alt=""></th>
                 </tr>
                 <tr>
                     <th>N° DE INSCRIPCION 742</th>
@@ -87,18 +87,32 @@
             <table>
                 <tr class="datosP">
                     <td >
-                        <strong style="margin-left: 40px;">Medico:</strong>
+                        <p>
+                            <strong style="margin-left: 40px;">Medico: </strong>
+                            {{ datos[0].nombre_medico }}
+                        </p>
+                        
                     </td>
                 </tr>
                 <tr class="datosP">
-                    <td style="width: 50%;">
+                    <td style="width: 40%;">
                         <strong style="margin-left: 40px;">Paciente:</strong>
+                        {{ datos[0].nombre }} {{ datos[0].apellido }}
                     </td>
                     <td style="width: 20%;">
                         <strong>Edad:</strong>
+                        
+                        {% if datos[0].edad_dias < 30 %}
+                            {{ datos[0].edad_dias }} dias
+                        {% elseif datos[0].edad_meses < 12 %}
+                            {{ datos[0].edad_meses }} meses
+                        {% else %}
+                            {{ datos[0].edad_anios }} años
+                        {% endif %}
                     </td>
-                    <td style="width: 30%;">
+                    <td style="width: 40%;">
                         <strong>Fecha:</strong>
+                        {{ datos[0].fecha_orden|date("d-m-Y H:i:s") }}
                     </td>
                 </tr>
             </table>

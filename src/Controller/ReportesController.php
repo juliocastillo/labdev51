@@ -21,26 +21,48 @@ class ReportesController extends AbstractController
         $idExamen = $request->get('idExamen');
         $idDetOrden = $request->get('idDetOrden');
 
-        $sql = "SELECT t01.id, t01.nombre_elemento, t01.id_tipo_elemento, t01.valor_inicial, t01.valor_final, t01.unidades,
-                t02.resultado
-        FROM mnt_elementos t01 
-            left join lab_resultados t02 on t01.id = t02.id_elemento
-            left join lab_detalle_orden t03 on t03.id = t02.id_detalle_orden
-            left join lab_orden t04 on t04.id = t03.id_orden 
-            left join mnt_paciente t05 on t05.id = t04.id_paciente 
-        WHERE t01.id_examen = $idExamen 
-        -- AND t03.id = $idDetOrden
-        ORDER BY t01.ordenamiento";
+        $sql = "SELECT t01.id, t01.nombre_elemento, t01.id_tipo_elemento, t01.valor_inicial, 
+                t01.valor_final, t01.unidades, t02.resultado, t06.nombre AS nombre_medico, t05.nombre, 
+                t05.apellido, t04.fecha_orden,
+
+                TIMESTAMPDIFF(YEAR,t05.fecha_nacimiento,CURDATE()) AS edad_anios,
+                TIMESTAMPDIFF(MONTH,t05.fecha_nacimiento,CURDATE()) AS edad_meses,
+                TIMESTAMPDIFF(DAY,t05.fecha_nacimiento,CURDATE()) AS edad_dias
+
+                FROM mnt_elementos t01 
+                    LEFT JOIN lab_resultados t02 ON t01.id = t02.id_elemento
+                    LEFT JOIN lab_detalle_orden t03 ON t03.id = t02.id_detalle_orden
+                    LEFT JOIN lab_orden t04 ON t04.id = t03.id_orden 
+                    LEFT JOIN mnt_paciente t05 ON t05.id = t04.id_paciente
+                    LEFT JOIN mnt_medico t06 ON t06.id = t04.id_medico
+                    LEFT JOIN ctl_examen t07 ON t07.id = t03.id_examen
+                WHERE t01.id_examen = $idExamen 
+                AND t03.id = $idDetOrden
+                ORDER BY t01.ordenamiento";
 
         $stm = $this->getDoctrine()->getConnection()->prepare($sql);
         $stm->execute();
         $result = $stm->fetchAll();
 
-        //var_dump($result); exit();
+        //$nombre_medico = $result[0]['nombre_medico'];
+        //$nombre_paciente = $result[0]['nombre'];
+        //$apellido_paciente = $result[0]['apellido']; 
+        //$edad_anios = $result[0]['edad_anios'];
+        //$edad_meses = $result[0]['edad_meses'];
+        //$edad_dias = $result[0]['edad_dias'];
+        //$fecha_orden = $result[0]['fecha_orden'];
 
+        //var_dump($result); exit();
         return $this->render('Reportes/reporte_resultados.html.twig',
             array(
                 "datos" => $result,
+                //"nombre_medico" => $nombre_medico,
+                //"nombre_paciente" => $nombre_paciente,
+                //"apellido_paciente" => $apellido_paciente,
+                //"edad_anios" => $edad_anios,
+                //"edad_meses" => $edad_meses,
+                //"edad_dias" => $edad_dias,
+                //"fecha_orden" => $fecha_orden
             )
         );
     }
@@ -49,7 +71,7 @@ class ReportesController extends AbstractController
     * @Route("/mostrar-datos", name="mostrar_datos")
     */
     /* public function loadPage(){
-        return $this->render("Reportes/reporte_resultados.html.twig"
+        return $this->redirect("print.html.twig",
             array(
                 "datos" => $datos,
             )
