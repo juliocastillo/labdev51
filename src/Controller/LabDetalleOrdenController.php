@@ -36,7 +36,7 @@ class LabDetalleOrdenController extends AbstractController
                 fechahora_reg)
                 VALUES ($idOrden,$idExamen,$idTipoMuestra,1,1,NOW())
                 ON DUPLICATE KEY UPDATE
-                id_orden=$idOrden, id_examen=$idExamen, id_tipo_muestra=$idTipoMuestra  id_usuario_mod = 1, fechahora_mod = NOW()" ;
+                id_orden=$idOrden, id_examen=$idExamen, id_tipo_muestra=$idTipoMuestra, id_usuario_mod = 1, fechahora_mod = NOW()" ;
 
         $stm = $this->getDoctrine()->getConnection()->prepare($sql);
         $stm->execute();
