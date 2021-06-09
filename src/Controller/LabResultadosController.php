@@ -26,34 +26,16 @@ class LabResultadosController extends AbstractController
         $array = array();
         foreach ($result as $r) {
             $array2 = array(
-                '<div class="btn btn-success btn-block" id="idsolicitud" onclick="mostrarDetalle('.$r['id'].')">'.$r['id'].'</div>'
-                , $r['fecha_orden'], $r['nombre'] . $r["apellido"], "<button>borrar</button>");
+                '<div class="btn btn-success btn-block btn-sm" id="idsolicitud" onclick="mostrarDetalle('.$r['id'].')">'.$r['id'].'</div>',
+                $r['fecha_orden'], 
+                $r['nombre'] . $r["apellido"], 
+                "<button id='btnCancelar' class='btn btn-warning btn-sm'>Cancelar Orden</button>");
             array_push($array, $array2);
         }
 
         $array = json_encode(array(
             "data" => $array
         ));
-
-        $array1 = '{
-                "draw": 1,
-                "recordsTotal": 57,
-                "recordsFiltered": 57,
-                "data": [
-                    [
-                        "Airi",
-                        "Satou",
-                        "Accountant",
-                        "Tokyo"
-                    ],
-                    [
-                        "Angelica",
-                        "Ramos",
-                        "Chief Executive Officer (CEO)",
-                        "London"
-                    ]
-                ]
-            }';
 
         return new Response($array);
 

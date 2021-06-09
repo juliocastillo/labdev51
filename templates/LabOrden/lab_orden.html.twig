@@ -50,7 +50,7 @@
                                             <td>
                                                 <select class="form-control" id="idPaciente" name="idPaciente">
                                                     {% for paciente in pacientes %}
-                                                        <option value="{{paciente.id}}">{{paciente.nombre}}{{paciente.apellido}}</option>
+                                                        <option value="{{paciente.id}}">{{paciente.nombre}} {{paciente.apellido}}</option>
                                                     {% endfor %}
                                                 </select>
                                             </td>
@@ -60,7 +60,7 @@
                                             <td>
                                                 <select class="form-control" id="idMedico" name="idMedico">
                                                     {% for medico in medicos %}
-                                                        <option value="{{medico.id}}">{{medico.nombre}}{{medico.apellido}}</option>
+                                                        <option value="{{medico.id}}">{{medico.nombre}} {{medico.apellido}}</option>
                                                     {% endfor %}
                                                 </select>
                                             </td>
