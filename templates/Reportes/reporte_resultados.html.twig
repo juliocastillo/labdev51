@@ -1,3 +1,8 @@
+
+{% block head %}
+<meta charset="utf-8">
+{% endblock head %}
+    
 {% block stylesheets %}
     <style>
         body{
@@ -10,7 +15,7 @@
 
         .tableDiv{
             width: 612px;
-            /*height: 792px;*/
+            height: 792px;
             background-color: white;
             margin-left: auto;
             margin-right: auto;
@@ -24,29 +29,30 @@
         tr th{
             /*margin-top: 0;*/
             text-align: center;
-            font-size: 10px;
+            font-size: 14px;
         }
 
         .h-reporte{
-            font-size: 10px;
+            font-size: 14px;
             padding-left: auto;
             padding-right: auto;
         }
 
         tr td{
             text-align: center;
-            font-size: 10px;
+            font-size: 14px;
         }
 
         .datosP td{
+            padding-left: 10px;
             text-align: left;
-            font-size: small;
+            font-size: 14px;
             
         }
 
         .datosP td strong{
             /* margin-left: 20px; */
-            font-size: 10px;
+            font-size: 14px;
         }
 
         .dataE{
@@ -58,7 +64,7 @@
         }
 
         img{
-            width: 180px;
+            width: 300px;
         }
 
         hr{
@@ -67,11 +73,11 @@
     </style>
 {% endblock stylesheets%}
 <body>
-    <div class="mainDiv">
+    <div class="">
         <div class="tableDiv">
             <table>
                 <tr>
-                    <th><img src="{{ asset('build/images/log-lab-MB-ori.ed37b20d.png') }}" alt=""></th>
+                    <th><img src="{{absolute_url(asset('build/images/logo-lab-MB.093a0228.png')) }}" alt=""></th>
                 </tr>
                 <tr>
                     <th>N° DE INSCRIPCION 742</th>
@@ -86,17 +92,14 @@
             <hr>
             <table>
                 <tr class="datosP">
-                    <td >
-                        <p>
-                            <strong style="margin-left: 40px;">Medico: </strong>
-                            {{ datos[0].nombre_medico }}
-                        </p>
-                        
+                    <td>
+                        <strong style="margin-left: 60px;">Medico: </strong>
+                        {{ datos[0].nombre_medico }}
                     </td>
                 </tr>
                 <tr class="datosP">
                     <td style="width: 40%;">
-                        <strong style="margin-left: 40px;">Paciente:</strong>
+                        <strong style="margin-left: 60px;">Paciente:</strong>
                         {{ datos[0].nombre }} {{ datos[0].apellido }}
                     </td>
                     <td style="width: 20%;">
@@ -120,7 +123,7 @@
             <table>
                 <thead>
                     <tr class="">
-                        <th class="h-reporte">
+                        <th class="h-reporte" style="padding-left: 40px;">
                             Examen/Elemento
                         </th>
                         <th class="h-reporte">
@@ -129,19 +132,28 @@
                         <th class="h-reporte">
                             Unidades
                         </th>
-                        <th class="h-reporte">
+                        <th class="h-reporte" style="padding-right: 60px;">
                             Rangos de Referencia
                         </th>
                     </tr>
+                    
+                    {% if datos[0].id_examen == 4 or datos[0].id_examen == 6 or datos[0].id_examen == 16 %}
+                        <tr>
+                            <th style="padding-left: 30px;">
+                                <strong>{{ datos[0].nombre_examen }}</strong>
+                            </th>
+                        </tr>
+                    {% endif %}
+                        
                 </thead>
                 
                 {% for dato in datos %}
                 {% if (dato.id_tipo_elemento == 1) %}
-                <tr><td colspan="4" style="padding-left: 40px; padding-top:10px; text-align: left; font-size: 10px;"><strong>{{dato.nombre_elemento}}</strong></td></tr>
+                <tr><td colspan="4" style="padding-left: 60px; padding-top:10px; text-align: left; font-size: 14px;"><strong>{{dato.nombre_elemento}}</strong></td></tr>
                 {% endif %}
                 {% if (dato.id_tipo_elemento == 2) %}
                 <tr class="dataE">
-                    <td style="width: 25%; text-align:left; padding-left:40px;">
+                    <td style="width: 25%; text-align:left; padding-left:70px;">
                         {{ dato.nombre_elemento }}
                     </td>
                     <td style="width: 25%;">
@@ -150,7 +162,7 @@
                     <td style="width: 25%;">
                         {{ dato.unidades }}
                     </td>
-                    <td style="width: 25%;">
+                    <td style="width: 25%; padding-right: 40px;">
                         {{ dato.valor_inicial }} - {{ dato.valor_final }}
                     </td>
                 </tr>
@@ -162,4 +174,3 @@
     
     
 </body>
-

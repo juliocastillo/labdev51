@@ -16,7 +16,8 @@ class LabResultadosController extends AbstractController
     {
         $request = $this->container->get('request_stack')->getCurrentRequest();
         //$numeroOrden = $request->get('numeroOrden');
-        $sql = "SELECT t01.id, t02.nombre,t02.apellido,t01.fecha_orden 
+        $sql = "SELECT t01.id, t02.nombre,t02.apellido,
+                DATE_FORMAT(t01.fecha_orden,'%d-%m%-%Y %H:%i:%s') AS fecha_orden
                 FROM lab_orden t01 
                 LEFT JOIN mnt_paciente t02 ON t01.id_paciente = t02.id 
                 WHERE t01.id_estado_orden = 1";

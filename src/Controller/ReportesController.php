@@ -16,6 +16,7 @@ class ReportesController extends AbstractController
     /**
     * @Route("/cargar-datos", name="cargar_datos")
     */
+    //Pdf $pdf
     public function loadData(): Response {
         $request = $this->container->get('request_stack')->getCurrentRequest();
         $idExamen = $request->get('idExamen');
@@ -23,8 +24,7 @@ class ReportesController extends AbstractController
 
         $sql = "SELECT t01.id, t01.nombre_elemento, t01.id_tipo_elemento, t01.valor_inicial, 
                 t01.valor_final, t01.unidades, t02.resultado, t06.nombre AS nombre_medico, t05.nombre, 
-                t05.apellido, t04.fecha_orden,
-
+                t05.apellido,t04.fecha_orden,t07.id AS id_examen, t07.nombre_examen,
                 TIMESTAMPDIFF(YEAR,t05.fecha_nacimiento,CURDATE()) AS edad_anios,
                 TIMESTAMPDIFF(MONTH,t05.fecha_nacimiento,CURDATE()) AS edad_meses,
                 TIMESTAMPDIFF(DAY,t05.fecha_nacimiento,CURDATE()) AS edad_dias
@@ -44,39 +44,80 @@ class ReportesController extends AbstractController
         $stm->execute();
         $result = $stm->fetchAll();
 
-        //$nombre_medico = $result[0]['nombre_medico'];
-        //$nombre_paciente = $result[0]['nombre'];
-        //$apellido_paciente = $result[0]['apellido']; 
-        //$edad_anios = $result[0]['edad_anios'];
-        //$edad_meses = $result[0]['edad_meses'];
-        //$edad_dias = $result[0]['edad_dias'];
-        //$fecha_orden = $result[0]['fecha_orden'];
+        /* $html = $this->renderView(
+            "Reportes/reporte_resultados.html.twig",
+            array(
+                "datos"=>$result,
+            ),
+        ); */
 
-        //var_dump($result); exit();
+        
+
+        /* $response = new PdfResponse(
+            $pdf->getOutputFromHtml($html),
+            'file.pdf',
+        ); */
+
+        /* $response->headers->set('Content-Disposition','inline');
+        return $response; */
+
+        
+        /* $pdfOptions = new Options();
+        $pdfOptions->set('isRemoteEnabled',true);
+        //$pdfOptions->set('defaultFont','Arial');
+        $dompdf = new Dompdf($pdfOptions); */
+
+        //$html = $this->renderView(
+        //    "Reportes/reporte_resultados.html.twig",
+        //    array(
+        //        "datos"=>$result,
+        //    ),
+            /* json_encode(array(
+                "idExamen"=>$idExamen,
+                "idDetOrden"=>$idDetOrden
+            )), */
+            //['title' => 'PDF test',]
+        //);
+        
+        /* $dompdf->loadHtml($html);
+        $dompdf->render();
+        ob_get_clean();
+        $dompdf->stream("mypdf.pdf", [
+            "Attachment" => false
+            ]
+        ); */
+
+        /* return new Response(
+            json_encode(array(
+                "idExamen"=>$idExamen,
+                "idDetOrden"=>$idDetOrden
+            ))
+        ); */
+        //exit(0);
+
+
         return $this->render('Reportes/reporte_resultados.html.twig',
             array(
                 "datos" => $result,
-                //"nombre_medico" => $nombre_medico,
+                
+            )
+        );
+
+        //"nombre_medico" => $nombre_medico,
                 //"nombre_paciente" => $nombre_paciente,
                 //"apellido_paciente" => $apellido_paciente,
                 //"edad_anios" => $edad_anios,
                 //"edad_meses" => $edad_meses,
                 //"edad_dias" => $edad_dias,
                 //"fecha_orden" => $fecha_orden
-            )
-        );
     }
 
     /**
-    * @Route("/mostrar-datos", name="mostrar_datos")
+    * @Route("/cargar-pdf", name="cargar_pdf")
     */
-    /* public function loadPage(){
-        return $this->redirect("print.html.twig",
-            array(
-                "datos" => $datos,
-            )
-        );
-    } */
+    public function loadPdf() : Response {
+        return $this->render("Reportes/pdf.html.twig");
+    }
 
     /**
     * @Route("/generate-pdf", name="generate_pdf")
