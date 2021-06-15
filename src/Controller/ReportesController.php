@@ -6,8 +6,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-//use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
-//use Knp\Snappy\Pdf;
+use Symfony\WebpackEncoreBundle\Asset\EntrypointLookupInterface;
+use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
+use Knp\Snappy\Pdf;
 //use Dompdf\Dompdf;
 //use Dompdf\Options;
 
@@ -17,10 +18,11 @@ class ReportesController extends AbstractController
     * @Route("/cargar-datos", name="cargar_datos")
     */
     //Pdf $pdf
-    public function loadData(): Response {
+    public function loadData(EntrypointLookupInterface $entrypointLookup,Pdf $pdf): Response {
         $request = $this->container->get('request_stack')->getCurrentRequest();
         $idExamen = $request->get('idExamen');
         $idDetOrden = $request->get('idDetOrden');
+        $idOrden = $request->get('idOrden');
 
         $sql = "SELECT t01.id, t01.nombre_elemento, t01.id_tipo_elemento, t01.valor_inicial, 
                 t01.valor_final, t01.unidades, t02.resultado, t06.nombre AS nombre_medico, t05.nombre, 
@@ -36,30 +38,44 @@ class ReportesController extends AbstractController
                     LEFT JOIN mnt_paciente t05 ON t05.id = t04.id_paciente
                     LEFT JOIN mnt_medico t06 ON t06.id = t04.id_medico
                     LEFT JOIN ctl_examen t07 ON t07.id = t03.id_examen
-                WHERE t01.id_examen = $idExamen 
-                AND t03.id = $idDetOrden
+                WHERE -- t01.id_examen = $idExamen 
+                -- AND 
+                t03.id_orden = $idOrden
                 ORDER BY t01.ordenamiento";
 
         $stm = $this->getDoctrine()->getConnection()->prepare($sql);
         $stm->execute();
         $result = $stm->fetchAll();
-
-        /* $html = $this->renderView(
+        
+        $header = $this->renderView("Reportes/header.html.twig",
+            array(
+                "datos"=>$result,
+            ),
+        );
+        $entrypointLookup->reset();
+        $html = $this->renderView(
             "Reportes/reporte_resultados.html.twig",
             array(
                 "datos"=>$result,
             ),
-        ); */
+        );
 
         
 
-        /* $response = new PdfResponse(
-            $pdf->getOutputFromHtml($html),
-            'file.pdf',
-        ); */
+        $response = new PdfResponse(
+            $pdf->getOutputFromHtml($html,
+            [   
+                'images' => true,
+                'enable-javascript' => true,
+                'page-size' => 'LETTER',
+                'viewport-size' => '1280x1024',
+                'header-html' => $header,
+            ]),
+            'reporte_'.$idDetOrden.'.pdf',
+        );
 
-        /* $response->headers->set('Content-Disposition','inline');
-        return $response; */
+        $response->headers->set('Content-Disposition','inline');
+        return $response;
 
         
         /* $pdfOptions = new Options();
@@ -96,12 +112,12 @@ class ReportesController extends AbstractController
         //exit(0);
 
 
-        return $this->render('Reportes/reporte_resultados.html.twig',
+        /* return $this->render('Reportes/reporte_resultados.html.twig',
             array(
                 "datos" => $result,
                 
             )
-        );
+        ); */
 
         //"nombre_medico" => $nombre_medico,
                 //"nombre_paciente" => $nombre_paciente,

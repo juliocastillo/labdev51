@@ -127,12 +127,13 @@
             idDetOrden = parseInt(rowDetOrden.find('td:eq(1)').text());
             idExamen = parseInt(rowDetOrden.find('td:eq(2)').text());
             idEstadoExamen = rowDetOrden.find('td:eq(3)').text();
+            idOrden = parseInt(rowDetOrden.find('td:eq(5)').text());
             
             if(idEstadoExamen == "Completo"){
                 $.ajax({
                     type: "GET",
                     url: "{{ path('cargar_datos') }}",
-                    data: {idDetOrden:idDetOrden, idExamen:idExamen},
+                    data: {idDetOrden:idDetOrden, idExamen:idExamen, idOrden:idOrden},
                     dataType: "html",
                     async: true,
                     

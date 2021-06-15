@@ -1,9 +1,11 @@
-
-{% block head %}
-<meta charset="utf-8">
-{% endblock head %}
-    
-{% block stylesheets %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reporte Examenes</title>
+    {% block stylesheets %}
     <style>
         body{
             font-family: Verdana, Geneva, Tahoma, sans-serif;
@@ -14,8 +16,8 @@
         }
 
         .tableDiv{
-            width: 612px;
-            height: 792px;
+            /* width: 612px; */
+            /* height: 792px; */
             background-color: white;
             margin-left: auto;
             margin-right: auto;
@@ -64,113 +66,75 @@
         }
 
         img{
-            width: 300px;
+            width: 250px;
         }
 
         hr{
             width: 85%;
         }
     </style>
-{% endblock stylesheets%}
+    {% endblock stylesheets%}
+</head>
 <body>
-    <div class="">
-        <div class="tableDiv">
-            <table>
+    
+<div class="tableDiv">
+
+    {% block body %}{% endblock %}
+
+    <table>
+        <thead>
+            <tr class="">
+                <th class="h-reporte" style="padding-left: 40px;">
+                    Examen/Elemento
+                </th>
+                <th class="h-reporte">
+                    Resultado
+                </th>
+                <th class="h-reporte">
+                    Unidades
+                </th>
+                <th class="h-reporte" style="padding-right: 60px;">
+                    Rangos de Referencia
+                </th>
+            </tr>
+            
+            {% if datos[0].id_examen == 4 or datos[0].id_examen == 6 or datos[0].id_examen == 16 %}
                 <tr>
-                    <th><img src="{{absolute_url(asset('build/images/logo-lab-MB.093a0228.png')) }}" alt=""></th>
+                    <th style="padding-left: 30px;">
+                        <strong>{{ datos[0].nombre_examen }}</strong>
+                    </th>
                 </tr>
-                <tr>
-                    <th>N° DE INSCRIPCION 742</th>
-                </tr>
-                <tr>
-                    <td>1ra calle oriente y 22 avenida norte #1-9</td>
-                </tr>
-                <tr>
-                    <td>Telefono: 2451 9607 - WhatsApp: 7769 9792</td>
-                </tr>
-            </table>
-            <hr>
-            <table>
-                <tr class="datosP">
-                    <td>
-                        <strong style="margin-left: 60px;">Medico: </strong>
-                        {{ datos[0].nombre_medico }}
-                    </td>
-                </tr>
-                <tr class="datosP">
-                    <td style="width: 40%;">
-                        <strong style="margin-left: 60px;">Paciente:</strong>
-                        {{ datos[0].nombre }} {{ datos[0].apellido }}
-                    </td>
-                    <td style="width: 20%;">
-                        <strong>Edad:</strong>
-                        
-                        {% if datos[0].edad_dias < 30 %}
-                            {{ datos[0].edad_dias }} dias
-                        {% elseif datos[0].edad_meses < 12 %}
-                            {{ datos[0].edad_meses }} meses
-                        {% else %}
-                            {{ datos[0].edad_anios }} años
-                        {% endif %}
-                    </td>
-                    <td style="width: 40%;">
-                        <strong>Fecha:</strong>
-                        {{ datos[0].fecha_orden|date("d-m-Y H:i:s") }}
-                    </td>
-                </tr>
-            </table>
-            <hr>
-            <table>
-                <thead>
-                    <tr class="">
-                        <th class="h-reporte" style="padding-left: 40px;">
-                            Examen/Elemento
-                        </th>
-                        <th class="h-reporte">
-                            Resultado
-                        </th>
-                        <th class="h-reporte">
-                            Unidades
-                        </th>
-                        <th class="h-reporte" style="padding-right: 60px;">
-                            Rangos de Referencia
-                        </th>
-                    </tr>
-                    
-                    {% if datos[0].id_examen == 4 or datos[0].id_examen == 6 or datos[0].id_examen == 16 %}
-                        <tr>
-                            <th style="padding-left: 30px;">
-                                <strong>{{ datos[0].nombre_examen }}</strong>
-                            </th>
-                        </tr>
-                    {% endif %}
-                        
-                </thead>
+            {% endif %}
                 
-                {% for dato in datos %}
-                {% if (dato.id_tipo_elemento == 1) %}
-                <tr><td colspan="4" style="padding-left: 60px; padding-top:10px; text-align: left; font-size: 14px;"><strong>{{dato.nombre_elemento}}</strong></td></tr>
-                {% endif %}
-                {% if (dato.id_tipo_elemento == 2) %}
-                <tr class="dataE">
-                    <td style="width: 25%; text-align:left; padding-left:70px;">
-                        {{ dato.nombre_elemento }}
-                    </td>
-                    <td style="width: 25%;">
-                        {{ dato.resultado }}
-                    </td>
-                    <td style="width: 25%;">
-                        {{ dato.unidades }}
-                    </td>
-                    <td style="width: 25%; padding-right: 40px;">
-                        {{ dato.valor_inicial }} - {{ dato.valor_final }}
-                    </td>
-                </tr>
-                {% endif %}
-                {% endfor %}
-            </table>
-        </div>
-    </div>
-    
-    
+        </thead>
+        
+        {% for dato in datos %}
+        {% if (dato.id_tipo_elemento == 1) %}
+        <tr><td colspan="4" style="padding-left: 60px; padding-top:10px; text-align: left; font-size: 14px;"><strong>{{dato.nombre_elemento}}</strong></td></tr>
+        {% endif %}
+        {% if (dato.id_tipo_elemento == 2) %}
+        <tr class="dataE">
+            <td style="width: 25%; text-align:left; padding-left:70px;">
+                {{ dato.nombre_elemento }}
+            </td>
+            <td style="width: 25%;">
+                {{ dato.resultado }}
+            </td>
+            <td style="width: 25%;">
+                {{ dato.unidades }}
+            </td>
+            <td style="width: 25%; padding-right: 40px;">
+                {{ dato.valor_inicial }} - {{ dato.valor_final }}
+            </td>
+        </tr>
+        {% endif %}
+        {% endfor %}
+    </table>
+</div>
+        
 </body>
+
+{% block javascripts %}
+
+{% endblock javascripts %}
+</html>

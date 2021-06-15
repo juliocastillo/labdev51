@@ -1,0 +1,53 @@
+{% extends 'Reportes/reporte_resultados.html.twig' %}
+
+{% block body %}
+<div class="header">
+    <table>
+        <tr>
+            <th><img src="{{absolute_url(asset('build/images/logo-lab-MB.093a0228.png')) }}" alt=""></th>
+        </tr>
+        <tr>
+            <th>N° DE INSCRIPCION 742</th>
+        </tr>
+        <tr>
+            <td>1ra calle oriente y 22 avenida norte #1-9</td>
+        </tr>
+        <tr>
+            <td>Telefono: 2451 9607 - WhatsApp: 7769 9792</td>
+        </tr>
+    </table>
+    <hr>
+    <table>
+        <tr class="datosP">
+            <td>
+                <strong style="margin-left: 60px;">Medico: </strong>
+                {{ datos[0].nombre_medico }}
+            </td>
+        </tr>
+        <tr class="datosP">
+            <td style="width: 40%;">
+                <strong style="margin-left: 60px;">Paciente:</strong>
+                {{ datos[0].nombre }} {{ datos[0].apellido }}
+            </td>
+            <td style="width: 20%;">
+                <strong>Edad:</strong>
+                
+                {% if datos[0].edad_dias < 30 %}
+                    {{ datos[0].edad_dias }} dias
+                {% elseif datos[0].edad_meses < 12 %}
+                    {{ datos[0].edad_meses }} meses
+                {% else %}
+                    {{ datos[0].edad_anios }} años
+                {% endif %}
+            </td>
+            <td style="width: 40%;">
+                <strong>Fecha:</strong>
+                {{ datos[0].fecha_orden|date("d-m-Y H:i:s") }}
+            </td>
+        </tr>
+    </table>
+    <hr>
+</div>
+
+
+{% endblock %}
