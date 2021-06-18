@@ -9,6 +9,8 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\WebpackEncoreBundle\Asset\EntrypointLookupInterface;
 use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
 use Knp\Snappy\Pdf;
+use Symfony\Component\Validator\Constraints\Length;
+
 //use Dompdf\Dompdf;
 //use Dompdf\Options;
 
@@ -24,39 +26,106 @@ class ReportesController extends AbstractController
         $idDetOrden = $request->get('idDetOrden');
         $idOrden = $request->get('idOrden');
 
-        $sql = "SELECT t01.id, t01.nombre_elemento, t01.id_tipo_elemento, t01.valor_inicial, 
-                t01.valor_final, t01.unidades, t02.resultado, t06.nombre AS nombre_medico, t05.nombre, 
-                t05.apellido,t04.fecha_orden,t07.id AS id_examen, t07.nombre_examen,
-                TIMESTAMPDIFF(YEAR,t05.fecha_nacimiento,CURDATE()) AS edad_anios,
-                TIMESTAMPDIFF(MONTH,t05.fecha_nacimiento,CURDATE()) AS edad_meses,
-                TIMESTAMPDIFF(DAY,t05.fecha_nacimiento,CURDATE()) AS edad_dias
+        /* QUERY HEADER */
+        $sqlHead = "SELECT t01.nombre, t01.apellido, t02.fecha_orden, t03.nombre AS nombre_medico,
+                        TIMESTAMPDIFF(YEAR,t01.fecha_nacimiento,CURDATE()) AS edad_anios,
+                        TIMESTAMPDIFF(MONTH,t01.fecha_nacimiento,CURDATE()) AS edad_meses,
+                        TIMESTAMPDIFF(DAY,t01.fecha_nacimiento,CURDATE()) AS edad_dias 
+                    
+                    FROM mnt_paciente t01
+                    
+                    LEFT JOIN lab_orden t02 ON t01.id = t02.id_paciente
+                    LEFT JOIN mnt_medico t03 ON t03.id = t02.id_medico
+                    
+                    WHERE t02.id = $idOrden";
 
+        $stm = $this->getDoctrine()->getConnection()->prepare($sqlHead);
+        $stm->execute();
+        $resultHead = $stm->fetchAll();        
+        /* END QUERY HEADER */
+        /* QUERY ORDER IDS EXAMS*/
+        $sqlIds = "SELECT t01.id_examen FROM lab_detalle_orden t01 WHERE t01.id_orden = $idOrden";
+
+        $stm = $this->getDoctrine()->getConnection()->prepare($sqlIds);
+        $stm->execute();
+        $resultIds = $stm->fetchAll();
+        /* END ORDER IDS EXAMS */
+
+        //var_dump(count($resultIds)); exit();
+        $array_datos = array();
+
+        for ($i=0; $i < count($resultIds); $i++) { 
+            $resultIds[$i];
+            if ($resultIds[$i]["id_examen"] == "16") {
+            
+                $sql = "SELECT t01.id, t01.nombre_elemento, t01.id_tipo_elemento, t01.valor_inicial, 
+                t01.valor_final, t01.unidades, t02.resultado, t07.id AS id_examen, t07.nombre_examen
                 FROM mnt_elementos t01 
                     LEFT JOIN lab_resultados t02 ON t01.id = t02.id_elemento
                     LEFT JOIN lab_detalle_orden t03 ON t03.id = t02.id_detalle_orden
-                    LEFT JOIN lab_orden t04 ON t04.id = t03.id_orden 
-                    LEFT JOIN mnt_paciente t05 ON t05.id = t04.id_paciente
-                    LEFT JOIN mnt_medico t06 ON t06.id = t04.id_medico
                     LEFT JOIN ctl_examen t07 ON t07.id = t03.id_examen
-                WHERE -- t01.id_examen = $idExamen 
-                -- AND 
-                t03.id_orden = $idOrden
+                WHERE t03.id_orden = $idOrden
+                AND t07.id = 16
                 ORDER BY t01.ordenamiento";
-
-        $stm = $this->getDoctrine()->getConnection()->prepare($sql);
-        $stm->execute();
-        $result = $stm->fetchAll();
+    
+                $stm = $this->getDoctrine()->getConnection()->prepare($sql);
+                $stm->execute();
+                $resultOrina = $stm->fetchAll();
+                $array_datos["datos_orina"] = $resultOrina;
+            }
+            if ($resultIds[$i]["id_examen"] == "6") {
+            
+                $sql = "SELECT t01.id, t01.nombre_elemento, t01.id_tipo_elemento, t01.valor_inicial, 
+                t01.valor_final, t01.unidades, t02.resultado, t07.id AS id_examen, t07.nombre_examen
+                FROM mnt_elementos t01 
+                    LEFT JOIN lab_resultados t02 ON t01.id = t02.id_elemento
+                    LEFT JOIN lab_detalle_orden t03 ON t03.id = t02.id_detalle_orden
+                    LEFT JOIN ctl_examen t07 ON t07.id = t03.id_examen
+                WHERE t03.id_orden = $idOrden
+                AND t07.id = 6
+                ORDER BY t01.ordenamiento";
+    
+                $stm = $this->getDoctrine()->getConnection()->prepare($sql);
+                $stm->execute();
+                $resultHeces = $stm->fetchAll();
+                $array_datos["datos_heces"] .= $resultHeces;
+            }
+            if($resultIds[$i]["id_examen"] == "4"){
+                $sql = "SELECT t01.id, t01.nombre_elemento, t01.id_tipo_elemento, t01.valor_inicial, 
+                t01.valor_final, t01.unidades, t02.resultado, t07.id AS id_examen, t07.nombre_examen
+                FROM mnt_elementos t01 
+                    LEFT JOIN lab_resultados t02 ON t01.id = t02.id_elemento
+                    LEFT JOIN lab_detalle_orden t03 ON t03.id = t02.id_detalle_orden
+                    LEFT JOIN ctl_examen t07 ON t07.id = t03.id_examen
+                WHERE t03.id_orden = $idOrden
+                AND t07.id = 4
+                ORDER BY t01.ordenamiento";
+    
+                $stm = $this->getDoctrine()->getConnection()->prepare($sql);
+                $stm->execute();
+                $resultHemograma = $stm->fetchAll();
+                $array_datos["datos_hemograma"] =  $resultHemograma;
+            }
+        }
+        
+        
+        //print_r($array_datos); exit();
+        
         
         $header = $this->renderView("Reportes/header.html.twig",
             array(
-                "datos"=>$result,
+                "datos_head"=>$resultHead,
             ),
         );
         $entrypointLookup->reset();
+        //var_dump($resultIds); exit();
         $html = $this->renderView(
             "Reportes/reporte_resultados.html.twig",
             array(
-                "datos"=>$result,
+                "arrays"=>$array_datos,
+                //"datos_orina"=>$resultOrina,
+                "datos_head"=>$resultHead,
+                //"datos_ids"=>$resultIds,
             ),
         );
 
@@ -69,7 +138,7 @@ class ReportesController extends AbstractController
                 'enable-javascript' => true,
                 'page-size' => 'LETTER',
                 'viewport-size' => '1280x1024',
-                'header-html' => $header,
+                //'header-html' => $header,
             ]),
             'reporte_'.$idDetOrden.'.pdf',
         );

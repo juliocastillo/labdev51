@@ -1,4 +1,4 @@
-{% extends 'Reportes/reporte_resultados.html.twig' %}
+
 
 {% block body %}
 <div class="header">
@@ -21,28 +21,28 @@
         <tr class="datosP">
             <td>
                 <strong style="margin-left: 60px;">Medico: </strong>
-                {{ datos[0].nombre_medico }}
+                {{ datos_head[0].nombre_medico }}
             </td>
         </tr>
         <tr class="datosP">
             <td style="width: 40%;">
                 <strong style="margin-left: 60px;">Paciente:</strong>
-                {{ datos[0].nombre }} {{ datos[0].apellido }}
+                {{ datos_head[0].nombre }} {{ datos_head[0].apellido }}
             </td>
             <td style="width: 20%;">
                 <strong>Edad:</strong>
                 
-                {% if datos[0].edad_dias < 30 %}
-                    {{ datos[0].edad_dias }} dias
-                {% elseif datos[0].edad_meses < 12 %}
-                    {{ datos[0].edad_meses }} meses
+                {% if datos_head[0].edad_dias < 30 %}
+                    {{ datos_head[0].edad_dias }} dias
+                {% elseif datos_head[0].edad_meses < 12 %}
+                    {{ datos_head[0].edad_meses }} meses
                 {% else %}
-                    {{ datos[0].edad_anios }} años
+                    {{ datos_head[0].edad_anios }} años
                 {% endif %}
             </td>
             <td style="width: 40%;">
                 <strong>Fecha:</strong>
-                {{ datos[0].fecha_orden|date("d-m-Y H:i:s") }}
+                {{ datos_head[0].fecha_orden|date("d-m-Y H:i:s") }}
             </td>
         </tr>
     </table>

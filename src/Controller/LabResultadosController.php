@@ -90,14 +90,29 @@ class LabResultadosController extends AbstractController
         $stm = $this->getDoctrine()->getConnection()->prepare($sqlEmpleados);
         $stm->execute();
         $empleados = $stm->fetchAll();
-        $sql = "SELECT t01.id, t01.nombre_elemento, t01.id_tipo_elemento, t01.valor_inicial, t01.valor_final, t01.unidades,t02.resultado
+        /* $sql = "SELECT t01.id, t01.nombre_elemento, t01.id_tipo_elemento, t01.valor_inicial, t01.valor_final, t01.unidades,t02.resultado
                 FROM mnt_elementos t01 
                     left join lab_resultados t02 on t01.id = t02.id_elemento
                     left join lab_detalle_orden t03 on t03.id = t02.id_detalle_orden
                     left join lab_orden t04 on t04.id = t03.id_orden 
                     left join mnt_paciente t05 on t05.id = t04.id_paciente
                 WHERE t01.id_examen = $idExamen
-                ORDER BY t01.ordenamiento";
+                -- AND t03.id_orden = $idOrden
+                ORDER BY t01.ordenamiento"; */
+        
+        $sql = "SELECT t1.id, t1.nombre_elemento, t1.id_tipo_elemento,
+                    t1.valor_inicial, t1.valor_final, t1.unidades 
+                FROM mnt_elementos t1
+        
+                LEFT JOIN ctl_examen t2 ON t2.id = t1.id_examen
+                LEFT JOIN lab_detalle_orden t3 ON t3.id_examen = t2.id 
+                LEFT JOIN lab_orden t4 ON t4.id = t3.id_orden
+                LEFT JOIN mnt_paciente t5 ON t5.id = t4.id_paciente
+        
+                WHERE t4.id = $idOrden
+                AND t2.id = $idExamen
+                ORDER BY t1.ordenamiento";
+
         $stm = $this->getDoctrine()->getConnection()->prepare($sql);
         $stm->execute();
         $result = $stm->fetchAll();
@@ -134,6 +149,7 @@ class LabResultadosController extends AbstractController
         }
         $sql = "INSERT INTO lab_resultados(id_elemento,id_empleado,id_detalle_orden,id_usuario_reg,resultado,fechahora_reg,activo)
                 VALUES ".$row.";";
+        //var_dump($sql); exit();
         $stm = $this->getDoctrine()->getConnection()->prepare($sql);
         $stm->execute();        
         $sql = "UPDATE lab_detalle_orden SET id_estado_examen = '2' WHERE id=".$datos["idDetalleOrden"].";";
@@ -153,7 +169,7 @@ class LabResultadosController extends AbstractController
             "idOrden" => $datos["idOrden"],
             "idDetalleOrden" => $datos["idDetalleOrden"]
         ));
-
+        //var_dump($response); exit();
         //idExamen,idDetalleOrden,idOrden
         return new Response($response);
     }   
