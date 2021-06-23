@@ -121,6 +121,55 @@
             
         });
 
+        $(document).on('click','#btnImprimirOrden',function(e){
+            rowDetOrden = $(this).closest('tr');
+            nombreExamen = rowDetOrden.find('td:eq(0)').text();
+            idDetOrden = parseInt(rowDetOrden.find('td:eq(1)').text());
+            idExamen = parseInt(rowDetOrden.find('td:eq(2)').text());
+            idEstadoExamen = rowDetOrden.find('td:eq(3)').text();
+            idOrden = parseInt(rowDetOrden.find('td:eq(5)').text());
+            
+            $.ajax({
+                type: "GET",
+                url: "{{ path('cargar_datos') }}",
+                data: {idDetOrden:idDetOrden, idExamen:idExamen, idOrden:idOrden},
+                dataType: "html",
+                async: true,
+                
+                success : function (response, url) {
+                    /* PASARLE LOS PARAMETROS A LA URL */
+                    //window.open("{{ path('cargar_datos') }}","_blank");
+                    //cargar-datos?idDetOrden=10&idExamen=17
+                    //dato1 = (data[0]).text();
+                    //dato2 = (data[1]).text();
+                    //console.log(url);
+                    //$('#reportes').ht5ml(html);
+                    //let info = JSON.parse(response);
+                    //alert(response);
+                    //generarPdf(response.idExamen,response.idDetOrden)
+                    //console.log(response.idExamen);
+                    //console.log(response.idDetOrden);
+                    //var ancho = 1000;
+                    //var alto = 800;
+                    //var x = parseInt((window.screen.width/2)-(ancho/2));
+                    //var y = parseInt((window.screen.width/2)-(ancho/2));
+
+                    let requestUrl = this.url;
+
+                    //console.log(this.url);
+
+                    window.open(requestUrl).print();
+                    window.close();
+
+                    //let wPrint = window.open(requestUrl).print();
+                    //wPrint.print();
+                    
+
+                }
+            //e.5preventDefault();
+            });
+        });
+
         $(document).on('click','#btnImprimirEx',function(e){
             rowDetOrden = $(this).closest('tr');
             nombreExamen = rowDetOrden.find('td:eq(0)').text();

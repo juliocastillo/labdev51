@@ -27,7 +27,8 @@ class ReportesController extends AbstractController
         $idOrden = $request->get('idOrden');
 
         /* QUERY HEADER */
-        $sqlHead = "SELECT t01.nombre, t01.apellido, t02.fecha_orden, t03.nombre AS nombre_medico,
+        $sqlHead = "SELECT t01.nombre, t01.apellido, t02.fecha_orden, t03.nombre AS nombre_medico, 
+                        t03.apellido AS apellido_medico,
                         TIMESTAMPDIFF(YEAR,t01.fecha_nacimiento,CURDATE()) AS edad_anios,
                         TIMESTAMPDIFF(MONTH,t01.fecha_nacimiento,CURDATE()) AS edad_meses,
                         TIMESTAMPDIFF(DAY,t01.fecha_nacimiento,CURDATE()) AS edad_dias 
@@ -105,20 +106,25 @@ class ReportesController extends AbstractController
                 $stm->execute();
                 $resultHemograma = $stm->fetchAll();
                 $array_datos["datos_hemograma"] =  $resultHemograma;
+            }else{
+                $sql = "SELECT t01.id, t01.nombre_elemento, t01.id_tipo_elemento, t01.valor_inicial, 
+                t01.valor_final, t01.unidades, t02.resultado, t07.id AS id_examen, t07.nombre_examen,
+                t08.id AS id_area, t08.nombre_area
+                FROM mnt_elementos t01 
+                    LEFT JOIN lab_resultados t02 ON t01.id = t02.id_elemento
+                    LEFT JOIN lab_detalle_orden t03 ON t03.id = t02.id_detalle_orden
+                    LEFT JOIN ctl_examen t07 ON t07.id = t03.id_examen
+                    LEFT JOIN ctl_area_laboratorio t08 ON t08.id = t07.id_area_laboratorio
+                WHERE t03.id_orden = $idOrden
+                AND t07.id != 4 AND t07.id != 6 AND t07.id != 16
+                ORDER BY t01.ordenamiento";
+    
+                $stm = $this->getDoctrine()->getConnection()->prepare($sql);
+                $stm->execute();
+                $result = $stm->fetchAll();
+                $array_datos["datos"] =  $result;
             }
         }
-        
-        
-        //print_r($array_datos); exit();
-        
-        
-        $header = $this->renderView("Reportes/header.html.twig",
-            array(
-                "datos_head"=>$resultHead,
-            ),
-        );
-        $entrypointLookup->reset();
-        //var_dump($resultIds); exit();
         $html = $this->renderView(
             "Reportes/reporte_resultados.html.twig",
             array(
@@ -129,8 +135,17 @@ class ReportesController extends AbstractController
             ),
         );
 
-        
+        $header = $this->renderView("Reportes/header.html.twig",
+            array(
+                "datos_head"=>$resultHead,
+            ),
+        );
+        //$footer = $this->renderView("Reportes/footer.html.twig");
 
+        $entrypointLookup->reset();
+        //var_dump($resultIds); exit();
+        
+        
         $response = new PdfResponse(
             $pdf->getOutputFromHtml($html,
             [   
@@ -138,9 +153,16 @@ class ReportesController extends AbstractController
                 'enable-javascript' => true,
                 'page-size' => 'LETTER',
                 'viewport-size' => '1280x1024',
-                //'header-html' => $header,
+                'header-html' => $header,
+                'margin-top' => '80mm',
+                'margin-bottom' => '20mm',
+                //'footer-html' => $footer,
             ]),
-            'reporte_'.$idDetOrden.'.pdf',
+            /* 200,
+            array(
+                'Content-Type' => 'application/pdf',
+            ) */
+            //'reporte_'.$idDetOrden.'.pdf',
         );
 
         $response->headers->set('Content-Disposition','inline');
@@ -179,12 +201,12 @@ class ReportesController extends AbstractController
             ))
         ); */
         //exit(0);
-
+        
 
         /* return $this->render('Reportes/reporte_resultados.html.twig',
             array(
-                "datos" => $result,
-                
+                "arrays" => $array_datos,
+                "datos_head"=>$resultHead,
             )
         ); */
 

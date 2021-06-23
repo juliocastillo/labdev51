@@ -1,5 +1,4 @@
-
-
+{% extends 'Reportes/reporte_resultados.html.twig' %}
 {% block body %}
 <div class="header">
     <table>
@@ -21,7 +20,7 @@
         <tr class="datosP">
             <td>
                 <strong style="margin-left: 60px;">Medico: </strong>
-                {{ datos_head[0].nombre_medico }}
+                {{ datos_head[0].nombre_medico }} {{ datos_head[0].apellido_medico }}
             </td>
         </tr>
         <tr class="datosP">
@@ -48,6 +47,7 @@
     </table>
     <hr>
 </div>
+{% endblock body %}
 
 
-{% endblock %}
+
