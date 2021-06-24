@@ -73,6 +73,8 @@ class ReportesController extends AbstractController
                 $stm->execute();
                 $resultOrina = $stm->fetchAll();
                 $array_datos["datos_orina"] = $resultOrina;
+            }else{
+                $array_datos["datos_orina"] = 0;
             }
             if ($resultIds[$i]["id_examen"] == "6") {
             
@@ -90,6 +92,8 @@ class ReportesController extends AbstractController
                 $stm->execute();
                 $resultHeces = $stm->fetchAll();
                 $array_datos["datos_heces"] .= $resultHeces;
+            }else{
+                $array_datos["datos_heces"] = 0;
             }
             if($resultIds[$i]["id_examen"] == "4"){
                 $sql = "SELECT t01.id, t01.nombre_elemento, t01.id_tipo_elemento, t01.valor_inicial, 
@@ -107,6 +111,9 @@ class ReportesController extends AbstractController
                 $resultHemograma = $stm->fetchAll();
                 $array_datos["datos_hemograma"] =  $resultHemograma;
             }else{
+                $array_datos["datos_hemograma"] = 0;
+            }
+            if($resultIds[$i]["id_examen"] != "4" && $resultIds[$i]["id_examen"] != "6" && $resultIds[$i]["id_examen"] != "16"){
                 $sql = "SELECT t01.id, t01.nombre_elemento, t01.id_tipo_elemento, t01.valor_inicial, 
                 t01.valor_final, t01.unidades, t02.resultado, t07.id AS id_examen, t07.nombre_examen,
                 t08.id AS id_area, t08.nombre_area
@@ -123,8 +130,12 @@ class ReportesController extends AbstractController
                 $stm->execute();
                 $result = $stm->fetchAll();
                 $array_datos["datos"] =  $result;
+            }else{
+                $array_datos["datos"] = 0;
             }
         }
+        //var_dump($array_datos);
+        //exit();
         $html = $this->renderView(
             "Reportes/reporte_resultados.html.twig",
             array(
