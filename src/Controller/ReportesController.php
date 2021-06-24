@@ -52,7 +52,6 @@ class ReportesController extends AbstractController
         $resultIds = $stm->fetchAll();
         /* END ORDER IDS EXAMS */
 
-        //var_dump(count($resultIds)); exit();
         $array_datos = array();
 
         for ($i=0; $i < count($resultIds); $i++) { 
@@ -134,8 +133,6 @@ class ReportesController extends AbstractController
                 $array_datos["datos"] = 0;
             }
         }
-        //var_dump($array_datos);
-        //exit();
         $html = $this->renderView(
             "Reportes/reporte_resultados.html.twig",
             array(
@@ -145,7 +142,6 @@ class ReportesController extends AbstractController
                 //"datos_ids"=>$resultIds,
             ),
         );
-
         $header = $this->renderView("Reportes/header.html.twig",
             array(
                 "datos_head"=>$resultHead,
@@ -154,8 +150,6 @@ class ReportesController extends AbstractController
         //$footer = $this->renderView("Reportes/footer.html.twig");
 
         $entrypointLookup->reset();
-        //var_dump($resultIds); exit();
-        
         
         $response = new PdfResponse(
             $pdf->getOutputFromHtml($html,
