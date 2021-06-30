@@ -49,10 +49,11 @@ class LabResultadosController extends AbstractController
     {
         $request = $this->container->get('request_stack')->getCurrentRequest();
         $idOrden = $request->get('idOrden');
-        $sql = "SELECT t01.id, t02.nombre_examen, t01.id_examen, t03.estado_examen
+        $sql = "SELECT t01.id, t02.nombre_examen, t01.id_examen, t03.estado_examen, t04.id_estado_orden
                     FROM lab_detalle_orden t01 
                     INNER JOIN ctl_examen t02 ON t01.id_examen = t02.id
                     INNER JOIN ctl_estado_examen t03 ON t01.id_estado_examen = t03.id
+                    INNER JOIN lab_orden t04 ON t04.id = t01.id_orden
                     WHERE t01.id_examen = t02.id and t01.id_orden = $idOrden";
         $stm = $this->getDoctrine()->getConnection()->prepare($sql);
         $stm->execute();
@@ -163,11 +164,27 @@ class LabResultadosController extends AbstractController
         $stm->execute();
         $idExamen = $stm->fetch();
 
+        /* ESTADO DE LOS EXAMENES PARA CADA ORDEN */
+        $idOrden=$datos["idOrden"];
+        $sqlEstOrden = "SELECT COUNT(id_estado_examen) AS exa_pendientes FROM lab_detalle_orden WHERE id_estado_examen = 1 AND id_orden = $idOrden";
+        $stm = $this->getDoctrine()->getConnection()->prepare($sqlEstOrden);
+        $stm->execute();
+        $exaPendientes = $stm->fetch();
+
+        //var_dump($exaPendientes); exit();
+
+        if ($exaPendientes["exa_pendientes"] == 0) {
+            $sqlEstOrden = "UPDATE lab_orden SET id_estado_orden = '2' WHERE id = $idOrden";
+            $stm = $this->getDoctrine()->getConnection()->prepare($sqlEstOrden);
+            $stm->execute();
+        }
+
         $response = json_encode(array(
             "message" => 'Guardado Exitosamente',
             "idExamen" => $idExamen["id_examen"],
             "idOrden" => $datos["idOrden"],
-            "idDetalleOrden" => $datos["idDetalleOrden"]
+            "idDetalleOrden" => $datos["idDetalleOrden"],
+            //"exaPend" => $exaPendientes["exa_pendientes"]
         ));
         //var_dump($response); exit();
         //idExamen,idDetalleOrden,idOrden
