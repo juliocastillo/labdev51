@@ -39,6 +39,18 @@ class MenuBuilderListener
             ->addChild('orden_de_laboratorio', ['route' => 'admin_app_laborden_index'])
             ->setLabel('Ordenes de laboratorio')
             ->getParent();
+        
+        /* $event->getMenu()
+            ->addChild('Ordenes', ['route' => ''])
+            ->setExtras(
+                [
+                    'icon' => '<span class="fa fa-file"></span>&nbsp;',
+                ]
+            )
+            ->setLabel('Ordenes')
+            ->addChild('orden_de_laboratorio', ['route' => 'admin_app_laborden_index'])
+            ->setLabel('Ordenes de laboratorio')
+            ->getParent(); */
 
     }
 }

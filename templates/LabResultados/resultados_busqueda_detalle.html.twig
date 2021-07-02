@@ -18,7 +18,7 @@
                 <td style="width: 35%;">
                     
                     {% if dato.estado_examen == 'Digitado' %}
-                    <div class="btn btn-warning" id="btnBorrarEx">Borrar Examen</div>
+                    <div class="btn btn-warning" id="btnBorrarEx" onclick="borrarExamen({{idOrden}})">Borrar Examen</div>
                     {% else %}
                     <div class="btn btn-danger" id="btnBorrarResEx">Borrar Resultado</div>
                     {% endif %}
@@ -32,12 +32,14 @@
             {% endfor %}
             <tr>
                 <td style="display: none;">{{ idOrden }}</td>
+                {% if datos[0].id_estado_orden == '2' %}
                 <td colspan="4" class="text-right">
                     <a id="btnImprimirOrden" href="#" class="btn btn-primary">
                         Imprimir Orden
                         <i class="glyphicon glyphicon-print"></i>
                     </a>
                 </td>
+                {% endif %}
             </tr>
         </tbody>
     </table>

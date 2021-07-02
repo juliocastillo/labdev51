@@ -57,11 +57,13 @@
             
         });        
 
-        $(document).on('click','#btnBorrarEx',function(e){
+        //$(document).on('click','#btnBorrarEx',function(e)
+        function borrarExamen(idOrden, e){
             rowDetOrden = $(this).closest('tr');
             nombreExamen = rowDetOrden.find('td:eq(0)').text();
             idDetOrden = parseInt(rowDetOrden.find('td:eq(1)').text());
-            
+            idOrden = idOrden;
+
             const msgConfirm = confirm("Esta seguro de eliminar el examen " + nombreExamen + "?");
 
             if(msgConfirm){
@@ -72,7 +74,7 @@
                     url: "{{ path('lab_borrar_examen_orden') }}",
                     //La informacion a enviar
                     //tambien es posible utilizar una cadena de datps
-                    data: {idDetOrden:idDetOrden},
+                    data: {idDetOrden:idDetOrden,idOrden:idOrden},
                     //El tipo de informacion que se espera de respuesta
                     dataType: "text",
                     //Codigo a ejecutar si la peticion es satisfactoria
@@ -86,13 +88,15 @@
                 e.preventDefault();
             }
             
-        });
+        }
+        //);
 
         $(document).on('click','#btnBorrarResEx',function(e){
             rowDetOrden = $(this).closest('tr');
             nombreExamen = rowDetOrden.find('td:eq(0)').text();
             idDetOrden = parseInt(rowDetOrden.find('td:eq(1)').text());
             idExamen = parseInt(rowDetOrden.find('td:eq(2)').text());
+            
 
             const msgConfirm = confirm("Se eliminara el resultado para: " + nombreExamen + ", confirmar!");
             
