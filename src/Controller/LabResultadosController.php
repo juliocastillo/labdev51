@@ -103,11 +103,8 @@ class LabResultadosController extends AbstractController
                             where edad_minima <= $numeroDeDias AND edad_maxima >= $numeroDeDias";
         $stm = $this->getDoctrine()->getConnection()->prepare($sqlIdEdad);
         $stm->execute();
-        $idEdad = $stm->fetchAll();
-
-
-
-
+        $arrayEdad = $stm->fetchAll();
+        $idEdad = (Int)$arrayEdad[0]["id"];
         
         $sql = "SELECT t1.id, t1.nombre_elemento, t1.id_tipo_elemento,
                     t1.valor_inicial, t1.valor_final, t1.unidades 
@@ -120,7 +117,7 @@ class LabResultadosController extends AbstractController
         
                 WHERE t4.id = $idOrden
                 AND t2.id = $idExamen
-                AND t1.id_rango_edad = 6
+                AND (t1.id_rango_edad = $idEdad OR t1.id_rango_edad IS NULL)
                 ORDER BY t1.ordenamiento";
 
         $stm = $this->getDoctrine()->getConnection()->prepare($sql);
