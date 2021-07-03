@@ -29,6 +29,18 @@
                 }
             })
         }
+        $(document).ready(function() {
+            $('#idPaciente').select2({
+                minimumInputLength: 3
+            }
+            );
+        });
+        $(document).ready(function() {
+            $('#idexamen').select2();
+        });
+        $(document).ready(function() {
+            $('#idtipomuestra').select2();
+        });
     </script>
 {% endblock javascripts %}
 {% block content %}
@@ -46,7 +58,7 @@
                                     <tr>
                                         <td class="bg-primary text-right"><label for="idPaciente" >Paciente</label></td>
                                         <td>
-                                            <select class="form-control" id="idPaciente" name="idPaciente" required>
+                                            <select class="form-control" id="idPaciente" name="idPaciente" required style="width: 600px;">
                                                 {% if (action == "save") %}
                                                     <option value="">...seleccione...</option>
                                                 {% endif %}
@@ -117,7 +129,7 @@
                                                     <tbody>
                                                         <tr>
                                                             <td style="width: 400px;">
-                                                                <select class="form-control" id="idexamen" name="idexamen" required>
+                                                                <select class="form-control" id="idexamen" name="idexamen" required style="width: 500px;">
                                                                     <option value="">...seleccione...</option>
                                                                     {% for examen in examenes %}
                                                                         <option value="{{examen.id}}">{{examen.nombre_examen}}</option>
@@ -125,7 +137,7 @@
                                                                 </select>
                                                             </td>
                                                             <td style="width: 200px;">
-                                                                <select class="form-control" id="idtipomuestra" name="idtipomuestra" required>
+                                                                <select class="form-control" id="idtipomuestra" name="idtipomuestra" required style="width: 200px;">
                                                                     <option value="">...seleccione...</option>
                                                                     {% for tipomuestra in tiposmuestra %}
                                                                         <option value="{{tipomuestra.id}}">{{tipomuestra.tipo_muestra}}</option>
