@@ -57,12 +57,12 @@
             
         });        
 
-        //$(document).on('click','#btnBorrarEx',function(e)
-        function borrarExamen(idOrden, e){
+        $(document).on('click','#btnBorrarEx',function(e){
+        //function borrarExamen(idOrden, e){
             rowDetOrden = $(this).closest('tr');
             nombreExamen = rowDetOrden.find('td:eq(0)').text();
             idDetOrden = parseInt(rowDetOrden.find('td:eq(1)').text());
-            idOrden = idOrden;
+            //idOrden = idOrden;
 
             const msgConfirm = confirm("Esta seguro de eliminar el examen " + nombreExamen + "?");
 
@@ -88,8 +88,7 @@
                 e.preventDefault();
             }
             
-        }
-        //);
+        });
 
         $(document).on('click','#btnBorrarResEx',function(e){
             rowDetOrden = $(this).closest('tr');
