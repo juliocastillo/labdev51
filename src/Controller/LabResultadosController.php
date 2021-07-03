@@ -229,7 +229,7 @@ class LabResultadosController extends AbstractController
          $stm->execute();
          //$result = $stm;
         
-        $sqlNumEx = "SELECT COUNT(id_examen) AS num_examenes FROM lab_detalle_orden WHERE id_orden = $idOrden";
+        /* $sqlNumEx = "SELECT COUNT(id_examen) AS num_examenes FROM lab_detalle_orden WHERE id_orden = $idOrden";
         $stm = $this->getDoctrine()->getConnection()->prepare($sqlNumEx);
         $stm->execute();
         $numEx = $stm->fetch();
@@ -238,7 +238,7 @@ class LabResultadosController extends AbstractController
             $sqlEstOrden = "UPDATE lab_orden SET id_estado_orden = '3' WHERE id = $idOrden";
             $stm = $this->getDoctrine()->getConnection()->prepare($sqlEstOrden);
             $stm->execute();
-        }
+        } */
         return new Response("borrado");
      }
 
@@ -277,7 +277,7 @@ class LabResultadosController extends AbstractController
             "idOrden" => $idOrden
         ));
 
-        $sqlNumEx = "SELECT COUNT(id_examen) AS num_examenes FROM lab_detalle_orden WHERE id_orden = $idOrden";
+        /* $sqlNumEx = "SELECT COUNT(id_examen) AS num_examenes FROM lab_detalle_orden WHERE id_orden = $idOrden";
         $stm = $this->getDoctrine()->getConnection()->prepare($sqlNumEx);
         $stm->execute();
         $numEx = $stm->fetch();
@@ -286,7 +286,7 @@ class LabResultadosController extends AbstractController
             $sqlEstOrden = "UPDATE lab_orden SET id_estado_orden = '1' WHERE id = $idOrden";
             $stm = $this->getDoctrine()->getConnection()->prepare($sqlEstOrden);
             $stm->execute();
-        }
+        } */
 
         //idExamen,idDetalleOrden,idOrden
         return new Response($response);
