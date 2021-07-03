@@ -6,9 +6,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\WebpackEncoreBundle\Asset\EntrypointLookupInterface;
-use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
-use Knp\Snappy\Pdf;
+//use Symfony\WebpackEncoreBundle\Asset\EntrypointLookupInterface;
+//use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
+//use Knp\Snappy\Pdf;
 use Symfony\Component\Validator\Constraints\Length;
 
 //use Dompdf\Dompdf;
@@ -20,7 +20,7 @@ class ReportesController extends AbstractController
     * @Route("/cargar-datos", name="cargar_datos")
     */
     //Pdf $pdf
-    public function loadData(EntrypointLookupInterface $entrypointLookup,Pdf $pdf): Response {
+    public function loadData(): Response {
         $request = $this->container->get('request_stack')->getCurrentRequest();
         $idExamen = $request->get('idExamen');
         $idDetOrden = $request->get('idDetOrden');
@@ -137,11 +137,11 @@ class ReportesController extends AbstractController
 
         //var_dump($array_datos); exit();
 
-        $header = $this->renderView("Reportes/header.html.twig",
+        /* $header = $this->renderView("Reportes/header.html.twig",
             array(
                 "datos_head"=>$resultHead,
             ),
-        );
+        ); */
         //$footer = $this->renderView("Reportes/footer.html.twig");
 
         //$entrypointLookup->reset();
