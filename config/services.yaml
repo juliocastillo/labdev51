@@ -195,12 +195,12 @@ services:
         public: true
 
 
-    admin.ctl_rango_edad:
-        class: App\Admin\CtlRangoEdadAdmin
-        arguments: [~, App\Entity\CtlRangoEdad, ~]
-        tags:
-            - { name: sonata.admin, manager_type: orm, group: Catalogos, label: Rango Edad }
-        public: true
+    # admin.ctl_rango_edad:
+    #     class: App\Admin\CtlRangoEdadAdmin
+    #     arguments: [~, App\Entity\CtlRangoEdad, ~]
+    #     tags:
+    #         - { name: sonata.admin, manager_type: orm, group: Catalogos, label: Rango Edad }
+    #     public: true
 
     admin.ctl_tipo_documento:
         class: App\Admin\CtlTipoDocumentoAdmin

@@ -91,15 +91,20 @@ class LabResultadosController extends AbstractController
         $stm = $this->getDoctrine()->getConnection()->prepare($sqlEmpleados);
         $stm->execute();
         $empleados = $stm->fetchAll();
-        /* $sql = "SELECT t01.id, t01.nombre_elemento, t01.id_tipo_elemento, t01.valor_inicial, t01.valor_final, t01.unidades,t02.resultado
-                FROM mnt_elementos t01 
-                    left join lab_resultados t02 on t01.id = t02.id_elemento
-                    left join lab_detalle_orden t03 on t03.id = t02.id_detalle_orden
-                    left join lab_orden t04 on t04.id = t03.id_orden 
-                    left join mnt_paciente t05 on t05.id = t04.id_paciente
-                WHERE t01.id_examen = $idExamen
-                -- AND t03.id_orden = $idOrden
-                ORDER BY t01.ordenamiento"; */
+        $sqlEdadEnDias = "SELECT datediff(NOW(),mp.fecha_nacimiento) AS dias_de_edad 
+        from lab_orden ldo 
+        inner join mnt_paciente mp on mp.id=ldo.id_paciente
+        where ldo.id =$idOrden;";
+        $stm = $this->getDoctrine()->getConnection()->prepare($sqlEdadEnDias);
+        $stm->execute();
+        $edadEnDias = $stm->fetchAll();
+        $numeroDeDias = (Int)$edadEnDias[0]['dias_de_edad'];
+        $sqlIdEdad = "SELECT id from ctl_rango_edad
+                            where edad_minima <= $numeroDeDias AND edad_maxima >= $numeroDeDias";
+        $stm = $this->getDoctrine()->getConnection()->prepare($sqlIdEdad);
+        $stm->execute();
+        $arrayEdad = $stm->fetchAll();
+        $idEdad = (Int)$arrayEdad[0]["id"];
         
         $sql = "SELECT t1.id, t1.nombre_elemento, t1.id_tipo_elemento,
                     t1.valor_inicial, t1.valor_final, t1.unidades 
@@ -112,6 +117,7 @@ class LabResultadosController extends AbstractController
         
                 WHERE t4.id = $idOrden
                 AND t2.id = $idExamen
+                AND (t1.id_rango_edad = $idEdad OR t1.id_rango_edad IS NULL)
                 ORDER BY t1.ordenamiento";
 
         $stm = $this->getDoctrine()->getConnection()->prepare($sql);
