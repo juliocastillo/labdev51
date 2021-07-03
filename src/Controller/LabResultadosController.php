@@ -249,6 +249,7 @@ class LabResultadosController extends AbstractController
      {
         $request = $this->container->get('request_stack')->getCurrentRequest();
         $idDetOrden = $request->get('idDetOrden');
+        $idOrden = $request->get('idOrden');
 
         $sql = "SELECT id_orden
                 FROM lab_detalle_orden
@@ -275,6 +276,17 @@ class LabResultadosController extends AbstractController
             "message" => 'borrado',
             "idOrden" => $idOrden
         ));
+
+        $sqlNumEx = "SELECT COUNT(id_examen) AS num_examenes FROM lab_detalle_orden WHERE id_orden = $idOrden";
+        $stm = $this->getDoctrine()->getConnection()->prepare($sqlNumEx);
+        $stm->execute();
+        $numEx = $stm->fetch();
+
+        if ($numEx["num_examenes"] != 0) {
+            $sqlEstOrden = "UPDATE lab_orden SET id_estado_orden = '1' WHERE id = $idOrden";
+            $stm = $this->getDoctrine()->getConnection()->prepare($sqlEstOrden);
+            $stm->execute();
+        }
 
         //idExamen,idDetalleOrden,idOrden
         return new Response($response);
