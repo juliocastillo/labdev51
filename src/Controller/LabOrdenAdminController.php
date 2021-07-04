@@ -51,7 +51,7 @@ final class LabOrdenAdminController extends CRUDController {
                 $stm->execute();
                 $tiposdocumento = $stm->fetchAll();
 
-                $sql = "SELECT * FROM ctl_examen";
+                $sql = "SELECT id, concat(nombre_examen, ' ($', format(precio,2),')') as nombre_examen FROM ctl_examen";
                 $stm = $this->getDoctrine()->getConnection()->prepare($sql);
                 $stm->execute();
                 $examenes = $stm->fetchAll();
@@ -80,14 +80,17 @@ final class LabOrdenAdminController extends CRUDController {
                 $stm->execute();
                 //obtener ultimo id insertado
                 $idOrden = (int) $this->getDoctrine()->getConnection()->lastInsertId();
+                $examen = $em->getRepository('App:CtlExamen')->findOneBy(array('id' =>$idexamen));
+                $precio = (int) $examen->getPrecio();
                 $sql = "INSERT INTO lab_detalle_orden (
                         id_orden,
                         id_examen,
+                        precio,
                         id_tipo_muestra,
                         id_estado_examen,
                         id_usuario_reg,
                         fechahora_reg)
-                        VALUES ($idOrden,$idexamen,$idtipomuestra,1,1,NOW())";
+                        VALUES ($idOrden,$idexamen,$precio,$idtipomuestra,1,1,NOW())";
 
                 $stm = $this->getDoctrine()->getConnection()->prepare($sql);
                 $stm->execute();
@@ -100,7 +103,7 @@ final class LabOrdenAdminController extends CRUDController {
                 $stm->execute();
                 $laborden = $stm->fetch();
 
-                $sql = "SELECT t01.id, t02.nombre_examen, t01.id_examen, t02.nombre_examen, t03.estado_examen, t04.tipo_muestra, t01.precio
+                $sql = "SELECT t01.id, t02.nombre_examen, t01.id_examen, concat(t02.nombre_examen, ' ($', format(t02.precio,2),')') as nombre_examen, t03.estado_examen, t04.tipo_muestra, t01.precio
                     FROM lab_detalle_orden t01 
                     INNER JOIN ctl_examen t02 ON t01.id_examen = t02.id
                     INNER JOIN ctl_estado_examen t03 ON t01.id_estado_examen = t03.id
@@ -130,7 +133,7 @@ final class LabOrdenAdminController extends CRUDController {
                 $stm->execute();
                 $tiposdocumento = $stm->fetchAll();
 
-                $sql = "SELECT * FROM ctl_examen";
+                $sql = "SELECT id, concat(nombre_examen, ' ($', format(precio,2),')') as nombre_examen FROM ctl_examen";
                 $stm = $this->getDoctrine()->getConnection()->prepare($sql);
                 $stm->execute();
                 $examenes = $stm->fetchAll();

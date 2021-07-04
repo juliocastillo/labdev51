@@ -64,5 +64,12 @@ class LabOrdenController extends AbstractController
         
         return $this->render("resultado_detalle_elementos.html.twig",
                 array("datos" => $result));
-    }   
+    }
+    
+    /**
+     * @Route("/lab/ordenes/completas/list", name="ordenes_completas_list")
+     */
+    public function ordenesCompletas() : Response {
+            return new Response('Hola mundo!');
+    }
 }

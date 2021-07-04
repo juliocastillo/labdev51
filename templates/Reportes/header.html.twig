@@ -3,29 +3,22 @@
 <div class="header">
     <table>
         <tr>
-            <th><img src="{{absolute_url(asset('build/images/logo-lab-MB.093a0228.png')) }}" alt=""></th>
+            <td>
+                <img src="{{ asset('build/images/logo-lab-MB.093a0228.png') }}" alt="">
+            </td>
+            <td>
+               <strong>N° DE INSCRIPCION 742</strong> <br>
+                1ra calle oriente y 22 avenida norte #1-9 <br>
+                Telefono: 2451 9607 - WhatsApp: 7625 8233 <br>
+            </td>
         </tr>
-        <tr>
-            <th>N° DE INSCRIPCION 742</th>
-        </tr>
-        <tr>
-            <td>1ra calle oriente y 22 avenida norte #1-9</td>
-        </tr>
-        <tr>
-            <td>Telefono: 2451 9607 - WhatsApp: 7769 9792</td>
-        </tr>
+        
     </table>
     <hr>
     <table>
         <tr class="datosP">
-            <td>
-                <strong style="margin-left: 60px;">Medico: </strong>
-                {{ datos_head[0].nombre_medico }} {{ datos_head[0].apellido_medico }}
-            </td>
-        </tr>
-        <tr class="datosP">
             <td style="width: 40%;">
-                <strong style="margin-left: 60px;">Paciente:</strong>
+                <strong style="margin-left: 30px;">Paciente:</strong>
                 {{ datos_head[0].nombre }} {{ datos_head[0].apellido }}
             </td>
             <td style="width: 20%;">

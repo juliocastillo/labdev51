@@ -6,9 +6,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\WebpackEncoreBundle\Asset\EntrypointLookupInterface;
-use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
-use Knp\Snappy\Pdf;
+//use Symfony\WebpackEncoreBundle\Asset\EntrypointLookupInterface;
+//use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
+//use Knp\Snappy\Pdf;
 use Symfony\Component\Validator\Constraints\Length;
 
 //use Dompdf\Dompdf;
@@ -20,7 +20,7 @@ class ReportesController extends AbstractController
     * @Route("/cargar-datos", name="cargar_datos")
     */
     //Pdf $pdf
-    public function loadData(EntrypointLookupInterface $entrypointLookup,Pdf $pdf): Response {
+    public function loadData(): Response {
         $request = $this->container->get('request_stack')->getCurrentRequest();
         $idExamen = $request->get('idExamen');
         $idDetOrden = $request->get('idDetOrden');
@@ -125,7 +125,7 @@ class ReportesController extends AbstractController
                 $array_datos["datos"] =  $result;
             }
         }
-        $html = $this->renderView(
+        /* $html = $this->renderView(
             "Reportes/reporte_resultados.html.twig",
             array(
                 "arrays"=>$array_datos,
@@ -133,20 +133,20 @@ class ReportesController extends AbstractController
                 "datos_head"=>$resultHead,
                 //"datos_ids"=>$resultIds,
             ),
-        );
+        ); */
 
         //var_dump($array_datos); exit();
 
-        $header = $this->renderView("Reportes/header.html.twig",
+        /* $header = $this->renderView("Reportes/header.html.twig",
             array(
                 "datos_head"=>$resultHead,
             ),
-        );
+        ); */
         //$footer = $this->renderView("Reportes/footer.html.twig");
 
-        $entrypointLookup->reset();
+        //$entrypointLookup->reset();
         
-        $response = new PdfResponse(
+        /* $response = new PdfResponse(
             $pdf->getOutputFromHtml($html,
             [   
                 'images' => true,
@@ -156,17 +156,17 @@ class ReportesController extends AbstractController
                 'header-html' => $header,
                 'margin-top' => '80mm',
                 'margin-bottom' => '20mm',
-                //'footer-html' => $footer,
             ]),
-            /* 200,
-            array(
-                'Content-Type' => 'application/pdf',
-            ) */
-            //'reporte_'.$idDetOrden.'.pdf',
-        );
+        ); */
+        //'footer-html' => $footer,
+        /* 200,
+        array(
+            'Content-Type' => 'application/pdf',
+        ) */
+        //'reporte_'.$idDetOrden.'.pdf',
 
-        $response->headers->set('Content-Disposition','inline');
-        return $response;
+        /* $response->headers->set('Content-Disposition','inline');
+        return $response; */
 
         
         /* $pdfOptions = new Options();
@@ -203,12 +203,14 @@ class ReportesController extends AbstractController
         //exit(0);
         
 
-        /* return $this->render('Reportes/reporte_resultados.html.twig',
+        return $this->render('Reportes/reporte_resultados.html.twig',
             array(
-                "arrays" => $array_datos,
+                "arrays"=>$array_datos,
+                //"datos_orina"=>$resultOrina,
                 "datos_head"=>$resultHead,
-            )
-        ); */
+                //"datos_ids"=>$resultIds,
+            ),
+        );
 
         //"nombre_medico" => $nombre_medico,
                 //"nombre_paciente" => $nombre_paciente,

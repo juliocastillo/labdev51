@@ -38,7 +38,9 @@ class MenuBuilderListener
             ->setLabel('Ordenes')
             ->addChild('orden_de_laboratorio', ['route' => 'admin_app_laborden_index'])
             ->setLabel('Ordenes de laboratorio')
+            ->getParent()
+            ->addChild('ordenes_completas', ['route' => 'ordenes_completas_list'])
+            ->setLabel('Ordenes Completas')
             ->getParent();
-
     }
 }
