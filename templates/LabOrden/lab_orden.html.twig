@@ -29,6 +29,18 @@
                 }
             })
         }
+        $(document).ready(function() {
+            $('#idPaciente').select2({
+                minimumInputLength: 3
+            }
+            );
+        });
+        $(document).ready(function() {
+            $('#idexamen').select2();
+        });
+        $(document).ready(function() {
+            $('#idtipomuestra').select2();
+        });
     </script>
 {% endblock javascripts %}
 {% block content %}
@@ -46,7 +58,7 @@
                                     <tr>
                                         <td class="bg-primary text-right"><label for="idPaciente" >Paciente</label></td>
                                         <td>
-                                            <select class="form-control" id="idPaciente" name="idPaciente" required>
+                                            <select class="form-control" id="idPaciente" name="idPaciente" required style="width: 600px;">
                                                 {% if (action == "save") %}
                                                     <option value="">...seleccione...</option>
                                                 {% endif %}
@@ -59,7 +71,7 @@
                                     <tr>
                                         <td class="bg-primary text-right"><label for="idMedico">Medico</label></td>
                                         <td>
-                                            <select class="form-control" id="idMedico" name="idMedico" required>
+                                            <select class="form-control" id="idMedico" name="idMedico">
                                                 {% if (action == "save") %}
                                                     <option value="">...seleccione...</option>
                                                 {% endif %}
@@ -112,11 +124,12 @@
                                                         <tr>
                                                             <th>Examen</th>
                                                             <th>Tipo de muestra</th>
+                                                            <th></th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         <tr>
-                                                            <td style="width: 400px;">
+                                                            <td>
                                                                 <select class="form-control" id="idexamen" name="idexamen" required>
                                                                     <option value="">...seleccione...</option>
                                                                     {% for examen in examenes %}
@@ -124,19 +137,19 @@
                                                                     {% endfor %}
                                                                 </select>
                                                             </td>
-                                                            <td style="width: 200px;">
-                                                                <select class="form-control" id="idtipomuestra" name="idtipomuestra" required>
+                                                            <td>
+                                                                <select class="form-control" id="idtipomuestra" name="idtipomuestra">
                                                                     <option value="">...seleccione...</option>
                                                                     {% for tipomuestra in tiposmuestra %}
                                                                         <option value="{{tipomuestra.id}}">{{tipomuestra.tipo_muestra}}</option>
                                                                     {% endfor %}
                                                                 </select>
                                                             </td>
+                                                            <td>
                                                             {% if (action == "edit") %}
-                                                                <td>
-                                                                    <button type="button" onclick="guardarExamen({{ idorden }})" class="btn btn-primary">Agregar examen</button>
-                                                                </td>
+                                                                <button type="button" onclick="guardarExamen({{ idorden }})" class="btn btn-primary">Agregar examen</button>
                                                             {% endif %}
+                                                            </td>
                                                         </tr>
                                                     </tbody>
                                                 </table>

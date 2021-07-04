@@ -282,6 +282,10 @@
                 //console.log(data.idExamen,data.idDetalleOrden,data.idOrden);
                 //$("#message").html(html);
                 alert(data.message);
+                var opcion = promt("¿Desea imprimir el resultado?");
+                if (opcion){
+                    alert("aca va la logica de impresion de resultado");                        
+                }
                 //console.log(data);
                 $('#elementos').empty();
                 $('#btnGuardar').hide();

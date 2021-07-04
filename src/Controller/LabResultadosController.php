@@ -91,7 +91,7 @@ class LabResultadosController extends AbstractController
         $stm = $this->getDoctrine()->getConnection()->prepare($sqlEmpleados);
         $stm->execute();
         $empleados = $stm->fetchAll();
-        $sqlEdadEnDias = "SELECT datediff(NOW(),mp.fecha_nacimiento) AS dias_de_edad 
+        $sqlEdadEnDias = "SELECT datediff(NOW(),mp.fecha_nacimiento) AS dias_de_edad, mp.id_sexo
         from lab_orden ldo 
         inner join mnt_paciente mp on mp.id=ldo.id_paciente
         where ldo.id =$idOrden;";
@@ -99,6 +99,7 @@ class LabResultadosController extends AbstractController
         $stm->execute();
         $edadEnDias = $stm->fetchAll();
         $numeroDeDias = (Int)$edadEnDias[0]['dias_de_edad'];
+        $idSexo=(Int)$edadEnDias[0]['id_sexo'];
         $sqlIdEdad = "SELECT id from ctl_rango_edad
                             where edad_minima <= $numeroDeDias AND edad_maxima >= $numeroDeDias";
         $stm = $this->getDoctrine()->getConnection()->prepare($sqlIdEdad);
@@ -118,6 +119,7 @@ class LabResultadosController extends AbstractController
                 WHERE t4.id = $idOrden
                 AND t2.id = $idExamen
                 AND (t1.id_rango_edad = $idEdad OR t1.id_rango_edad IS NULL)
+                AND (t1.id_sexo = $idSexo OR t1.id_sexo IS NULL)
                 ORDER BY t1.ordenamiento";
 
         $stm = $this->getDoctrine()->getConnection()->prepare($sql);
@@ -147,7 +149,7 @@ class LabResultadosController extends AbstractController
         parse_str($request->get('datos'), $datos);
         $row = "";
         $now = date_create('now')->format('Y-m-d H:i:s');
-        //var_dump($datos); exit();
+        // var_dump($datos); exit();
         $userId = $this->getUser()->getId();
         for ($i = 0; $i < $datos["nElementos"]*2;$i+=2){
                 $row = $row."('".$datos["idElemento"][$i]."',".$datos["empleado"].",'".$datos["idDetalleOrden"].  "',".$userId.",'".$datos["idElemento"][$i+1]."','".$now."',true)";
@@ -159,7 +161,7 @@ class LabResultadosController extends AbstractController
         //var_dump($sql); exit();
         $stm = $this->getDoctrine()->getConnection()->prepare($sql);
         $stm->execute();        
-        $sql = "UPDATE lab_detalle_orden SET id_estado_examen = '2' WHERE id=".$datos["idDetalleOrden"].";";
+        $sql = "UPDATE lab_detalle_orden SET id_estado_examen = '2',fecha_resultado=NOW(),observacion ='".$datos["observacion"]."' WHERE id=".$datos["idDetalleOrden"].";";
         $stm = $this->getDoctrine()->getConnection()->prepare($sql);
         $stm->execute();
 
