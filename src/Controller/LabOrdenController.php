@@ -70,6 +70,19 @@ class LabOrdenController extends AbstractController
      * @Route("/lab/ordenes/completas/list", name="ordenes_completas_list")
      */
     public function ordenesCompletas() : Response {
-            return new Response('Hola mundo!');
+        $sql = "SELECT DISTINCT(t01.id), t02.nombre,t02.apellido, t03.nombre_estado, t04.fecha_resultado,
+                DATE_FORMAT(t01.fecha_orden,'%d-%m%-%Y %H:%i:%s') AS fecha_orden
+                FROM lab_orden t01 
+                LEFT JOIN mnt_paciente t02 ON t01.id_paciente = t02.id
+                LEFT JOIN ctl_estado_orden t03 ON t01.id_estado_orden = t03.id
+                LEFT JOIN lab_detalle_orden t04 ON t04.id_orden = t01.id
+                WHERE t01.id_estado_orden = 2";
+        $stm = $this->getDoctrine()->getConnection()->prepare($sql);
+        $stm->execute();
+        $result = $stm->fetchAll();
+        //var_dump($result); exit();
+        return $this->render("LabOrden/ordenes_completas.html.twig",
+                array("datos" => $result)
+        );
     }
 }
