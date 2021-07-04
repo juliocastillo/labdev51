@@ -91,7 +91,7 @@ class LabResultadosController extends AbstractController
         $stm = $this->getDoctrine()->getConnection()->prepare($sqlEmpleados);
         $stm->execute();
         $empleados = $stm->fetchAll();
-        $sqlEdadEnDias = "SELECT datediff(NOW(),mp.fecha_nacimiento) AS dias_de_edad 
+        $sqlEdadEnDias = "SELECT datediff(NOW(),mp.fecha_nacimiento) AS dias_de_edad, mp.id_sexo
         from lab_orden ldo 
         inner join mnt_paciente mp on mp.id=ldo.id_paciente
         where ldo.id =$idOrden;";
@@ -99,6 +99,7 @@ class LabResultadosController extends AbstractController
         $stm->execute();
         $edadEnDias = $stm->fetchAll();
         $numeroDeDias = (Int)$edadEnDias[0]['dias_de_edad'];
+        $idSexo=(Int)$edadEnDias[0]['id_sexo'];
         $sqlIdEdad = "SELECT id from ctl_rango_edad
                             where edad_minima <= $numeroDeDias AND edad_maxima >= $numeroDeDias";
         $stm = $this->getDoctrine()->getConnection()->prepare($sqlIdEdad);
@@ -118,6 +119,7 @@ class LabResultadosController extends AbstractController
                 WHERE t4.id = $idOrden
                 AND t2.id = $idExamen
                 AND (t1.id_rango_edad = $idEdad OR t1.id_rango_edad IS NULL)
+                AND (t1.id_sexo = $idSexo OR t1.id_sexo IS NULL)
                 ORDER BY t1.ordenamiento";
 
         $stm = $this->getDoctrine()->getConnection()->prepare($sql);
