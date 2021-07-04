@@ -29,7 +29,7 @@ class LabResultadosController extends AbstractController
             $array2 = array(
                 '<div class="btn btn-success btn-block btn-sm" id="idsolicitud" onclick="mostrarDetalle('.$r['id'].')">'.$r['id'].'</div>',
                 $r['fecha_orden'], 
-                $r['nombre'] . $r["apellido"], 
+                $r['nombre'] .' '. $r['apellido'], 
                 "<button id='btnCancelar' class='btn btn-warning btn-sm'>Cancelar Orden</button>");
             array_push($array, $array2);
         }

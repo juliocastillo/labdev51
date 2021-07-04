@@ -1,0 +1,99 @@
+{% extends '@SonataAdmin/standard_layout.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('#tOrdenes').DataTable( {
+            order:[[1,"desc"]],
+            
+        /* 
+        TRADUCIENDO EL LENGUAJE
+        */
+        "language" : {
+            "lengthMenu"    : "Mostrar _MENU_ registros",
+            "zeroRecords"   : "No se encontraron resultados",
+            "info"          : "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+            "infoEmpty"     : "Mostrando registros del 0 al 0 de un total de 0 registros",
+            "infoFiltered"  : "(filtrado de un todal de _MAX_ registros)",
+            "sSearch"       : "Buscar:",
+            "oPaginate"     : {
+                "sFirst"    : "Primero",
+                "sLast"     : "Ultimo",
+                "sNext"     : "Siguiente",
+                "sPrevious" : "Anterios"
+            },
+            "sProcessing"   : "Procesando...",
+        }
+        } );
+    });
+</script>
+{% endblock javascripts %}
+{% block sonata_admin_content %}
+    {#{% block notice %}
+        {% include "SonataCoreBundle:FlashMessage:render.html.twig" %}
+    {% endblock notice %}#}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                <div class="box box-primary">
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <form name="envio" method="post" id="envio">
+                                    <div id="ordenes-completas" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 center-block">
+                                        <div class="table-responsive">
+                                            <table id="tOrdenes" class="table table-striped">
+                                                <thead class="text-center">
+                                                    <th>Identificador</th>
+                                                    <th>Nombre</th>
+                                                    <th>Estado</th>
+                                                    <th>Fecha de Resultado</th>
+                                                    <th>Acciones</th>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        {% for dato in datos %}
+                                                            <td>{{ dato.id }}</td>
+                                                            <td>{{ dato.nombre }} {{ dato.apellido }}</td>
+                                                            <td>{{ dato.nombre_estado }}</td>
+                                                            <td>{{ dato.fecha_resultado }}</td>
+                                                            <td>
+                                                                <a id="btnImprimirOrden" href="{{ path('cargar_datos', { 'idOrden':dato.id }) }}" class="btn btn-primary">
+                                                                    Imprimir
+                                                                    <i class="glyphicon glyphicon-print"></i>
+                                                                </a>
+                                                            </td>
+                                                        {% endfor %}
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div id="examenes" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 center-block">
+                                    </div>
+                                    <div id="elementos" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 center-block">
+                                    </div>
+                                    <div id="message" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 center-block">
+                                    </div>
+                                    <div id="reportes" class="col-md-12">
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 text-center">
+                                {# <button type="button" id="btnBuscar" style="width: 200px; margin-top: 5px;" class="btn btn-info"><i class="glyphicon glyphicon-zoom-in"></i>&nbsp; Buscar</button> #}
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+{% endblock %}
