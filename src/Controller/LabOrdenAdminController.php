@@ -80,14 +80,17 @@ final class LabOrdenAdminController extends CRUDController {
                 $stm->execute();
                 //obtener ultimo id insertado
                 $idOrden = (int) $this->getDoctrine()->getConnection()->lastInsertId();
+                $examen = $em->getRepository('App:CtlExamen')->findOneBy(array('id' =>$idexamen));
+                $precio = (int) $examen->getPrecio();
                 $sql = "INSERT INTO lab_detalle_orden (
                         id_orden,
                         id_examen,
+                        precio,
                         id_tipo_muestra,
                         id_estado_examen,
                         id_usuario_reg,
                         fechahora_reg)
-                        VALUES ($idOrden,$idexamen,$idtipomuestra,1,1,NOW())";
+                        VALUES ($idOrden,$idexamen,$precio,$idtipomuestra,1,1,NOW())";
 
                 $stm = $this->getDoctrine()->getConnection()->prepare($sql);
                 $stm->execute();
