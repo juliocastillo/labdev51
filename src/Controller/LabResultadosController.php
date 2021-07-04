@@ -149,7 +149,7 @@ class LabResultadosController extends AbstractController
         parse_str($request->get('datos'), $datos);
         $row = "";
         $now = date_create('now')->format('Y-m-d H:i:s');
-        //var_dump($datos); exit();
+        // var_dump($datos); exit();
         $userId = $this->getUser()->getId();
         for ($i = 0; $i < $datos["nElementos"]*2;$i+=2){
                 $row = $row."('".$datos["idElemento"][$i]."',".$datos["empleado"].",'".$datos["idDetalleOrden"].  "',".$userId.",'".$datos["idElemento"][$i+1]."','".$now."',true)";
@@ -161,7 +161,7 @@ class LabResultadosController extends AbstractController
         //var_dump($sql); exit();
         $stm = $this->getDoctrine()->getConnection()->prepare($sql);
         $stm->execute();        
-        $sql = "UPDATE lab_detalle_orden SET id_estado_examen = '2' WHERE id=".$datos["idDetalleOrden"].";";
+        $sql = "UPDATE lab_detalle_orden SET id_estado_examen = '2',fecha_resultado=NOW(),observacion ='".$datos["observacion"]."' WHERE id=".$datos["idDetalleOrden"].";";
         $stm = $this->getDoctrine()->getConnection()->prepare($sql);
         $stm->execute();
 
