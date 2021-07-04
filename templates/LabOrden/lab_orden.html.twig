@@ -71,7 +71,7 @@
                                     <tr>
                                         <td class="bg-primary text-right"><label for="idMedico">Medico</label></td>
                                         <td>
-                                            <select class="form-control" id="idMedico" name="idMedico" required>
+                                            <select class="form-control" id="idMedico" name="idMedico">
                                                 {% if (action == "save") %}
                                                     <option value="">...seleccione...</option>
                                                 {% endif %}
@@ -124,31 +124,32 @@
                                                         <tr>
                                                             <th>Examen</th>
                                                             <th>Tipo de muestra</th>
+                                                            <th></th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         <tr>
-                                                            <td style="width: 400px;">
-                                                                <select class="form-control" id="idexamen" name="idexamen" required style="width: 500px;">
+                                                            <td>
+                                                                <select class="form-control" id="idexamen" name="idexamen" required>
                                                                     <option value="">...seleccione...</option>
                                                                     {% for examen in examenes %}
                                                                         <option value="{{examen.id}}">{{examen.nombre_examen}}</option>
                                                                     {% endfor %}
                                                                 </select>
                                                             </td>
-                                                            <td style="width: 200px;">
-                                                                <select class="form-control" id="idtipomuestra" name="idtipomuestra" required style="width: 200px;">
+                                                            <td>
+                                                                <select class="form-control" id="idtipomuestra" name="idtipomuestra">
                                                                     <option value="">...seleccione...</option>
                                                                     {% for tipomuestra in tiposmuestra %}
                                                                         <option value="{{tipomuestra.id}}">{{tipomuestra.tipo_muestra}}</option>
                                                                     {% endfor %}
                                                                 </select>
                                                             </td>
+                                                            <td>
                                                             {% if (action == "edit") %}
-                                                                <td>
-                                                                    <button type="button" onclick="guardarExamen({{ idorden }})" class="btn btn-primary">Agregar examen</button>
-                                                                </td>
+                                                                <button type="button" onclick="guardarExamen({{ idorden }})" class="btn btn-primary">Agregar examen</button>
                                                             {% endif %}
+                                                            </td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
