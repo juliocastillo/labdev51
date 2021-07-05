@@ -17,18 +17,6 @@ class MenuBuilderListener
     {
         // Esta es la funcionalidad para agregar opciones estáticas al menú de Sonata
         $event->getMenu()
-            ->addChild('Resultados', ['route' => ''])
-            ->setExtras(
-                [
-                    'icon' => '<span class="fa fa-file"></span>&nbsp;',
-                ]
-            )
-            ->setLabel('Resultados')
-            ->addChild('resultados_de_laboratorio', ['route' => 'admin_app_labresultados_index'])
-            ->setLabel('Resultados de laboratorio')
-            ->getParent();
-
-            $event->getMenu()
             ->addChild('Ordenes', ['route' => ''])
             ->setExtras(
                 [
@@ -41,6 +29,18 @@ class MenuBuilderListener
             ->getParent()
             ->addChild('ordenes_completas', ['route' => 'ordenes_completas_list'])
             ->setLabel('Ordenes Completas')
+            ->getParent();
+        
+        $event->getMenu()
+            ->addChild('Resultados', ['route' => ''])
+            ->setExtras(
+                [
+                    'icon' => '<span class="fa fa-file"></span>&nbsp;',
+                ]
+            )
+            ->setLabel('Resultados')
+            ->addChild('resultados_de_laboratorio', ['route' => 'admin_app_labresultados_index'])
+            ->setLabel('Resultados de laboratorio')
             ->getParent();
     }
 }

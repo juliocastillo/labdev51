@@ -59,7 +59,8 @@ class ReportesController extends AbstractController
             
             if ($resultIds[$i]["id_examen"] == "16") {
                 $sql = "SELECT t01.id, t01.nombre_elemento, t01.id_tipo_elemento, t01.valor_inicial, 
-                t01.valor_final, t01.unidades, t02.resultado, t07.id AS id_examen, t07.nombre_examen
+                t01.valor_final, t01.unidades, t02.resultado, t07.id AS id_examen, t07.nombre_examen,
+                t03.observacion
                 FROM mnt_elementos t01 
                     LEFT JOIN lab_resultados t02 ON t01.id = t02.id_elemento
                     LEFT JOIN lab_detalle_orden t03 ON t03.id = t02.id_detalle_orden
@@ -76,7 +77,8 @@ class ReportesController extends AbstractController
             if ($resultIds[$i]["id_examen"] == "6") {
             
                 $sql = "SELECT t01.id, t01.nombre_elemento, t01.id_tipo_elemento, t01.valor_inicial, 
-                t01.valor_final, t01.unidades, t02.resultado, t07.id AS id_examen, t07.nombre_examen
+                t01.valor_final, t01.unidades, t02.resultado, t07.id AS id_examen, t07.nombre_examen,
+                t03.observacion
                 FROM mnt_elementos t01 
                     LEFT JOIN lab_resultados t02 ON t01.id = t02.id_elemento
                     LEFT JOIN lab_detalle_orden t03 ON t03.id = t02.id_detalle_orden
@@ -92,7 +94,8 @@ class ReportesController extends AbstractController
             }
             if($resultIds[$i]["id_examen"] == "4"){
                 $sql = "SELECT t01.id, t01.nombre_elemento, t01.id_tipo_elemento, t01.valor_inicial, 
-                t01.valor_final, t01.unidades, t02.resultado, t07.id AS id_examen, t07.nombre_examen
+                t01.valor_final, t01.unidades, t02.resultado, t07.id AS id_examen, t07.nombre_examen,
+                t03.observacion
                 FROM mnt_elementos t01 
                     LEFT JOIN lab_resultados t02 ON t01.id = t02.id_elemento
                     LEFT JOIN lab_detalle_orden t03 ON t03.id = t02.id_detalle_orden
@@ -109,7 +112,7 @@ class ReportesController extends AbstractController
             if($resultIds[$i]["id_examen"] != "4" && $resultIds[$i]["id_examen"] != "6" && $resultIds[$i]["id_examen"] != "16"){
                 $sql = "SELECT t01.id, t01.nombre_elemento, t01.id_tipo_elemento, t01.valor_inicial, 
                 t01.valor_final, t01.unidades, t02.resultado, t07.id AS id_examen, t07.nombre_examen,
-                t08.id AS id_area, t08.nombre_area
+                t08.id AS id_area, t08.nombre_area, t03.observacion
                 FROM mnt_elementos t01 
                     LEFT JOIN lab_resultados t02 ON t01.id = t02.id_elemento
                     LEFT JOIN lab_detalle_orden t03 ON t03.id = t02.id_detalle_orden

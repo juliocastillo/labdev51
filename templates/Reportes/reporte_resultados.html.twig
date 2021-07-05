@@ -128,6 +128,13 @@
                 </tr>
                 {% endif %}
             {% endfor %}
+            {% if arrays["datos"][0].observacion != "" %}
+                <tr>
+                    <td colspan="4" style="text-align: left; padding-left: 70px; padding-top: 5px; font-size: 12px;">
+                        <strong>Observacion: </strong>{{ arrays["datos"][0].observacion }}
+                    </td>
+                </tr>
+            {% endif %}
             </tbody>
         {% endif %}
     {% endif %}
@@ -139,7 +146,6 @@
                         <strong>{{ arrays["datos_heces"][0].nombre_examen }}</strong>
                     </th>
                 </tr>
-
                 {% for dato in arrays["datos_heces"] %}
                     {% if (dato.id_tipo_elemento == 1) %}
                     <tr><td colspan="4" style="padding-left: 60px; padding-top:10px; text-align: left; font-size: 12px;"><strong>{{dato.nombre_elemento}}</strong></td></tr>
@@ -161,6 +167,13 @@
                     </tr>
                     {% endif %}
                 {% endfor %}
+                {% if arrays["datos"][0].observacion != "" %}
+                    <tr>
+                        <td colspan="4" style="text-align: left; padding-left: 70px; padding-top: 5px; font-size: 12px;">
+                            <strong>Observacion: </strong>{{ arrays["datos"][0].observacion }}
+                        </td>
+                    </tr>
+                {% endif %}
             </tbody>
         {% endif %}
     {% endif %}
@@ -193,6 +206,13 @@
                 </tr>
                 {% endif %}
             {% endfor %}
+            {% if arrays["datos"][0].observacion != "" %}
+                <tr>
+                    <td colspan="4" style="text-align: left; padding-left: 70px; padding-top: 5px; font-size: 12px;">
+                        <strong>Observacion: </strong>{{ arrays["datos"][0].observacion }}
+                    </td>
+                </tr>
+            {% endif %}
             </tbody>
         {% endif %}
     {% endif %}
@@ -217,6 +237,13 @@
                         </td>
                     </tr>
                 {% endfor %}
+                {% if arrays["datos"][0].observacion != "" %}
+                    <tr>
+                        <td colspan="4" style="text-align: left; padding-left: 70px; padding-top: 5px; font-size: 12px;">
+                            <strong>Observacion: </strong>{{ arrays["datos"][0].observacion }}
+                        </td>
+                    </tr>
+                {% endif %}
             </tbody>
             {% endif %}
             {% if arrays["datos"][0].id_area == "2" %}
@@ -238,6 +265,13 @@
                         </td>
                     </tr>
                 {% endfor %}
+                {% if arrays["datos"][0].observacion != "" %}
+                    <tr>
+                        <td colspan="4" style="text-align: left; padding-left: 70px; padding-top: 5px; font-size: 12px;">
+                            <strong>Observacion: </strong>{{ arrays["datos"][0].observacion }}
+                        </td>
+                    </tr>
+                {% endif %}
             </tbody>
             {% endif %}
             {% if arrays["datos"][0].id_area == "3" %}
@@ -259,6 +293,13 @@
                         </td>
                     </tr>
                 {% endfor %}
+                {% if arrays["datos"][0].observacion != "" %}
+                    <tr>
+                        <td colspan="4" style="text-align: left; padding-left: 70px; padding-top: 5px; font-size: 12px;">
+                            <strong>Observacion: </strong>{{ arrays["datos"][0].observacion }}
+                        </td>
+                    </tr>
+                {% endif %}
             </tbody>
             {% endif %}
             {% if arrays["datos"][0].id_area == "4" %}
@@ -280,6 +321,13 @@
                         </td>
                     </tr>
                 {% endfor %}
+                {% if arrays["datos"][0].observacion != "" %}
+                    <tr>
+                        <td colspan="4" style="text-align: left; padding-left: 70px; padding-top: 5px; font-size: 12px;">
+                            <strong>Observacion: </strong>{{ arrays["datos"][0].observacion }}
+                        </td>
+                    </tr>
+                {% endif %}
             </tbody>
             {% endif %}
             {% if arrays["datos"][0].id_area == "5" %}
@@ -301,6 +349,13 @@
                         </td>
                     </tr>
                 {% endfor %}
+                {% if arrays["datos"][0].observacion != "" %}
+                    <tr>
+                        <td colspan="4" style="text-align: left; padding-left: 70px; padding-top: 5px; font-size: 12px;">
+                            <strong>Observacion: </strong>{{ arrays["datos"][0].observacion }}
+                        </td>
+                    </tr>
+                {% endif %}
             </tbody>
             {% endif %}
             {% if arrays["datos"][0].id_area == "6" %}
@@ -322,6 +377,13 @@
                         </td>
                     </tr>
                 {% endfor %}
+                {% if arrays["datos"][0].observacion != "" %}
+                    <tr>
+                        <td colspan="4" style="text-align: left; padding-left: 70px; padding-top: 5px; font-size: 12px;">
+                            <strong>Observacion: </strong>{{ arrays["datos"][0].observacion }}
+                        </td>
+                    </tr>
+                {% endif %}
             </tbody>
             {% endif %}
             {% if arrays["datos"][0].id_area == "7" %}
@@ -343,6 +405,13 @@
                         </td>
                     </tr>
                 {% endfor %}
+                {% if arrays["datos"][0].observacion != "" %}
+                    <tr>
+                        <td colspan="4" style="text-align: left; padding-left: 70px; padding-top: 5px; font-size: 12px;">
+                            <strong>Observacion: </strong>{{ arrays["datos"][0].observacion }}
+                        </td>
+                    </tr>
+                {% endif %}
             </tbody>
             {% endif %}
         {% endif %}
