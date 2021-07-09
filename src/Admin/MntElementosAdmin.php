@@ -149,7 +149,7 @@ final class MntElementosAdmin extends AbstractAdmin
                 ],
                 'required' => FALSE,
             ])
-            ->add('valorInicial', TextType::class, ['attr' => [
+            ->add('valorInicial', NumberType::class, ['attr' => [
                 'style' => 'width: 70%',
                 'placeholder' => "0.0",
                 ],

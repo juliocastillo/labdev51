@@ -43,7 +43,7 @@ class MntElementos
     private $idExamen;
 
     /**
-     * @ORM\Column(type="string", nullable=true)
+     * @ORM\Column(type="float", nullable=true)
      */
     private $valorInicial;
 
