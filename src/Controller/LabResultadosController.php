@@ -17,10 +17,11 @@ class LabResultadosController extends AbstractController
         $request = $this->container->get('request_stack')->getCurrentRequest();
         //$numeroOrden = $request->get('numeroOrden');
         $sql = "SELECT t01.id, t02.nombre,t02.apellido,
-                DATE_FORMAT(t01.fecha_orden,'%d-%m%-%Y %H:%i:%s') AS fecha_orden
+                DATE_FORMAT(t01.fecha_orden,'%d-%m%-%Y %H:%i') AS fecha_orden
                 FROM lab_orden t01 
                 LEFT JOIN mnt_paciente t02 ON t01.id_paciente = t02.id 
-                WHERE t01.id_estado_orden = 1";
+                -- WHERE t01.id_estado_orden = 1
+                ";
         $stm = $this->getDoctrine()->getConnection()->prepare($sql);
         $stm->execute();
         $result = $stm->fetchAll();
@@ -29,15 +30,20 @@ class LabResultadosController extends AbstractController
             $array2 = array(
                 '<div class="btn btn-success btn-block btn-sm" id="idsolicitud" onclick="mostrarDetalle('.$r['id'].')">'.$r['id'].'</div>',
                 $r['fecha_orden'], 
-                $r['nombre'] .' '. $r['apellido'], 
-                "<button id='btnCancelar' class='btn btn-warning btn-sm'>Cancelar Orden</button>");
+                $r['nombre'] .' '. $r['apellido'],
+                "<button id='btnBorrarOrden' class='btn btn-danger btn-sm'>Borrar
+                    <i class='glyphicon glyphicon-trash'>
+                </button>", 
+                "<button id='btnCancelar' class='btn btn-warning btn-sm'>Cancelar
+                <i class='glyphicon glyphicon-remove'>
+                </button>");
             array_push($array, $array2);
         }
 
         $array = json_encode(array(
             "data" => $array
         ));
-
+        //var_dump($array); exit();
         return new Response($array);
 
         //$this->render("LabResultados/resultados_busqueda.html.twig",
@@ -172,20 +178,19 @@ class LabResultadosController extends AbstractController
         $stm->execute();
         $idExamen = $stm->fetch();
 
-        /* ESTADO DE LOS EXAMENES PARA CADA ORDEN */
+        /* ESTADO DE EXAMENES Y ORDENES */
         $idOrden=$datos["idOrden"];
         $sqlEstOrden = "SELECT COUNT(id_estado_examen) AS exa_pendientes FROM lab_detalle_orden WHERE id_estado_examen = 1 AND id_orden = $idOrden";
         $stm = $this->getDoctrine()->getConnection()->prepare($sqlEstOrden);
         $stm->execute();
         $exaPendientes = $stm->fetch();
 
-        //var_dump($exaPendientes); exit();
-
-        if ($exaPendientes["exa_pendientes"] == 0) {
+        /* if ($exaPendientes["exa_pendientes"] == 0) {
             $sqlEstOrden = "UPDATE lab_orden SET id_estado_orden = '2' WHERE id = $idOrden";
             $stm = $this->getDoctrine()->getConnection()->prepare($sqlEstOrden);
             $stm->execute();
-        }
+        } */
+        /* FIN DE CAMBIO DE ESTADO DE ORDEN  */
 
         $response = json_encode(array(
             "message" => 'Guardado Exitosamente',
@@ -215,7 +220,30 @@ class LabResultadosController extends AbstractController
 
         return new Response("exito!");
     }
+    /**
+     * @Route("/lab/borrar/orden", name="lab_borrar_orden")
+     */
+    public function borrarOrden(): Response
+    {
+        $request = $this->container->get('request_stack')->getCurrentRequest();
+        $idDetOrden = $request->get('idDetOrden');
+        $idOrden = $request->get('idOrden');
+        /* BORRAR DETALLE ORDEN */
+        $sql = "DELETE FROM lab_orden WHERE id = $idOrden";
+        $stm = $this->getDoctrine()->getConnection()->prepare($sql);
+        $stm->execute();
+       /* $sqlNumEx = "SELECT COUNT(id_examen) AS num_examenes FROM lab_detalle_orden WHERE id_orden = $idOrden";
+       $stm = $this->getDoctrine()->getConnection()->prepare($sqlNumEx);
+       $stm->execute();
+       $numEx = $stm->fetch();
 
+       if ($numEx["num_examenes"] == 0) {
+           $sqlEstOrden = "UPDATE lab_orden SET id_estado_orden = '3' WHERE id = $idOrden";
+           $stm = $this->getDoctrine()->getConnection()->prepare($sqlEstOrden);
+           $stm->execute();
+       } */
+       return new Response("borrada");
+    }
     /**
      * @Route("/lab/borrar/examen/orden", name="lab_borrar_examen_orden")
      */
@@ -243,7 +271,6 @@ class LabResultadosController extends AbstractController
         } */
         return new Response("borrado");
      }
-
      /**
      * @Route("/borrar/resultado/examen", name="borrar_resultado_examen")
      */

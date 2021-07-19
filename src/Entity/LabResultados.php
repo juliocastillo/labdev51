@@ -47,7 +47,7 @@ class LabResultados
     private $observacion;
     
     /**
-     * @ORM\Column(type="string", length=15, nullable=true)
+     * @ORM\Column(type="string", length=60, nullable=true)
      */
     private $resultado;
 

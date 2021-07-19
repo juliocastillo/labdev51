@@ -79,10 +79,11 @@ class LabDetalleOrden
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $fechahoraMod;
-
+    
+    //@ORM\JoinColumn(nullable=false, name="id_orden", referencedColumnName="id")
     /**
      * @ORM\ManyToOne(targetEntity=LabOrden::class, inversedBy="labDetalleOrdens")
-     * @ORM\JoinColumn(nullable=false, name="id_orden", referencedColumnName="id")
+     * @ORM\JoinColumn(name="id_orden", referencedColumnName="id", onDelete="CASCADE", nullable=false)
      */
     private $idOrden;    
     

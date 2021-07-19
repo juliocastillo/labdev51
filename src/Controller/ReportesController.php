@@ -368,83 +368,6 @@ class ReportesController extends AbstractController
                 
             }
         }
-        /* $html = $this->renderView(
-            "Reportes/reporte_resultados.html.twig",
-            array(
-                "arrays"=>$array_datos,
-                //"datos_orina"=>$resultOrina,
-                "datos_head"=>$resultHead,
-                //"datos_ids"=>$resultIds,
-            ),
-        ); */
-
-        //var_dump($array_datos); exit();
-
-        /* $header = $this->renderView("Reportes/header.html.twig",
-            array(
-                "datos_head"=>$resultHead,
-            ),
-        ); */
-        //$footer = $this->renderView("Reportes/footer.html.twig");
-
-        //$entrypointLookup->reset();
-        
-        /* $response = new PdfResponse(
-            $pdf->getOutputFromHtml($html,
-            [   
-                'images' => true,
-                'enable-javascript' => true,
-                'page-size' => 'LETTER',
-                'viewport-size' => '1280x1024',
-                'header-html' => $header,
-                'margin-top' => '80mm',
-                'margin-bottom' => '20mm',
-            ]),
-        ); */
-        //'footer-html' => $footer,
-        /* 200,
-        array(
-            'Content-Type' => 'application/pdf',
-        ) */
-        //'reporte_'.$idDetOrden.'.pdf',
-
-        /* $response->headers->set('Content-Disposition','inline');
-        return $response; */
-
-        
-        /* $pdfOptions = new Options();
-        $pdfOptions->set('isRemoteEnabled',true);
-        //$pdfOptions->set('defaultFont','Arial');
-        $dompdf = new Dompdf($pdfOptions); */
-
-        //$html = $this->renderView(
-        //    "Reportes/reporte_resultados.html.twig",
-        //    array(
-        //        "datos"=>$result,
-        //    ),
-            /* json_encode(array(
-                "idExamen"=>$idExamen,
-                "idDetOrden"=>$idDetOrden
-            )), */
-            //['title' => 'PDF test',]
-        //);
-        
-        /* $dompdf->loadHtml($html);
-        $dompdf->render();
-        ob_get_clean();
-        $dompdf->stream("mypdf.pdf", [
-            "Attachment" => false
-            ]
-        ); */
-
-        /* return new Response(
-            json_encode(array(
-                "idExamen"=>$idExamen,
-                "idDetOrden"=>$idDetOrden
-            ))
-        ); */
-        //exit(0);
-        //var_dump($array_datos); exit();
 
         return $this->render('Reportes/reporte_resultados.html.twig',
             array(
@@ -457,20 +380,54 @@ class ReportesController extends AbstractController
                 //"datos_ids"=>$resultIds,
             ),
         );
+    }
 
-        //"nombre_medico" => $nombre_medico,
-                //"nombre_paciente" => $nombre_paciente,
-                //"apellido_paciente" => $apellido_paciente,
-                //"edad_anios" => $edad_anios,
-                //"edad_meses" => $edad_meses,
-                //"edad_dias" => $edad_dias,
-                //"fecha_orden" => $fecha_orden
+    /**
+    * @Route("/cargar/datos/heces", name="cargar_datos_heces")
+    */
+    public function loadDataHeces(): Response {
+        $request = $this->container->get('request_stack')->getCurrentRequest();
+        $idExamen = $request->get('idExamen');
+        $idDetOrden = $request->get('idDetOrden');
+        $idOrden = $request->get('idOrden');
+        /* QUERY HEADER */
+        $sqlHead = "SELECT t01.nombre, t01.apellido, t02.fecha_orden, t03.nombre AS nombre_medico, 
+                        t03.apellido AS apellido_medico,
+                        TIMESTAMPDIFF(YEAR,t01.fecha_nacimiento,CURDATE()) AS edad_anios,
+                        TIMESTAMPDIFF(MONTH,t01.fecha_nacimiento,CURDATE()) AS edad_meses,
+                        TIMESTAMPDIFF(DAY,t01.fecha_nacimiento,CURDATE()) AS edad_dias 
+                    
+                    FROM mnt_paciente t01
+                    
+                    LEFT JOIN lab_orden t02 ON t01.id = t02.id_paciente
+                    LEFT JOIN mnt_medico t03 ON t03.id = t02.id_medico
+                    
+                    WHERE t02.id = $idOrden";
+
+        $stm = $this->getDoctrine()->getConnection()->prepare($sqlHead);
+        $stm->execute();
+        $resultHead = $stm->fetchAll();        
+        /* END QUERY HEADER */
+        
+        return $this->render('Reportes/reporte_heces.html.twig',
+            array(
+                "datos_head" => $resultHead,
+            )
+        );
     }
 
     /**
     * @Route("/cargar-pdf", name="cargar_pdf")
     */
     public function loadPdf() : Response {
+        $request = $this->container->get('request_stack')->getCurrentRequest();
+        //$idExamen = $request->get('idExamen');
+        //$idDetOrden = $request->get('idDetOrden');
+        $idOrden = $request->get('idOrden');
+
+
+
+
         return $this->render("Reportes/pdf.html.twig");
     }
 

@@ -90,6 +90,38 @@
             
         });
 
+        $(document).on('click','#btnBorrarOrden',function(e){
+            rowDetOrden = $(this).closest('tr');
+            idOrden = parseInt(rowDetOrden.find('td:eq(0)').text());
+            idDetOrden = parseInt(rowDetOrden.find('td:eq(1)').text());
+
+            const msgConfirm = confirm("Esta seguro de eliminar la orden " + idOrden + "?");
+
+            if(msgConfirm){
+                $.ajax({
+                    //Tipo de peticion: GET o POST
+                    type: "GET",
+                    //la URL para la peticion
+                    url: "{{ path('lab_borrar_orden') }}",
+                    //La informacion a enviar
+                    //tambien es posible utilizar una cadena de datps
+                    data: {idDetOrden:idDetOrden,idOrden:idOrden},
+                    //El tipo de informacion que se espera de respuesta
+                    dataType: "text",
+                    //Codigo a ejecutar si la peticion es satisfactoria
+                    //La resṕuesta es pasada como argumento a la funcion
+                    success: function (text) {
+                        //rowDetOrden.remove();
+                        alert('La orden ' + idOrden + ' fue ' + text + '!');
+                        location.reload();
+                    }
+                });
+            }else{
+                e.preventDefault();
+            }
+            
+        });
+
         $(document).on('click','#btnBorrarResEx',function(e){
             rowDetOrden = $(this).closest('tr');
             nombreExamen = rowDetOrden.find('td:eq(0)').text();
@@ -160,8 +192,10 @@
             if(idEstadoExamen == "Completo"){
                 $.ajax({
                     type: "GET",
-                    url: "{{ path('cargar_datos') }}",
-                    data: {idDetOrden:idDetOrden, idExamen:idExamen, idOrden:idOrden},
+                    url: "{{ path('cargar_datos_heces') }}",
+                    data: 
+                        //{idDetOrden:idDetOrden, idExamen:idExamen, 
+                            {idOrden:idOrden},
                     dataType: "html",
                     async: true,
                     
@@ -170,7 +204,7 @@
                         let requestUrl = this.url;
 
                         window.open(requestUrl).print();
-                        window.close();
+                        //window.close();
                     }
                 //e.5preventDefault();
                 });
@@ -209,7 +243,6 @@
             }
         });
     })
-
 
     function mostrarDetalle(idOrden) {
         $(document).ready(function () {
@@ -312,11 +345,12 @@
                                     </strong>
                                 </h4>
                                 <table id="tOrdenes" class="table table-striped table-condensed">
-                                    <thead class="text-center">
-                                        <th>N° Orden</th>
-                                        <th>Fecha</th>
-                                        <th>Paciente</th>
-                                        <th>Accion</th>
+                                    <thead>
+                                        <th class="text-center">N° Orden</th>
+                                        <th class="text-center">Fecha</th>
+                                        <th class="text-center">Paciente</th>
+                                        <th class="text-center">Borrar</th>
+                                        <th class="text-center">Cancelar</th>
                                     </thead>
                                     <tbody class="text-center">
                                         

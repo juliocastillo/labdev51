@@ -163,6 +163,9 @@
                                     <button type="submit" id="btnGuardar" style="width: 200px; margin-top: 5px;" class="btn btn-info">Crear orden de trabajo</button>
                                 {% elseif (action == "edit") %}
                                     <a style="width: 200px; margin-top: 5px;" href="{{ path("admin_app_laborden_index") }}" class="btn btn-success">Finalizar y crear nueva</a>
+                                    <a style="width: 200px; margin-top: 5px;" href="{{ path("admin_app_labresultados_index") }}" class="btn btn-info">Ingresar Resultado   
+                                        <i class="fa fa-sign-out"></i>
+                                    </a>
                                 {% endif %}
                             </form>                                                      
                         </div>
