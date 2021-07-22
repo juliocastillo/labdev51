@@ -409,16 +409,20 @@ class ReportesController extends AbstractController
         $resultHead = $stm->fetchAll();        
         /* END QUERY HEADER */
 
-        $sql = "SELECT t01.id, t01.nombre_elemento, t01.id_tipo_elemento, t01.valor_inicial, 
-                t01.valor_final, t01.unidades, t02.resultado, t07.id AS id_examen, t07.nombre_examen,
-                t03.observacion
-                FROM mnt_elementos t01 
-                    LEFT JOIN lab_resultados t02 ON t01.id = t02.id_elemento
-                    LEFT JOIN lab_detalle_orden t03 ON t03.id = t02.id_detalle_orden
-                    LEFT JOIN ctl_examen t07 ON t07.id = t03.id_examen
-                WHERE t03.id_orden = $idOrden
-                AND t07.id = 6
-                ORDER BY t01.ordenamiento";
+        $sql = "SELECT t1.id, t1.nombre_elemento, t1.id_tipo_elemento, t1.valor_inicial, t1.valor_final, 
+                        t1.unidades, t6.resultado, t6.observacion
+                FROM mnt_elementos t1
+                LEFT JOIN ctl_examen t2 ON t2.id = t1.id_examen
+                LEFT JOIN lab_detalle_orden t3 ON t3.id_examen = t2.id
+                LEFT JOIN lab_orden t4 ON t4.id = t3.id_orden
+                LEFT JOIN mnt_paciente t5 ON t5.id = t4.id_paciente
+                LEFT JOIN lab_resultados t6 ON t6.id_elemento = t1.id
+                WHERE t4.id = $idOrden 
+                AND t2.id = $idExamen 
+                AND (t1.id_rango_edad = 3 OR t1.id_rango_edad IS NULL) 
+                AND (t1.id_sexo = 2 OR t1.id_sexo IS NULL) 
+                AND (t6.id_detalle_orden = $idDetOrden OR t6.id_detalle_orden IS NULL)
+                ORDER BY t1.ordenamiento";
     
                 $stm = $this->getDoctrine()->getConnection()->prepare($sql);
                 $stm->execute();
@@ -434,7 +438,6 @@ class ReportesController extends AbstractController
             )
         );
     }
-
     /**
     * @Route("/cargar-pdf", name="cargar_pdf")
     */
@@ -444,84 +447,6 @@ class ReportesController extends AbstractController
         //$idDetOrden = $request->get('idDetOrden');
         $idOrden = $request->get('idOrden');
 
-
-
-
         return $this->render("Reportes/pdf.html.twig");
-    }
-
-    /**
-    * @Route("/generate-pdf", name="generate_pdf")
-    */
-
-    /* public function convertPdf() {
-
-        $pdfOptions = new Options();
-        $pdfOptions->set('defaultFont','Arial');
-        //$pdfOptions->set('public_path', '/home/carlitox/proyectos/labdev51/public/build/images');
-        $pdfOptions->setIsRemoteEnabled(true);
-
-        //$pdfOptions->set('tempDir','/home/carlitox/Descargas/pdf-export/tmp');
-
-        $dompdf = new Dompdf($pdfOptions);
-
-        $html = $this->render("pdf/pdf.html.twig",[
-            'title' => 'PDF test'
-        ]);
-        
-        $dompdf->loadHtml($html);
-        $dompdf->render();
-        ob_get_clean();
-        $dompdf->stream("mypdf.pdf", [
-            "Attachment" => false
-            ]
-        ); */
-        //exit(0);
-
-        //$response = new Response($dompdf);
-
-        //return $dompdf;
-
-        /* $html = $this->render("pdf/pdf.html.twig");
-        $filename = 'filename.pdf';
-
-        $response = new PdfResponse(
-            $pdf->getOutputFromHtml($html, array(
-                'print-media-type' => true,
-                'encoding' => 'utf-8',
-                'orientation' => 'Landscape',
-            )),
-        ); */
-
-        
-        //$response->headers->set('Content-Disposition', 'inline');
-        //$response->setCharset('UTF-8');
-        /* 'Content-Disposition', 'inline' */
-
-        //return $response;
-
-        /* $pdf->generateFromHtml(
-            $this->renderView("pdf/pdf.html.twig",
-            array(
-                'Content-Disposition' => 'in-line',
-            )
-            ),
-            '/home/carlitox/Descargas/file.pdf'
-        ); */
-
-        /* $html = $this->renderView('pdf/pdf.html.twig');
-
-        return new PdfResponse(
-            $pdf->getOutputFromHtml($html),
-            'file.pdf',
-            array(
-                'Content-Disposition' => 'in-line',
-            )
-        ); */
-    //}
-
-    //{id_solicitud}
-
-    
-    
+    }    
 }
