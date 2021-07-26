@@ -410,7 +410,7 @@ class ReportesController extends AbstractController
         /* END QUERY HEADER */
 
         $sql = "SELECT t1.id, t1.nombre_elemento, t1.id_tipo_elemento, t1.valor_inicial, t1.valor_final, 
-                        t1.unidades, t6.resultado, t6.observacion
+                        t1.unidades, t6.resultado, t6.observacion, t2.id AS id_examen
                 FROM mnt_elementos t1
                 LEFT JOIN ctl_examen t2 ON t2.id = t1.id_examen
                 LEFT JOIN lab_detalle_orden t3 ON t3.id_examen = t2.id

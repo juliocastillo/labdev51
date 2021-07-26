@@ -1,5 +1,4 @@
 {% block stylesheets %}
-<link rel="stylesheet" href="path({{  }})">
 <style>
     table{
         width: 460px;
@@ -11,11 +10,79 @@
     .bodyR {
         font-family: Verdana, Geneva, Tahoma, sans-serif;
     }
-    .wrapper {
+    .head-grid {
+        display: grid;
+        grid-template-columns: 20% 80%;
+    }
+    .head-grid > div{
+        text-align: center;
+    }
+    .name-grid{
+        display: grid;
+        grid-template-columns: 25% 75%;
+    }
+    .name-grid > div{
+        border: 1px solid rgb(141, 141, 141);
+        padding-left: 10px;
+        /* text-align: center; */
+    }
+    .edad-grid{
+        display: grid;
+        grid-template-columns: 25% 25% 25% 25%;
+    }
+    .edad-grid > div{
+        border: 1px solid rgb(141, 141, 141);
+        text-align: center;
+        /* text-align: center; */
+    }
+    .generales-grid{
         display: grid;
         grid-template-columns: 50% 50%;
-        grid-gap: 10px;
-        grid-auto-rows: minmax(100px, auto);
+    }
+    .generales-grid > div{
+        /* border: 1px solid rgb(141, 141, 141); */
+        text-align: center;
+        border-left: 1px solid rgb(141, 141, 141);
+        border-right: 1px solid rgb(141, 141, 141);
+        border-bottom: 1px solid rgb(141, 141, 141);
+    }
+    .generales{
+        display: grid;
+        grid-template-columns: 50% 50%;
+    }
+    .generales > div{
+        border-bottom: 1px solid rgb(141, 141, 141);
+        text-align: center;
+    }
+    .restos{
+        display: grid;
+        grid-template-columns: 50% 50%;
+        grid-template-rows: 20px 20px;
+    }
+    .restos > div{
+        border-bottom: 1px solid rgb(141, 141, 141);
+        text-align: center;
+    }
+    .proto{
+        display: grid;
+    }
+    .proto > div{
+        border-bottom: 1px solid rgb(141, 141, 141);
+        border-left: 1px solid rgb(141, 141, 141);
+        border-right: 1px solid rgb(141, 141, 141);
+    }
+    .proto-content{
+        display: grid;
+        grid-template-columns: 50% 50%;
+    }
+    .proto-content > div{
+        border-bottom: 1px solid rgb(141, 141, 141);
+        border-left: 1px solid rgb(141, 141, 141);
+        border-right: 1px solid rgb(141, 141, 141);
+    }
+    .w_element{
+        display: grid;
+        grid-template-columns: repeat(2,1fr);
     }
     img{
         width: 150px;
@@ -42,178 +109,116 @@
 {% endblock stylesheets %}
     
 {% block body %}
-<div class="bodyR">
-    <table>
-        <tr>
-            <td>
-                <img src="{{ asset('build/images/logo-lab-MB.093a0228.png') }}" alt="">
-            </td>
-            <td class="dataHead">
-               <strong>N° DE INSCRIPCION 742</strong> <br>
-                1ra calle oriente y 22 avenida norte #1-9 <br>
-                Colonia Angélica, Sonsonate <br>
-                Tel. 2451 9607 - WhatsApp: 7625 8233 <br>
-            </td>
-        </tr>
-    </table>
-    <table>
-        <tr class="datosP">
-            <td style="width: 25%; text-align:right;" class="dataHeadExam">
-                <strong style="margin-left: 0px;">Nombre paciente:</strong>
-            </td>
-            <td class="dataHeadExamContent" colspan="3">
-                 {{ datos_head[0].nombre }} {{ datos_head[0].apellido }}
-            </td>
-        </tr>
-        <tr class="datosP">
-            <td style="width: 25%; text-align:right;" class="dataHeadExam">
-                <strong>Edad:</strong>
-            </td>
-            <td style="width: 25%;" class="dataHeadExamContent">
-                {% if datos_head[0].edad_dias < 30 %}
-                    {{ datos_head[0].edad_dias }} dias
-                {% elseif datos_head[0].edad_meses < 12 %}
-                    {{ datos_head[0].edad_meses }} meses
-                {% else %}
-                    {{ datos_head[0].edad_anios }} años
-                {% endif %}
-            </td>
-            <td style="width: 25%; text-align:right;" class="dataHeadExam">
-                <strong>Fecha:</strong>
-            </td>
-            <td style="width: 25%;" class="dataHeadExamContent">
-                {{ datos_head[0].fecha_orden|date("d-m-Y H:i") }}
-            </td>
-        </tr>
-        {# BODY REPORT #}
-        {% for arreglos in arrays %}
-        {% if arreglos is not empty %}
-            {% if arreglos[0].id_examen == 6 %}
-            <tr>
-                <td style="padding-left: 20px;" class="dataHeadExam" colspan="4">
-                    <strong>{{ arrays["datos_heces"][0].nombre_examen | upper }}</strong>
-                </td>
-            </tr>
-            <tr>
-                <td class="dataHeadExam" style="text-align:right;"><strong>Color:</strong></td>
-                <td class="dataHeadExam" style="text-align:right;"></td>
-                <td class="dataHeadExam" style="text-align:right;"><strong>Macrofagos:</strong></td>
-                <td class="dataHeadExam" style="text-align:right;"></td>
-            </tr>
-            <tr>
-                <td class="dataHeadExam" style="text-align:right;"><strong>Consistencia:</strong></td>
-                <td class="dataHeadExam" style="text-align:right;"></td>
-                <td class="dataHeadExam" style="text-align:center;" colspan="2"><strong>RESTOS ALIMENTICIOS</strong></td>
-            </tr>
-            <tr>
-                <td class="dataHeadExam" style="text-align:right;"><strong>Mucus:</strong></td>
-                <td class="dataHeadExam" style="text-align:right;"></td>
-                <td class="dataHeadExam" style="text-align:center;"><strong>MACROSCOPICOS</strong></td>
-                <td class="dataHeadExam" style="text-align:right;"></td>
-            </tr>
-            <tr>
-                <td class="dataHeadExam" style="text-align:right;"><strong>Hematies:</strong></td>
-                <td class="dataHeadExam" style="text-align:right;"></td>
-                <td class="dataHeadExam" style="text-align:center;"><strong>MICROSCOPICOS</strong></td>
-                <td class="dataHeadExam" style="text-align:right;"></td>
-            </tr>
-            <tr>
-                <td class="dataHeadExam" style="text-align:right;"><strong>Leucocitos:</strong></td>
-                <td class="dataHeadExam" style="" colspan="3"></td>
-            </tr>
-            <tr>
-                <td style="text-align:center;" class="dataHeadExam" colspan="2"><strong>PROTOZOARIOS</strong></td>
-                <td style="text-align:center;" class="dataHeadExam"><strong>ACTIVOS</strong></td>
-                <td style="text-align:center;" class="dataHeadExam"><strong>QUISTES</strong></td>
-            </tr>
-            <tr>
-                <td style="text-align:center;" class="dataHeadExam" colspan="2"><strong>Entamoeba histolyca</strong></td>
-                <td style="" class="dataHeadExam"></td>
-                <td style="" class="dataHeadExam"></td>
-            </tr>
-            <tr>
-                <td style="text-align:center;" class="dataHeadExam" colspan="2"><strong>Entamoeba coli</strong></td>
-                <td style="" class="dataHeadExam"></td>
-                <td style="" class="dataHeadExam"></td>
-            </tr>
-            <tr>
-                <td style="text-align:center;" class="dataHeadExam" colspan="2"><strong>Endolimax nana</strong></td>
-                <td style="" class="dataHeadExam"></td>
-                <td style="" class="dataHeadExam"></td>
-            </tr>
-            <tr>
-                <td style="text-align:center;" class="dataHeadExam" colspan="2"><strong>Giardia lamblia</strong></td>
-                <td style="" class="dataHeadExam"></td>
-                <td style="" class="dataHeadExam"></td>
-            </tr>
-            <tr>
-                <td style="text-align:center;" class="dataHeadExam" colspan="2"><strong>Trichomonas hominis</strong></td>
-                <td style="" class="dataHeadExam"></td>
-                <td style="" class="dataHeadExam"></td>
-            </tr>
-            <tr>
-                <td style="text-align:center;" class="dataHeadExam" colspan="2"><strong>Chilomastix mesnilli</strong></td>
-                <td style="" class="dataHeadExam"></td>
-                <td style="" class="dataHeadExam"></td>
-            </tr>
-            <tr>
-                <td style="text-align:center;" class="dataHeadExam" colspan="2"><strong>Iodamoeba butschilli</strong></td>
-                <td style="" class="dataHeadExam"></td>
-                <td style="" class="dataHeadExam"></td>
-            </tr>
-            <tr>
-                <td class="dataHeadExam" style="text-align:right;"><strong>Otros:</strong></td>
-                <td class="dataHeadExam" style="" colspan="3"></td>
-            </tr>
-            <tr>
-                <td class="dataHeadExam" style="text-align:center;" colspan="2"><strong>Ascaris lumbricoides</strong></td>
-                <td class="dataHeadExam" style="" colspan="2"></td>
-            </tr>
-            <tr>
-                <td class="dataHeadExam" style="text-align:center;" colspan="2"><strong>Trichuris trichiura</strong></td>
-                <td class="dataHeadExam" style="" colspan="2"></td>
-            </tr>
-            <tr>
-                <td class="dataHeadExam" style="text-align:center;" colspan="2"><strong>Uncinaria</strong></td>
-                <td class="dataHeadExam" style="" colspan="2"></td>
-            </tr>
-            <tr>
-                <td class="dataHeadExam" style="text-align:center;" colspan="2"><strong>Strongyloides stercoralis</strong></td>
-                <td class="dataHeadExam" style="" colspan="2"></td>
-            </tr>
-            <tr>
-                <td class="dataHeadExam" style="text-align:center;" colspan="2"><strong>Enterobius vermicularis</strong></td>
-                <td class="dataHeadExam" style="" colspan="2"></td>
-            </tr>
-            <tr>
-                <td class="dataHeadExam" style="text-align:center;" colspan="2"><strong>Tenia sp.</strong></td>
-                <td class="dataHeadExam" style="" colspan="2"></td>
-            </tr>
-            <tr>
-                <td class="dataHeadExam" style="text-align:right;"><strong>Otros:</strong></td>
-                <td class="dataHeadExam" style="" colspan="3"></td>
-            </tr>
-            <tr>
-                <td class="dataHeadExam" style="" colspan="4"><strong>OBSERVACIONES:</strong></td>
-            </tr>
-            <tr>
-                <td class="dataHeadExam" style="height: 50px;" colspan="4">
-
-                </td>
-            </tr>
-            <tr>
-                <td class="dataHeadExam" style="height: 50px;" colspan="2"></td>
-                <td class="dataHeadExam" style="height: 50px;" colspan="2"></td>
-            </tr>
-            <tr>
-                <td class="dataHeadExam" style="text-align:center;" colspan="2"><strong>Sello Laboratorio</strong></td>
-                <td class="dataHeadExam" style="text-align:center;" colspan="2"><strong>Profesional que reporta</strong></td>
-            </tr>
+<div class="wrapper">
+    <div class="head-grid">
+        <div>
+            <img src="{{ asset('build/images/logo-lab-MB.093a0228.png') }}" alt="">
+        </div>
+        <div>
+            <br><br>
+            <strong>N° DE INSCRIPCION 742</strong> <br>
+            1ra calle oriente y 22 avenida norte #1-9 <br>
+            Colonia Angélica, Sonsonate <br>
+            Tel. 2451 9607 - WhatsApp: 7625 8233 <br>
+        </div>
+    </div>
+    <div class="name-grid">
+        <div>
+            <strong style="margin-left: 0px;">Nombre paciente:</strong>
+        </div>
+        <div>
+            {{ datos_head[0].nombre }} {{ datos_head[0].apellido }}
+        </div>
+    </div>
+    <div class="edad-grid">
+        <div>
+            <strong>Edad:</strong>
+        </div>
+        <div>
+            {% if datos_head[0].edad_dias < 30 %}
+                        {{ datos_head[0].edad_dias }} dias
+            {% elseif datos_head[0].edad_meses < 12 %}
+                {{ datos_head[0].edad_meses }} meses
+            {% else %}
+                {{ datos_head[0].edad_anios }} años
             {% endif %}
-        {% endif %}
+        </div>
+        <div>
+            <strong>Fecha:</strong>
+        </div>
+        <div>
+            {{ datos_head[0].fecha_orden|date("d-m-Y H:i") }}
+        </div>
+    </div>
+    <div class="generales-grid">
+        {% for datos in arrays %}
+            {% for dato in datos %}
+                {% if dato.id >= 31 and dato.id <= 37 %}
+                    {% if dato.id_tipo_elemento == 1 %}
+                    <div>
+                        <strong>{{ dato.nombre_elemento }}</strong>
+                    </div>
+                    {% endif %}
+                {% endif %}
+                {% if dato.id >= 38 and dato.id <= 40 %}
+                    {% if dato.id_tipo_elemento == 1 %}
+                    <div>
+                        <strong>{{ dato.nombre_elemento }}</strong>
+                    </div>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
         {% endfor %}
-        
-    </table>
+        <div class="generales">
+        {% for datos in arrays %}
+            {% for dato in datos %}
+                {% if dato.id >= 31 and dato.id <= 37 and dato.id_tipo_elemento == 2 %}
+                    <div><strong>{{ dato.nombre_elemento }}</strong></div>
+                    <div>{{ dato.resultado }}</div>
+                {% endif %}
+            {% endfor %}
+        {% endfor %} 
+        </div>
+        <div class="restos">
+        {% for datos in arrays %}
+            {% for dato in datos %}
+                {% if dato.id >= 38 and dato.id <= 40 and dato.id_tipo_elemento == 2 %}
+                    <div><strong>{{ dato.nombre_elemento }}</strong></div>
+                    <div>{{ dato.resultado }}</div>
+                {% endif %}
+            {% endfor %}
+        {% endfor %} 
+        </div>
+    </div>
+    <div class="proto">
+        {% for datos in arrays %}
+            {% for dato in datos %}
+                {% if dato.id >= 41 and dato.id <= 49 %}
+                    {% if dato.id_tipo_elemento == 1 %}
+                    <div>
+                        <strong>{{ dato.nombre_elemento }}</strong>
+                    </div>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+    </div>
+    <div class="proto-content">
+        {% for datos in arrays %}
+            {% for dato in datos %}
+                {% if dato.id >= 41 and dato.id <= 49 %}
+                    {% if dato.id_tipo_elemento == 2 %}
+                    <div>
+                        <strong>{{ dato.nombre_elemento }}</strong>
+                    </div>
+                    <div>
+                        <strong>{{ dato.resultado }}</strong>
+                    </div>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+    </div>
 </div>
 {% endblock body %}
 
