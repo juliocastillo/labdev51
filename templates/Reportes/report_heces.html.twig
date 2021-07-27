@@ -1,14 +1,18 @@
 {% block stylesheets %}
 <style>
-    table{
-        width: 460px;
-        border-collapse: collapse;
-    }
-    tr td{
-        padding: 2 2;
-    }
     .bodyR {
         font-family: Verdana, Geneva, Tahoma, sans-serif;
+        font-size: small;
+    }
+    .wrapper{
+        display: grid;
+        grid-template-columns: 50% 50%;
+    }
+    img{
+        width: 130px;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
     }
     .head-grid {
         display: grid;
@@ -20,206 +24,271 @@
     .name-grid{
         display: grid;
         grid-template-columns: 25% 75%;
+        border-left: 1px solid rgb(141, 141, 141);
     }
     .name-grid > div{
-        border: 1px solid rgb(141, 141, 141);
+        border-bottom: 1px solid rgb(141, 141, 141);
+        border-top: 1px solid rgb(141, 141, 141);
+        border-right: 1px solid rgb(141, 141, 141);
         padding-left: 10px;
-        /* text-align: center; */
     }
     .edad-grid{
         display: grid;
-        grid-template-columns: 25% 25% 25% 25%;
+        grid-template-columns: 25% 25% 20% 30%;
+        border-left: 1px solid rgb(141, 141, 141);
     }
     .edad-grid > div{
-        border: 1px solid rgb(141, 141, 141);
+        border-right: 1px solid rgb(141, 141, 141);
+        border-bottom: 1px solid rgb(141, 141, 141);
         text-align: center;
-        /* text-align: center; */
+    }
+    .title{
+        display: grid;
+        grid-template-columns: 50% 50%;
+        border-left: 1px solid rgb(141, 141, 141);
+    }
+    .title > div{
+        border-right: 1px solid rgb(141, 141, 141);
+        text-align: center;
     }
     .generales-grid{
         display: grid;
         grid-template-columns: 50% 50%;
+        border-left: 1px solid rgb(141, 141, 141);
     }
     .generales-grid > div{
-        /* border: 1px solid rgb(141, 141, 141); */
         text-align: center;
-        border-left: 1px solid rgb(141, 141, 141);
-        border-right: 1px solid rgb(141, 141, 141);
-        border-bottom: 1px solid rgb(141, 141, 141);
     }
     .generales{
         display: grid;
         grid-template-columns: 50% 50%;
     }
     .generales > div{
-        border-bottom: 1px solid rgb(141, 141, 141);
+        border-top: 1px solid rgb(141, 141, 141);
+        border-right: 1px solid rgb(141, 141, 141);
         text-align: center;
     }
     .restos{
         display: grid;
         grid-template-columns: 50% 50%;
-        grid-template-rows: 20px 20px;
     }
     .restos > div{
-        border-bottom: 1px solid rgb(141, 141, 141);
+        border-top: 1px solid rgb(141, 141, 141);
+        border-right: 1px solid rgb(141, 141, 141);
         text-align: center;
     }
     .proto{
         display: grid;
+        border-left: 1px solid rgb(141, 141, 141);
     }
     .proto > div{
+        border-top: 1px solid rgb(141, 141, 141);
         border-bottom: 1px solid rgb(141, 141, 141);
-        border-left: 1px solid rgb(141, 141, 141);
         border-right: 1px solid rgb(141, 141, 141);
     }
     .proto-content{
         display: grid;
         grid-template-columns: 50% 50%;
+        border-left: 1px solid rgb(141, 141, 141);
     }
     .proto-content > div{
+        border-bottom: 1px solid rgb(141, 141, 141);
+        border-right: 1px solid rgb(141, 141, 141);
+        text-align: center;
+    }
+    .meta{
+        display: grid;
+    }
+    .meta > div{
         border-bottom: 1px solid rgb(141, 141, 141);
         border-left: 1px solid rgb(141, 141, 141);
         border-right: 1px solid rgb(141, 141, 141);
     }
-    .w_element{
+    .meta-content{
         display: grid;
-        grid-template-columns: repeat(2,1fr);
+        grid-template-columns: 50% 50%;
+        border-left: 1px solid rgb(141, 141, 141);
     }
-    img{
-        width: 150px;
-    }
-    .dataHead{
-        font-size: 12px;
+    .meta-content > div{
+        border-bottom: 1px solid rgb(141, 141, 141);
+        border-right: 1px solid rgb(141, 141, 141);
         text-align: center;
-        padding: 0 20px;
     }
-    .dataHeadExam{
-        font-size: 11px;
-        border: 1px solid gray;
+    .meta > div{
+        border-bottom: 1px solid rgb(141, 141, 141);
+        border-right: 1px solid rgb(141, 141, 141);
     }
-    .dataHeadExamContent{
-        font-size: 11px;
-        border: 1px solid gray;
-        padding-left: 5px;
+    .obs-grid{
+        display: grid;
+        grid-template-rows: 60px;
+        border-bottom: 1px solid rgb(141, 141, 141);
+        border-right: 1px solid rgb(141, 141, 141);
+        border-left: 1px solid rgb(141, 141, 141);
     }
-    .dataBodyExam{
-        font-size: 11px;
-        border: 1px solid gray;
+    .footer-grid{
+        display: grid;
+        grid-template-columns: 50% 50%;
+        grid-template-rows: 80px;
+        border-left: 1px solid rgb(141, 141, 141);
+    }
+    .footer-grid > div{
+        border-bottom: 1px solid rgb(141, 141, 141);
+        border-right: 1px solid rgb(141, 141, 141);
+    }
+    .footer{
+        display: grid;
+        grid-template-columns: 50% 50%;
+        border-bottom: 1px solid rgb(141, 141, 141);
+        border-left: 1px solid rgb(141, 141, 141);
+    }
+    .footer > div{
+        text-align: center;
+        border-right: 1px solid rgb(141, 141, 141);
+        font-weight: bold;
     }
 </style>
 {% endblock stylesheets %}
-    
+
 {% block body %}
-<div class="wrapper">
-    <div class="head-grid">
+<body class="bodyR">
+    <div class="wrapper">
         <div>
-            <img src="{{ asset('build/images/logo-lab-MB.093a0228.png') }}" alt="">
-        </div>
-        <div>
-            <br><br>
-            <strong>N° DE INSCRIPCION 742</strong> <br>
-            1ra calle oriente y 22 avenida norte #1-9 <br>
-            Colonia Angélica, Sonsonate <br>
-            Tel. 2451 9607 - WhatsApp: 7625 8233 <br>
-        </div>
-    </div>
-    <div class="name-grid">
-        <div>
-            <strong style="margin-left: 0px;">Nombre paciente:</strong>
-        </div>
-        <div>
-            {{ datos_head[0].nombre }} {{ datos_head[0].apellido }}
-        </div>
-    </div>
-    <div class="edad-grid">
-        <div>
-            <strong>Edad:</strong>
-        </div>
-        <div>
-            {% if datos_head[0].edad_dias < 30 %}
+            <div class="head-grid">
+                <div>
+                    <img src="{{ asset('build/images/logo-lab-MB.093a0228.png') }}" alt="">
+                </div>
+                <div>
+                    <br>
+                    <strong>N° DE INSCRIPCION 742</strong> <br>
+                    1ra calle oriente y 22 avenida norte #1-9 <br>
+                    Colonia Angélica, Sonsonate <br>
+                    Tel. 2451 9607 - WhatsApp: 7625 8233 <br>
+                </div>
+            </div>
+            {# NOMBRE PACIENTE #}
+            <div class="name-grid">
+                <div><strong style="margin-left: 0px;">Nombre paciente:</strong></div>
+                <div>{{ datos_head[0].nombre }} {{ datos_head[0].apellido }}</div>
+            </div>
+            {# EDAD Y FECHA #}
+            <div class="edad-grid">
+                <div><strong>Edad:</strong></div>
+                <div>
+                    {% if datos_head[0].edad_dias < 30 %}
                         {{ datos_head[0].edad_dias }} dias
-            {% elseif datos_head[0].edad_meses < 12 %}
-                {{ datos_head[0].edad_meses }} meses
-            {% else %}
-                {{ datos_head[0].edad_anios }} años
-            {% endif %}
-        </div>
-        <div>
-            <strong>Fecha:</strong>
-        </div>
-        <div>
-            {{ datos_head[0].fecha_orden|date("d-m-Y H:i") }}
+                    {% elseif datos_head[0].edad_meses < 12 %}
+                        {{ datos_head[0].edad_meses }} meses
+                    {% else %}
+                        {{ datos_head[0].edad_anios }} años
+                    {% endif %}
+                </div>
+                <div><strong>Fecha:</strong></div>
+                <div>{{ datos_head[0].fecha_orden|date("d-m-Y H:i") }}</div>
+            </div>
+            {# TITULO DE EXAMEN / RESTOS ALIMENTICIOS #}
+            <div class="title">
+                {% for datos in arrays %}
+                    {% for dato in datos %}
+                        {% if dato.id >= 31 and dato.id <= 37 and dato.id_tipo_elemento == 1 %}
+                            <div style="color: #808080; font-family: sans-serif;">
+                                <strong>{{ dato.nombre_elemento }}</strong>
+                            </div>
+                        {% endif %}
+                        {% if dato.id >= 38 and dato.id <= 40 and dato.id_tipo_elemento == 1 %}
+                            <div style="color: #808080; font-family: sans-serif;">
+                                <strong>{{ dato.nombre_elemento }}</strong>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
+            </div>
+            <div class="generales-grid">
+                {# COLOR A MACROFAGOS #}
+                <div class="generales">
+                    {% for datos in arrays %}
+                        {% for dato in datos %}
+                            {% if dato.id >= 31 and dato.id <= 37 and dato.id_tipo_elemento == 2 %}
+                                <div><strong>{{ dato.nombre_elemento }}</strong></div>
+                                <div>{{ dato.resultado }}</div>
+                            {% endif %}
+                        {% endfor %}
+                    {% endfor %} 
+                </div>
+                {# MACROSCOPICOS / MICROSCOPICOS #}
+                <div class="restos">
+                    {% for datos in arrays %}
+                        {% for dato in datos %}
+                            {% if dato.id >= 38 and dato.id <= 40 and dato.id_tipo_elemento == 2 %}
+                                <div><strong>{{ dato.nombre_elemento }}</strong></div>
+                                <div>{{ dato.resultado }}</div>
+                            {% endif %}
+                        {% endfor %}
+                    {% endfor %} 
+                </div>
+            </div>
+            {# TITULO PROTOZOARIOS #}
+            <div class="proto">
+                {% for datos in arrays %}
+                    {% for dato in datos %}
+                        {% if dato.id >= 41 and dato.id <= 49 and dato.id_tipo_elemento == 1 %}
+                            <div style="padding-left: 60px; color: #808080; font-family: sans-serif;">
+                                <strong>{{ dato.nombre_elemento }}</strong>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
+            </div>
+            {# CONTENIDO PROTOZOARIOS #}
+            <div class="proto-content">
+                {% for datos in arrays %}
+                    {% for dato in datos %}
+                        {% if dato.id >= 41 and dato.id <= 49 and dato.id_tipo_elemento == 2 %}
+                            <div>
+                                <strong>{{ dato.nombre_elemento }}</strong>
+                            </div>
+                            <div>
+                                <strong>{{ dato.resultado }}</strong>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
+            </div>
+            {# TITULO METAZOARIOS #}
+            <div class="meta">
+                {% for datos in arrays %}
+                    {% for dato in datos %}
+                        {% if dato.id == 72 and dato.id_tipo_elemento == 1 %}
+                            <div style="padding-left: 60px; color: #808080; font-family: sans-serif;">
+                                <strong>{{ dato.nombre_elemento }}</strong>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
+            </div>
+            {# CONTENIDO METAZOARIOS #}
+            <div class="meta-content">
+                {% for datos in arrays %}
+                    {% for dato in datos %}
+                        {% if dato.id >= 50 and dato.id <= 54 and dato.id_tipo_elemento == 2 %}
+                            <div><strong>{{ dato.nombre_elemento }}</strong></div>
+                            <div><strong>{{ dato.resultado }}</strong></div>
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
+            </div>
+            {# PIE DEL REPORTE #}
+            <div class="obs-grid"><strong> OBSERVACIONES:</strong></div>
+            <div class="footer-grid">
+                <div></div>
+                <div></div>
+            </div>
+            <div class="footer">
+                <div>Sello</div>
+                <div>Profesional que Reporta</div>
+            </div>
         </div>
     </div>
-    <div class="generales-grid">
-        {% for datos in arrays %}
-            {% for dato in datos %}
-                {% if dato.id >= 31 and dato.id <= 37 %}
-                    {% if dato.id_tipo_elemento == 1 %}
-                    <div>
-                        <strong>{{ dato.nombre_elemento }}</strong>
-                    </div>
-                    {% endif %}
-                {% endif %}
-                {% if dato.id >= 38 and dato.id <= 40 %}
-                    {% if dato.id_tipo_elemento == 1 %}
-                    <div>
-                        <strong>{{ dato.nombre_elemento }}</strong>
-                    </div>
-                    {% endif %}
-                {% endif %}
-            {% endfor %}
-        {% endfor %}
-        <div class="generales">
-        {% for datos in arrays %}
-            {% for dato in datos %}
-                {% if dato.id >= 31 and dato.id <= 37 and dato.id_tipo_elemento == 2 %}
-                    <div><strong>{{ dato.nombre_elemento }}</strong></div>
-                    <div>{{ dato.resultado }}</div>
-                {% endif %}
-            {% endfor %}
-        {% endfor %} 
-        </div>
-        <div class="restos">
-        {% for datos in arrays %}
-            {% for dato in datos %}
-                {% if dato.id >= 38 and dato.id <= 40 and dato.id_tipo_elemento == 2 %}
-                    <div><strong>{{ dato.nombre_elemento }}</strong></div>
-                    <div>{{ dato.resultado }}</div>
-                {% endif %}
-            {% endfor %}
-        {% endfor %} 
-        </div>
-    </div>
-    <div class="proto">
-        {% for datos in arrays %}
-            {% for dato in datos %}
-                {% if dato.id >= 41 and dato.id <= 49 %}
-                    {% if dato.id_tipo_elemento == 1 %}
-                    <div>
-                        <strong>{{ dato.nombre_elemento }}</strong>
-                    </div>
-                    {% endif %}
-                {% endif %}
-            {% endfor %}
-        {% endfor %}
-    </div>
-    <div class="proto-content">
-        {% for datos in arrays %}
-            {% for dato in datos %}
-                {% if dato.id >= 41 and dato.id <= 49 %}
-                    {% if dato.id_tipo_elemento == 2 %}
-                    <div>
-                        <strong>{{ dato.nombre_elemento }}</strong>
-                    </div>
-                    <div>
-                        <strong>{{ dato.resultado }}</strong>
-                    </div>
-                    {% endif %}
-                {% endif %}
-            {% endfor %}
-        {% endfor %}
-    </div>
-</div>
+</body>
 {% endblock body %}
 
 
