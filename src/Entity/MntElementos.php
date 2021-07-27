@@ -139,7 +139,12 @@ class MntElementos
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $fechahoraMod;
-
+    
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $protozoario;
+    
     /**
      * @ORM\Column(type="boolean")
      */
@@ -338,6 +343,18 @@ class MntElementos
     public function setFechahoraMod(?\DateTimeInterface $fechahoraMod): self
     {
         $this->fechahoraMod = $fechahoraMod;
+
+        return $this;
+    }
+
+    public function getProtozoario(): ?bool
+    {
+        return $this->protozoario;
+    }
+
+    public function setProtozoario(bool $protozoario): self
+    {
+        $this->activo = $protozoario;
 
         return $this;
     }

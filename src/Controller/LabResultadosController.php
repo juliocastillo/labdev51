@@ -108,7 +108,7 @@ class LabResultadosController extends AbstractController
         $idEdad = (Int)$arrayEdad[0]["id"];
         
         $sql = "SELECT t1.id, t1.nombre_elemento, t1.id_tipo_elemento,
-                    t1.valor_inicial, t1.valor_final, t1.unidades 
+                    t1.valor_inicial, t1.valor_final, t1.unidades, t1.protozoario
                 FROM mnt_elementos t1
         
                 LEFT JOIN ctl_examen t2 ON t2.id = t1.id_examen
@@ -126,15 +126,19 @@ class LabResultadosController extends AbstractController
         $stm->execute();
         $result = $stm->fetchAll();
         $nElementos = 0;
+        $isProtozoario=false;
         foreach ($result as $r){
             if ($r["id_tipo_elemento"] == 2)
-                $nElementos++; 
+                $nElementos++;
+            if ($r["protozoario"])
+                $isProtozoario=true; 
         }
         
         return $this->render("LabResultados/resultado_detalle_elementos.html.twig",
                 array("datos" => $result,
                 "idDetalleOrden" => $idDetalleOrden,
                 "nElementos" => $nElementos,
+                "isProtozoario" => $isProtozoario,
                 "posiblesResultados" => $posiblesResultado,
                 "empleados" => $empleados,
                 "idOrden" => $idOrden

@@ -47,9 +47,14 @@ class LabResultados
     private $observacion;
     
     /**
-     * @ORM\Column(type="string", length=15, nullable=true)
+     * @ORM\Column(type="string", length=30, nullable=true)
      */
     private $resultado;
+
+    /**
+     * @ORM\Column(type="string", length=30, nullable=true)
+     */
+    private $quiste;
 
     /**
      * @var \CtlMicroorganismo
@@ -156,6 +161,18 @@ class LabResultados
     public function setResultado(?string $resultado): self
     {
         $this->resultado = $resultado;
+
+        return $this;
+    }
+
+    public function getQuiste(): ?string
+    {
+        return $this->quiste;
+    }
+
+    public function setQuiste(?string $quiste): self
+    {
+        $this->quiste = $quiste;
 
         return $this;
     }
