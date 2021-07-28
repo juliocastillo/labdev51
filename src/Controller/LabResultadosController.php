@@ -156,6 +156,7 @@ class LabResultadosController extends AbstractController
     public function labDetallesGuardarElementos(): Response
     {
         $request = $this->container->get('request_stack')->getCurrentRequest();
+        
         parse_str($request->get('datos'), $datos);
         $row = "";
         $now = date_create('now')->format('Y-m-d H:i:s');

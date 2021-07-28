@@ -261,13 +261,18 @@
         })
     }
 
-    function asignarPosibleResultado(obj,elemento){
+    function asignarPosibleResultado(obj,elemento,quiste){
         $(document).ready(function(){
+            console.log(elemento,quiste);
+            tipo = document.getElementById(quiste).type;
             document.getElementById(elemento).value = obj.options[obj.selectedIndex].innerHTML;
+            if(tipo="text"){
+                document.getElementById(quiste).value = obj.options[obj.selectedIndex].innerHTML;
+            }
         });
     }
 
-    function obtenerEmpleado(obj){
+    function obtenerEmpleado(obj){t
         $(document).ready(function(){      
             //console.log(obj);
             $('#empleado').val(obj.value);
