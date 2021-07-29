@@ -1,0 +1,124 @@
+{% block stylesheets %}
+<style>
+    body{
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        width: 1000px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .mainDiv{
+        background-color: azure;
+    }
+
+    .tableDiv{
+        background-color: white;
+    }
+
+    table{
+        border: none;
+        width: 100%;
+    }
+    
+    tr th{
+        text-align: center;
+        font-size: 13px;
+    }
+
+    .h-reporte{
+        font-size: 13px;
+        padding-left: auto;
+        padding-right: auto;
+    }
+
+    tr td{
+        text-align: center;
+        font-size: 13px;
+    }
+
+    .datosP td{
+        padding-left: 10px;
+        text-align: left;
+        font-size: 13px;
+        
+    }
+
+    .datosP td strong{
+        /* margin-left: 20px; */
+        font-size: 13px;
+    }
+
+    .dataE{
+        text-align: left;
+    }
+
+    .dataE td{
+        margin-left: 40px;
+        font-size: 13px;
+    }
+
+    img{
+        width: 160px;
+    }
+
+    hr{
+        width: 85%;
+    }
+</style>
+{% endblock stylesheets %}
+{% block body %}
+<body>
+{% include "Reportes/header_individual.html.twig" %}
+<div class="tableDiv">
+    <table>
+        <thead>
+            <th class="h-reporte" style="padding-left: 20px;">
+                Examen/Elemento
+            </th>
+            <th class="h-reporte">
+                Resultado
+            </th>
+            <th class="h-reporte">
+                Unidades
+            </th>
+            <th class="h-reporte" style="padding-right: 50px;">
+                Rangos de Referencia
+            </th>
+        </thead>
+        {# <pre>
+            {{ dump(arrays) }}
+        </pre> #}
+        {% if arrays is not empty %}
+        <tbody>
+            {% if arrays[0].id_examen == 16 %}
+                {% for datos in arrays %}
+                    {% if (datos.id_tipo_elemento == 1) %}
+                        <tr><td colspan="4" style="padding-left: 60px; padding-top:10px; text-align: left; font-size: 13px;"><strong>{{datos.nombre_elemento}}</strong></td></tr>
+                    {% else %}
+                    <tr class="dataE">
+                        <td style="width: 25%; text-align:left; padding-left:70px;">
+                            {{ datos.nombre_elemento }}
+                        </td>
+                        <td style="width: 25%;">
+                            {{ datos.resultado }}
+                        </td>
+                        <td style="width: 25%;">
+                            {{ datos.unidades }}
+                        </td>
+                        <td style="width: 25%; padding-right: 40px;">
+                            {{ datos.valor_inicial }} - {{ datos.valor_final }}
+                        </td>
+                    </tr>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+            
+        </tbody>
+        {% endif %}
+            
+        
+    </table>
+</div>
+</body>
+{% endblock body %}
+    

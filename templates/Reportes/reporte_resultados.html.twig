@@ -1,85 +1,74 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    {# <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> #}
-    <title>Reporte Examenes</title>
-    {% block stylesheets %}
-    <style>
-        body{
-            font-family: Verdana, Geneva, Tahoma, sans-serif;
-            width: 1000px;
-            /* height: 792px; */
-            margin-left: auto;
-            margin-right: auto;
-        }
 
-        .mainDiv{
-            background-color: azure;
-        }
+{% block stylesheets %}
+<style>
+    body{
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        width: 1000px;
+        margin-left: auto;
+        margin-right: auto;
+    }
 
-        .tableDiv{
-            /* width: 612px; */
-            /* height: 792px; */
-            background-color: white;
-        }
+    .mainDiv{
+        background-color: azure;
+    }
 
-        table{
-            border: none;
-            width: 100%;
-        }
+    .tableDiv{
+        background-color: white;
+    }
+
+    table{
+        border: none;
+        width: 100%;
+    }
+    
+    tr th{
+        text-align: center;
+        font-size: 14px;
+    }
+
+    .h-reporte{
+        font-size: 14px;
+        padding-left: auto;
+        padding-right: auto;
+    }
+
+    tr td{
+        text-align: center;
+        font-size: 14px;
+    }
+
+    .datosP td{
+        padding-left: 10px;
+        text-align: left;
+        font-size: 14px;
         
-        tr th{
-            /*margin-top: 0;*/
-            text-align: center;
-            font-size: 14px;
-        }
+    }
 
-        .h-reporte{
-            font-size: 14px;
-            padding-left: auto;
-            padding-right: auto;
-        }
+    .datosP td strong{
+        /* margin-left: 20px; */
+        font-size: 14px;
+    }
 
-        tr td{
-            text-align: center;
-            font-size: 14px;
-        }
+    .dataE{
+        text-align: left;
+    }
 
-        .datosP td{
-            padding-left: 10px;
-            text-align: left;
-            font-size: 14px;
-            
-        }
+    .dataE td{
+        margin-left: 40px;
+        font-size: 14px;
+    }
 
-        .datosP td strong{
-            /* margin-left: 20px; */
-            font-size: 14px;
-        }
+    img{
+        width: 200px;
+    }
 
-        .dataE{
-            text-align: left;
-        }
-
-        .dataE td{
-            margin-left: 40px;
-            font-size: 14px;
-        }
-
-        img{
-            width: 200px;
-        }
-
-        hr{
-            width: 85%;
-        }
-    </style>
-    {% endblock stylesheets%}
-</head>
-<body>
+    hr{
+        width: 85%;
+    }
+</style>
+{% endblock stylesheets %}
 {% block body %}
+<body>
 {% include "Reportes/header.html.twig" %}    
 <div class="tableDiv">
     <table>
@@ -97,7 +86,6 @@
                 Rangos de Referencia
             </th>
         </thead>
-
     {% for arreglos in arrays %}
         {# GENERAL DE ORINA #}
         {% if arreglos is not empty %}
