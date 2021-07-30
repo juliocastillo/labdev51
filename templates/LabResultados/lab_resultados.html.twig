@@ -266,15 +266,15 @@
             console.log(elemento,quiste);
             tipo = document.getElementById(quiste).type;
             document.getElementById(elemento).value = obj.options[obj.selectedIndex].innerHTML;
-            if(tipo="text"){
+            if(tipo == "text"){
                 document.getElementById(quiste).value = obj.options[obj.selectedIndex].innerHTML;
             }
         });
     }
 
-    function obtenerEmpleado(obj){t
+    function obtenerEmpleado(obj){
         $(document).ready(function(){      
-            //console.log(obj);
+            console.log(obj.value);
             $('#empleado').val(obj.value);
             //let x = document.getElementById(empleado).value;           
             //console.log(obj.value);
