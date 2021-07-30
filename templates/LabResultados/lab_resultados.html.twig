@@ -215,7 +215,7 @@
             }
         });
 
-        /* PRINT REPORTE INDIVIDUAL */
+        /* PRINT REPORTE ORINA */
         $(document).on('click','#btnImprimirExamenOrina',function(e){
             rowDetOrden = $(this).closest('tr');
             nombreExamen = rowDetOrden.find('td:eq(0)').text();
@@ -228,6 +228,36 @@
                 $.ajax({
                     type: "GET",
                     url: "{{ path('cargar_datos_orina') }}",
+                    data: {idOrden:idOrden,idExamen:idExamen,idDetOrden:idDetOrden},
+                    dataType: "html",
+                    async: true,
+                    
+                    success : function (response, url) {
+                        let requestUrl = this.url;
+                        window.open(requestUrl).print();
+                        //window.close();
+                    }
+                //e.5preventDefault();
+                });
+            }else{
+                alert("Este examen no tiene resultado!");
+                e.preventDefault();
+            }
+        });
+
+        /* PRINT REPORTE HEMOGRAMA */
+        $(document).on('click','#btnImprimirHemograma',function(e){
+            rowDetOrden = $(this).closest('tr');
+            nombreExamen = rowDetOrden.find('td:eq(0)').text();
+            idDetOrden = parseInt(rowDetOrden.find('td:eq(1)').text());
+            idExamen = parseInt(rowDetOrden.find('td:eq(2)').text());
+            idEstadoExamen = rowDetOrden.find('td:eq(3)').text();
+            idOrden = parseInt(rowDetOrden.find('td:eq(5)').text());
+            
+            if(idEstadoExamen == "Completo"){
+                $.ajax({
+                    type: "GET",
+                    url: "{{ path('cargar_datos_hemograma') }}",
                     data: {idOrden:idOrden,idExamen:idExamen,idDetOrden:idDetOrden},
                     dataType: "html",
                     async: true,

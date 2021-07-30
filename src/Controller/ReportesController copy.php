@@ -62,8 +62,71 @@ class ReportesController extends AbstractController
         $resultIdsArea = $stm->fetchAll();
         /* END ORDER IDS EXAMS */
 
+        $array_datos = array();
+        //$array = array();
+
         for ($i=0; $i < count($resultIds); $i++) { 
             $resultIds[$i];
+            
+            if ($resultIds[$i]["id_examen"] == "16") {
+
+                $sql = "SELECT t01.id, t01.nombre_elemento, t01.id_tipo_elemento, t01.valor_inicial, 
+                t01.valor_final, t01.unidades, t02.resultado, t07.id AS id_examen, t07.nombre_examen,
+                t03.observacion
+                FROM mnt_elementos t01 
+                    LEFT JOIN lab_resultados t02 ON t01.id = t02.id_elemento
+                    LEFT JOIN lab_detalle_orden t03 ON t03.id = t02.id_detalle_orden
+                    LEFT JOIN ctl_examen t07 ON t07.id = t03.id_examen
+                WHERE t03.id_orden = $idOrden
+                AND t07.id = 16
+                ORDER BY t01.ordenamiento";
+    
+                $stm = $this->getDoctrine()->getConnection()->prepare($sql);
+                $stm->execute();
+                $resultOrina = $stm->fetchAll();
+                $datos_orina = array();
+                $datos_orina = $resultOrina;
+                $array_datos["datos_orina"] = $datos_orina;
+            }
+            if ($resultIds[$i]["id_examen"] == "6") {
+            
+                $sql = "SELECT t01.id, t01.nombre_elemento, t01.id_tipo_elemento, t01.valor_inicial, 
+                t01.valor_final, t01.unidades, t02.resultado, t07.id AS id_examen, t07.nombre_examen,
+                t03.observacion
+                FROM mnt_elementos t01 
+                    LEFT JOIN lab_resultados t02 ON t01.id = t02.id_elemento
+                    LEFT JOIN lab_detalle_orden t03 ON t03.id = t02.id_detalle_orden
+                    LEFT JOIN ctl_examen t07 ON t07.id = t03.id_examen
+                WHERE t03.id_orden = $idOrden
+                AND t07.id = 6
+                ORDER BY t01.ordenamiento";
+    
+                $stm = $this->getDoctrine()->getConnection()->prepare($sql);
+                $stm->execute();
+                $resultHeces = $stm->fetchAll();
+                $datos_heces = array();
+                $datos_heces = $resultHeces;
+                $array_datos["datos_heces"] = $datos_heces;
+            }
+            if($resultIds[$i]["id_examen"] == "4"){
+                $sql = "SELECT t01.id, t01.nombre_elemento, t01.id_tipo_elemento, t01.valor_inicial, 
+                t01.valor_final, t01.unidades, t02.resultado, t07.id AS id_examen, t07.nombre_examen,
+                t03.observacion
+                FROM mnt_elementos t01 
+                    LEFT JOIN lab_resultados t02 ON t01.id = t02.id_elemento
+                    LEFT JOIN lab_detalle_orden t03 ON t03.id = t02.id_detalle_orden
+                    LEFT JOIN ctl_examen t07 ON t07.id = t03.id_examen
+                WHERE t03.id_orden = $idOrden
+                AND t07.id = 4
+                ORDER BY t01.ordenamiento";
+    
+                $stm = $this->getDoctrine()->getConnection()->prepare($sql);
+                $stm->execute();
+                $resultHemograma = $stm->fetchAll();
+                $datos_hemograma = array();
+                $datos_hemograma = $resultHemograma;
+                $array_datos["datos_hemograma"] =  $datos_hemograma;
+            }
 
             $datos_examenes = array();
             
@@ -309,7 +372,7 @@ class ReportesController extends AbstractController
         return $this->render('Reportes/reporte_resultados.html.twig',
             array(
                 //DATOS ORINA, HECES, HEMOGRAMA
-                //"arrays"=>$array_datos,
+                "arrays"=>$array_datos,
                 //DATOS RESTO DE EXAMENES
                 "datos"=>$datos_examenes,
                 //DATOS DE ENCABEZADO

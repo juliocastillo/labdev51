@@ -86,11 +86,138 @@
                 Rangos de Referencia
             </th>
         </thead>
+    {% for arreglos in arrays %}
+        {# GENERAL DE ORINA #}
+        {% if arreglos is not empty %}
+            {% if arreglos[0].id_examen == 16 %}
+                <tbody>
+                    <tr>
+                        <th colspan="4" style="text-align: left; padding-left: 60px; padding-top: 10px; font-size: 14px;">
+                            <strong>{{ arrays["datos_orina"][0].nombre_examen }}</strong>
+                        </th>
+                    </tr>
+
+                {% for dato in arrays["datos_orina"] %}
+                    {% if (dato.id_tipo_elemento == 1) %}
+                    <tr><td colspan="4" style="padding-left: 60px; padding-top:10px; text-align: left; font-size: 14px;"><strong>{{dato.nombre_elemento}}</strong></td></tr>
+                    {% endif %}
+                    {% if (dato.id_tipo_elemento == 2) %}
+                    <tr class="dataE">
+                        <td style="width: 25%; text-align:left; padding-left:70px;">
+                            {{ dato.nombre_elemento }}
+                        </td>
+                        <td style="width: 25%;">
+                            {{ dato.resultado }}
+                        </td>
+                        <td style="width: 25%;">
+                            {{ dato.unidades }}
+                        </td>
+                        <td style="width: 25%; padding-right: 40px;">
+                            {{ dato.valor_inicial }} - {{ dato.valor_final }}
+                        </td>
+                    </tr>
+                    {% endif %}
+                {% endfor %}
+                {% if arreglos[0].observacion != "" %}
+                    <tr>
+                        <td colspan="4" style="text-align: left; padding-left: 70px; padding-top: 5px; font-size: 14px;">
+                            <strong>Observacion: </strong>{{ arrays["datos_orina"][0].observacion }}
+                        </td>
+                    </tr>
+                {% endif %}
+                </tbody>
+            {% endif %}
+        {% endif %}
+
+        {# GENERAL DE HECES #}
+        {% if arreglos is not empty %}
+            {% if arreglos[0].id_examen == 6 %}
+            <tbody>
+                <tr>
+                    <th colspan="4" style="text-align: left; padding-left: 60px; padding-top: 10px; font-size: 14px;">
+                        <strong>{{ arrays["datos_heces"][0].nombre_examen }}</strong>
+                    </th>
+                </tr>
+                {% for dato in arrays["datos_heces"] %}
+                    {% if (dato.id_tipo_elemento == 1) %}
+                    <tr><td colspan="4" style="padding-left: 60px; padding-top:10px; text-align: left; font-size: 14px;"><strong>{{dato.nombre_elemento}}</strong></td></tr>
+                    {% endif %}
+                    {% if (dato.id_tipo_elemento == 2) %}
+                    <tr class="dataE">
+                        <td style="width: 25%; text-align:left; padding-left:70px;">
+                            {{ dato.nombre_elemento }}
+                        </td>
+                        <td style="width: 25%;">
+                            {{ dato.resultado }}
+                        </td>
+                        <td style="width: 25%;">
+                            {{ dato.unidades }}
+                        </td>
+                        <td style="width: 25%; padding-right: 40px;">
+                            {{ dato.valor_inicial }} - {{ dato.valor_final }}
+                        </td>
+                    </tr>
+                    {% endif %}
+                {% endfor %}
+                {% if arreglos[0].observacion != "" %}
+                    <tr>
+                        <td colspan="4" style="text-align: left; padding-left: 70px; padding-top: 5px; font-size: 14px;">
+                            <strong>Observacion: </strong>{{ arrays["datos_heces"][0].observacion }}
+                        </td>
+                    </tr>
+                {% endif %}
+            </tbody>
+            {% endif %}
+        {% endif %}
+
+        {# HEMOGRAMA COMPLETO #}
+        {% if arreglos is not empty %}
+            {% if arreglos[0].id_examen == 4 %}
+                <tbody>
+                    <tr>
+                        <th colspan="4" style="text-align: left; padding-left: 60px; padding-top: 10px; font-size: 14px;">
+                            <strong>{{ arrays["datos_hemograma"][0].nombre_examen }}</strong>
+                        </th>
+                    </tr>
+                {% for dato in arrays["datos_hemograma"] %}
+                    {% if (dato.id_tipo_elemento == 1) %}
+                    <tr><td colspan="4" style="padding-left: 60px; padding-top:10px; text-align: left; font-size: 14px;"><strong>{{dato.nombre_elemento}}</strong></td></tr>
+                    {% endif %}
+                    {% if (dato.id_tipo_elemento == 2) %}
+                    <tr class="dataE">
+                        <td style="width: 25%; text-align:left; padding-left:70px;">
+                            {{ dato.nombre_elemento }}
+                        </td>
+                        <td style="width: 25%;">
+                            {{ dato.resultado }}
+                        </td>
+                        <td style="width: 25%;">
+                            {{ dato.unidades }}
+                        </td>
+                        <td style="width: 25%; padding-right: 40px;">
+                            {{ dato.valor_inicial }} - {{ dato.valor_final }}
+                        </td>
+                    </tr>
+                    {% endif %}
+                {% endfor %}
+                {% if arreglos[0].observacion != "" %}
+                    <tr>
+                        <td colspan="4" style="text-align: left; padding-left: 70px; padding-top: 5px; font-size: 14px;">
+                            <strong>Observacion: </strong>{{ arrays["datos_hemograma"][0].observacion }}
+                        </td>
+                    </tr>
+                {% endif %}
+                </tbody>
+            {% endif %}
+        {% endif %}
+        
+    {% endfor %}
+
     {# RESTO DE PRUEBAS #}
     {% if datos is not empty %}
         {% if datos["datos_1"] is not empty and datos["datos_1"][0].id_area == "1" %}
         <tbody>
-            <tr><td colspan="4" style="text-align: left; padding-left: 60px; padding-top: 10px; font-size: 14px;"><strong>{{datos["datos_1"][0].nombre_area}}</strong></td></tr>
+            <tr><td colspan="4" style="text-align: left; padding-left: 70px; padding-top: 10px; font-size: 14px;"><strong>{{datos["datos_1"][0].nombre_area}}</strong></td></tr>
             {% for dato in datos["datos_1"] %}
                 <tr class="dataE">
                     <td style="width: 25%; text-align:left; padding-left:75px;">
@@ -118,7 +245,7 @@
         {% endif %}
         {% if datos["datos_2"] is not empty and datos["datos_2"][0].id_area == "2" %}
         <tbody>
-            <tr><td colspan="4" style="text-align: left; padding-left: 60px; padding-top: 10px; font-size: 14px;"><strong>{{datos["datos_2"][0].nombre_area}}</strong></td></tr>
+            <tr><td colspan="4" style="text-align: left; padding-left: 70px; padding-top: 10px; font-size: 14px;"><strong>{{datos["datos_2"][0].nombre_area}}</strong></td></tr>
             {% for dato in datos["datos_2"] %}
                 <tr class="dataE">
                     <td style="width: 25%; text-align:left; padding-left:75px;">

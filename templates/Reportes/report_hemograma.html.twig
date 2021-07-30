@@ -2,22 +2,13 @@
 <style>
     body{
         font-family: Verdana, Geneva, Tahoma, sans-serif;
-        width: 1000px;
+        /* width: 1000px; */
         margin-left: auto;
         margin-right: auto;
     }
-
-    .mainDiv{
-        background-color: azure;
-    }
-
-    .tableDiv{
-        background-color: white;
-    }
-
     table{
         border: none;
-        width: 100%;
+        width: 50%;
     }
     
     tr th{
@@ -31,9 +22,9 @@
         padding-right: auto;
     }
 
-    tr td{
+    .header-title{
         text-align: center;
-        font-size: 13px;
+        font-size: 14px;
     }
 
     .datosP td{
@@ -90,13 +81,14 @@
         </pre> #}
         {% if arrays is not empty %}
         <tbody>
-            {% if arrays[0].id_examen == 16 %}
+            {% if arrays[0].id_examen == 4 %}
                 {% for datos in arrays %}
-                    {% if (datos.id_tipo_elemento == 1) %}
+                    {# {% if (datos.id_tipo_elemento == 1) %}
                         <tr><td colspan="4" style="padding-left: 60px; padding-top:10px; text-align: left; font-size: 13px;"><strong>{{datos.nombre_elemento}}</strong></td></tr>
-                    {% else %}
+                    {% else %} #}
+                    {% if datos.id_tipo_elemento == 2 %}
                     <tr class="dataE">
-                        <td style="width: 25%; text-align:left; padding-left:70px;">
+                        <td style="width: 25%; text-align:left; padding-left:90px;">
                             {{ datos.nombre_elemento }}
                         </td>
                         <td style="width: 25%;">
@@ -117,7 +109,6 @@
                     </td>
                 </tr>
             {% endif %}
-            
         </tbody>
         {% endif %}
             
