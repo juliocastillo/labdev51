@@ -114,7 +114,7 @@ class LabResultadosController extends AbstractController
         $idEdad = (Int)$arrayEdad[0]["id"];
         
         $sql = "SELECT t1.id, t1.nombre_elemento, t1.id_tipo_elemento,
-                    t1.valor_inicial, t1.valor_final, t1.unidades 
+                    t1.valor_inicial, t1.valor_final, t1.unidades, t1.protozoario
                 FROM mnt_elementos t1
         
                 LEFT JOIN ctl_examen t2 ON t2.id = t1.id_examen
@@ -132,15 +132,19 @@ class LabResultadosController extends AbstractController
         $stm->execute();
         $result = $stm->fetchAll();
         $nElementos = 0;
+        $isProtozoario=false;
         foreach ($result as $r){
             if ($r["id_tipo_elemento"] == 2)
-                $nElementos++; 
+                $nElementos++;
+            if ($r["protozoario"])
+                $isProtozoario=true; 
         }
         
         return $this->render("LabResultados/resultado_detalle_elementos.html.twig",
                 array("datos" => $result,
                 "idDetalleOrden" => $idDetalleOrden,
                 "nElementos" => $nElementos,
+                "isProtozoario" => $isProtozoario,
                 "posiblesResultados" => $posiblesResultado,
                 "empleados" => $empleados,
                 "idOrden" => $idOrden
@@ -152,17 +156,20 @@ class LabResultadosController extends AbstractController
     public function labDetallesGuardarElementos(): Response
     {
         $request = $this->container->get('request_stack')->getCurrentRequest();
+        ini_set('xdebug.var_display_max_depth', -1);
+        ini_set('xdebug.var_display_max_children', -1);
+        ini_set('xdebug.var_display_max_data', -1);
         parse_str($request->get('datos'), $datos);
         $row = "";
         $now = date_create('now')->format('Y-m-d H:i:s');
-        // var_dump($datos); exit();
+        //var_dump($datos); exit();
         $userId = $this->getUser()->getId();
         for ($i = 0; $i < $datos["nElementos"]*2;$i+=2){
-                $row = $row."('".$datos["idElemento"][$i]."',".$datos["empleado"].",'".$datos["idDetalleOrden"].  "',".$userId.",'".$datos["idElemento"][$i+1]."','".$now."',true)";
+                $row = $row."('".$datos["idElemento"][$i]."',".$datos["empleado"].",'".$datos["idDetalleOrden"].  "',".$userId.",'".$datos["idElemento"][$i+1]."','".$datos["idElementoQuiste"][$i+1]."','".$now."',true)";
                 if($datos["nElementos"]*2-2 != $i)
                     $row =$row.",";
         }
-        $sql = "INSERT INTO lab_resultados(id_elemento,id_empleado,id_detalle_orden,id_usuario_reg,resultado,fechahora_reg,activo)
+        $sql = "INSERT INTO lab_resultados(id_elemento,id_empleado,id_detalle_orden,id_usuario_reg,resultado,quiste,fechahora_reg,activo)
                 VALUES ".$row.";";
         //var_dump($sql); exit();
         $stm = $this->getDoctrine()->getConnection()->prepare($sql);
