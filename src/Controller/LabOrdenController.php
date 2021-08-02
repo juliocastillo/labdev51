@@ -85,4 +85,26 @@ class LabOrdenController extends AbstractController
                 array("datos" => $result)
         );
     }
+    /**
+     * @Route("/lab/detalle/orden/list", name="detalle_orden_list")
+     */
+    public function detalleOrden() : Response {
+        $request = $this->container->get('request_stack')->getCurrentRequest();
+        $idOrden = $request->get('idOrden');
+        $sql = "SELECT t04.id, t02.nombre_examen, t01.id_examen, t03.estado_examen, t04.id_estado_orden, t01.id AS id_detalle_orden
+                    FROM lab_detalle_orden t01 
+                    INNER JOIN ctl_examen t02 ON t01.id_examen = t02.id
+                    INNER JOIN ctl_estado_examen t03 ON t01.id_estado_examen = t03.id
+                    INNER JOIN lab_orden t04 ON t04.id = t01.id_orden
+                    WHERE t01.id_examen = t02.id 
+                    AND t01.id_orden = $idOrden
+                    AND t04.id_estado_orden = 2";
+        $stm = $this->getDoctrine()->getConnection()->prepare($sql);
+        $stm->execute();
+        $result = $stm->fetchAll();
+        //var_dump($result); exit();
+        return $this->render("LabOrden/examenes_list.html.twig",
+                array("datos" => $result)
+        );
+    }       
 }

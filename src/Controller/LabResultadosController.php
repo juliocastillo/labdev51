@@ -20,7 +20,7 @@ class LabResultadosController extends AbstractController
                 DATE_FORMAT(t01.fecha_orden,'%d-%m%-%Y %H:%i') AS fecha_orden
                 FROM lab_orden t01 
                 LEFT JOIN mnt_paciente t02 ON t01.id_paciente = t02.id 
-                -- WHERE t01.id_estado_orden = 1
+                WHERE t01.id_estado_orden = 1
                 ";
         $stm = $this->getDoctrine()->getConnection()->prepare($sql);
         $stm->execute();
@@ -185,11 +185,12 @@ class LabResultadosController extends AbstractController
         $stm->execute();
         $exaPendientes = $stm->fetch();
 
-        /* if ($exaPendientes["exa_pendientes"] == 0) {
+        /* CAMBIAR ESTADO DE ORDEN A COMPLETA */
+        if ($exaPendientes["exa_pendientes"] == 0) {
             $sqlEstOrden = "UPDATE lab_orden SET id_estado_orden = '2' WHERE id = $idOrden";
             $stm = $this->getDoctrine()->getConnection()->prepare($sqlEstOrden);
             $stm->execute();
-        } */
+        }
         /* FIN DE CAMBIO DE ESTADO DE ORDEN  */
 
         $response = json_encode(array(
@@ -306,16 +307,17 @@ class LabResultadosController extends AbstractController
             "idOrden" => $idOrden
         ));
 
-        /* $sqlNumEx = "SELECT COUNT(id_examen) AS num_examenes FROM lab_detalle_orden WHERE id_orden = $idOrden";
+        $sqlNumEx = "SELECT COUNT(id_examen) AS num_examenes FROM lab_detalle_orden WHERE id_orden = $idOrden";
         $stm = $this->getDoctrine()->getConnection()->prepare($sqlNumEx);
         $stm->execute();
         $numEx = $stm->fetch();
 
+        /* CAMBIAR ESTADO DE SOLICITUD A DIGITADA */
         if ($numEx["num_examenes"] != 0) {
             $sqlEstOrden = "UPDATE lab_orden SET id_estado_orden = '1' WHERE id = $idOrden";
             $stm = $this->getDoctrine()->getConnection()->prepare($sqlEstOrden);
             $stm->execute();
-        } */
+        }
 
         //idExamen,idDetalleOrden,idOrden
         return new Response($response);

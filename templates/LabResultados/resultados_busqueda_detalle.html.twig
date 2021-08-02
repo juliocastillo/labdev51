@@ -25,12 +25,12 @@
                     <div class="btn btn-danger" id="btnBorrarResEx">Borrar Resultado</div>
                         {% if dato.id_examen == 6%}
                         <a id="btnImprimirExamenHeces" href="#" class="btn btn-primary"><i class="glyphicon glyphicon-print"></i></a>
-                        {% endif %}
-                        {% if dato.id_examen == 16%}
+                        {% elseif dato.id_examen == 16%}
                         <a id="btnImprimirExamenOrina" href="#" class="btn btn-primary"><i class="glyphicon glyphicon-print"></i></a>
-                        {% endif %}
-                        {% if dato.id_examen == 4%}
+                        {% elseif dato.id_examen == 4%}
                         <a id="btnImprimirHemograma" href="#" class="btn btn-primary"><i class="glyphicon glyphicon-print"></i></a>
+                        {% else %}
+                        <a id="btnImprimirOrden" href="#" class="btn btn-primary"><i class="glyphicon glyphicon-print"></i></a>
                         {% endif %}
                     {% endif %}
                     
@@ -42,7 +42,7 @@
                 <td style="display: none;">{{ idOrden }}</td>
             </tr>
             {% endfor %}
-            <tr>
+            {# <tr>
                 <td style="display: none;">{{ idOrden }}</td>
                 {% if datos[0].id_estado_orden == '2' %}
                 <td colspan="4" class="text-left">
@@ -52,7 +52,7 @@
                     </a>
                 </td>
                 {% endif %}
-            </tr>
+            </tr> #}
         </tbody>
     </table>
 </div>

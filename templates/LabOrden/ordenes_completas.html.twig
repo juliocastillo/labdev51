@@ -9,32 +9,144 @@
 {{ parent() }}
 <script type="text/javascript">
     $(document).ready(function(){
+        //location.reload();
         $('#tOrdenes').DataTable( {
             order:[[0,"desc"]],
             
         /* 
         TRADUCIENDO EL LENGUAJE
         */
-        "language" : {
-            "lengthMenu"    : "Mostrar _MENU_ registros",
-            "zeroRecords"   : "No se encontraron resultados",
-            "info"          : "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-            "infoEmpty"     : "Mostrando registros del 0 al 0 de un total de 0 registros",
-            "infoFiltered"  : "(filtrado de un todal de _MAX_ registros)",
-            "sSearch"       : "Buscar:",
-            "oPaginate"     : {
-                "sFirst"    : "Primero",
-                "sLast"     : "Ultimo",
-                "sNext"     : "Siguiente",
-                "sPrevious" : "Anterios"
-            },
-            "sProcessing"   : "Procesando...",
-        }
+            "language" : {
+                "lengthMenu"    : "Mostrar _MENU_ registros",
+                "zeroRecords"   : "No se encontraron resultados",
+                "info"          : "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                "infoEmpty"     : "Mostrando registros del 0 al 0 de un total de 0 registros",
+                "infoFiltered"  : "(filtrado de un todal de _MAX_ registros)",
+                "sSearch"       : "Buscar:",
+                "oPaginate"     : {
+                    "sFirst"    : "Primero",
+                    "sLast"     : "Ultimo",
+                    "sNext"     : "Siguiente",
+                    "sPrevious" : "Anterios"
+                },
+                "sProcessing"   : "Procesando...",
+            }
         } );
+
+        /* PRINT REPORTE HEMOGRAMA */
+        $(document).on('click','#btnImprimirHemograma',function(e){
+            rowDetOrden = $(this).closest('tr');
+            idOrden = parseInt(rowDetOrden.find('td:eq(0)').text());
+            idExamen = parseInt(rowDetOrden.find('td:eq(4)').text());
+            idDetOrden = parseInt(rowDetOrden.find('td:eq(5)').text());
+            
+            $.ajax({
+                type: "GET",
+                url: "{{ path('cargar_datos_hemograma') }}",
+                data: {idOrden:idOrden,idExamen:idExamen,idDetOrden:idDetOrden},
+                dataType: "html",
+                async: true,
+                
+                success : function (response, url) {
+                    let requestUrl = this.url;
+                    window.open(requestUrl).print();
+                }
+            //e.5preventDefault();
+            });
+        });
+
+        /* PRINT EXAMEN HECES */
+        $(document).on('click','#btnImprimirExamenHeces',function(e){
+            rowDetOrden = $(this).closest('tr');
+            idOrden = parseInt(rowDetOrden.find('td:eq(0)').text());
+            idExamen = parseInt(rowDetOrden.find('td:eq(4)').text());
+            idDetOrden = parseInt(rowDetOrden.find('td:eq(5)').text());
+            
+            $.ajax({
+                type: "GET",
+                url: "{{ path('cargar_datos_heces') }}",
+                data: {idOrden:idOrden,idExamen:idExamen,idDetOrden:idDetOrden},
+                dataType: "html",
+                async: true,
+                
+                success : function (response, url) {
+                    let requestUrl = this.url;
+                    window.open(requestUrl).print();
+                }
+            //e.5preventDefault();
+            });
+        });
+
+        /* PRINT REPORTE ORINA */
+        $(document).on('click','#btnImprimirExamenOrina',function(e){
+            rowDetOrden = $(this).closest('tr');
+            idOrden = parseInt(rowDetOrden.find('td:eq(0)').text());
+            idExamen = parseInt(rowDetOrden.find('td:eq(4)').text());
+            idDetOrden = parseInt(rowDetOrden.find('td:eq(5)').text());
+            
+            $.ajax({
+                type: "GET",
+                url: "{{ path('cargar_datos_orina') }}",
+                data: {idOrden:idOrden,idExamen:idExamen,idDetOrden:idDetOrden},
+                dataType: "html",
+                async: true,
+                
+                success : function (response, url) {
+                    let requestUrl = this.url;
+                    window.open(requestUrl).print();
+                }
+            //e.5preventDefault();
+            });
+        });
+
+        /* PRINT RESTO DE EXAMENES */
+        $(document).on('click','#btnImprimirOrden',function(e){
+            rowDetOrden = $(this).closest('tr');
+            idOrden = parseInt(rowDetOrden.find('td:eq(0)').text());
+            
+            $.ajax({
+                type: "GET",
+                url: "{{ path('cargar_datos') }}",
+                data: {idOrden:idOrden},
+                //idDetOrden:idDetOrden, idExamen:idExamen,
+                dataType: "html",
+                async: true,
+                
+                success : function (response, url) {
+                    let requestUrl = this.url;
+                    window.open(requestUrl).print();
+                    window.close();
+                }
+            //e.5preventDefault();
+            });
+        });
     });
+    
+    function verDetalle(idOrden) {
+        $(document).ready(function (e) {
+            //examenes de orden de trabajo completas.
+            $.ajax({
+            url: "{{ path('detalle_orden_list') }}",
+            data : {idOrden : idOrden},
+            type: "GET",
+            dataType: "html",
+            async: true,
+            success : function (html) {
+                $('#examenesList').html(html);
+                $('#ordersDetails').modal('show');
+                $("#ordersDetails").on('hidden.bs.modal', function () {
+                    location.reload();
+                });
+            }
+
+            });
+        })
+    }
 </script>
 {% endblock javascripts %}
-{% block sonata_admin_content %}
+
+{% block body %}
+    {% block sonata_admin_content %}
     {#{% block notice %}
         {% include "SonataCoreBundle:FlashMessage:render.html.twig" %}
     {% endblock notice %}#}
@@ -45,8 +157,10 @@
                     <div class="box-body">
                         <div class="row">
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                {# FORM ENVIO #}
                                 <form name="envio" method="post" id="envio">
                                     <div id="ordenes-completas" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 center-block">
+                                        {# TABLE ORDENTES #}
                                         <div class="table-responsive">
                                             <table id="tOrdenes" class="table table-striped">
                                                 <thead>
@@ -64,9 +178,14 @@
                                                         <td>{{ dato.nombre_estado }}</td>
                                                         <td>{{ dato.fecha_orden }}</td>
                                                         <td>
-                                                            <a id="btnImprimirOrden" href="{{ path('cargar_datos', { 'idOrden':dato.id }) }}" class="btn btn-primary">
-                                                                Imprimir
-                                                                <i class="glyphicon glyphicon-print"></i>
+                                                            <a id="verOrden" {# href="{{ path('cargar_datos', { 'idOrden':dato.id }) }}" #} 
+                                                            class="btn btn-primary btn-block"
+                                                            data-toggle="modal"
+                                                            data-target="#ordersDetails"
+                                                            onclick="verDetalle('{{dato.id}}')"
+                                                            >
+                                                                Ver
+                                                                {# <i class="glyphicon glyphicon-eye-open"></i> #}
                                                             </a>
                                                         </td>                                                        
                                                     </tr>
@@ -77,11 +196,20 @@
                                     </div>
                                 </form>
                             </div>
-                        </div>                        
+                        </div>
+                                            
                     </div>
                 </div>
             </div>
         </div>
-        
+        <div class="row">
+            <div class="col-md-2"></div>
+            
+            <div class="col-md-2"></div>
+        </div> 
     </div>
-{% endblock %}
+    <div id="examenesList"></div>
+    {% endblock %}
+    
+{% endblock body %}
+    

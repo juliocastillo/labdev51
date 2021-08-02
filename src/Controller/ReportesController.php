@@ -19,7 +19,6 @@ class ReportesController extends AbstractController
     /**
     * @Route("/cargar-datos", name="cargar_datos")
     */
-    //Pdf $pdf
     public function loadData(): Response {
         $request = $this->container->get('request_stack')->getCurrentRequest();
         $idExamen = $request->get('idExamen');

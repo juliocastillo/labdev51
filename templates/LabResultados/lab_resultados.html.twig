@@ -10,7 +10,7 @@
 <script type="text/javascript">
     $(document).ready(function() {
         $('#tOrdenes').DataTable( {
-            order:[[1,"desc"]],
+            order:[[0,"desc"]],
             pageLength: 5,
             lengthMenu: [[5, 10, 20, -1], [5, 10, 20, "Todos"]],
             ajax: {
@@ -162,7 +162,7 @@
             //idDetOrden = parseInt(rowDetOrden.find('td:eq(1)').text());
             //idExamen = parseInt(rowDetOrden.find('td:eq(2)').text());
             //idEstadoExamen = rowDetOrden.find('td:eq(3)').text();
-            idOrden = parseInt(rowDetOrden.find('td:eq(0)').text());
+            idOrden = parseInt(rowDetOrden.find('td:eq(5)').text());
             
             $.ajax({
                 type: "GET",
