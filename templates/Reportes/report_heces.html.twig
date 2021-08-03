@@ -9,7 +9,7 @@
         grid-template-columns: 50% 50%;
     }
     img{
-        width: 130px;
+        width: 120px;
         display: block;
         margin-left: auto;
         margin-right: auto;
@@ -79,11 +79,21 @@
     }
     .proto{
         display: grid;
+        grid-template-columns: 50% 50%;
         border-left: 1px solid rgb(141, 141, 141);
     }
     .proto > div{
         border-top: 1px solid rgb(141, 141, 141);
         border-bottom: 1px solid rgb(141, 141, 141);
+        /* border-right: 1px solid rgb(141, 141, 141); */
+    }
+    .activos-quistes{
+        display: grid;
+        grid-template-columns: 50% 50%;
+        border-left: 1px solid rgb(141, 141, 141);
+    }
+    .activos-quistes > div{
+        text-align: center;
         border-right: 1px solid rgb(141, 141, 141);
     }
     .proto-content{
@@ -93,6 +103,13 @@
     }
     .proto-content > div{
         border-bottom: 1px solid rgb(141, 141, 141);
+    }
+    .proto-content-two{
+        display: grid;
+        grid-template-columns: 50% 50%;
+        border-left: 1px solid rgb(141, 141, 141);
+    }
+    .proto-content-two > div{
         border-right: 1px solid rgb(141, 141, 141);
         text-align: center;
     }
@@ -112,7 +129,6 @@
     .meta-content > div{
         border-bottom: 1px solid rgb(141, 141, 141);
         border-right: 1px solid rgb(141, 141, 141);
-        text-align: center;
     }
     .meta > div{
         border-bottom: 1px solid rgb(141, 141, 141);
@@ -120,7 +136,9 @@
     }
     .obs-grid{
         display: grid;
-        grid-template-rows: 60px;
+        /* grid-template-rows: 60px; */
+        height: 60px;
+        /* vertical-align: text-top; */
         border-bottom: 1px solid rgb(141, 141, 141);
         border-right: 1px solid rgb(141, 141, 141);
         border-left: 1px solid rgb(141, 141, 141);
@@ -128,7 +146,7 @@
     .footer-grid{
         display: grid;
         grid-template-columns: 50% 50%;
-        grid-template-rows: 80px;
+        grid-template-rows: 60px;
         border-left: 1px solid rgb(141, 141, 141);
     }
     .footer-grid > div{
@@ -185,7 +203,6 @@
                 <div><strong>Fecha:</strong></div>
                 <div>{{ datos_head[0].fecha_orden|date("d-m-Y H:i") }}</div>
             </div>
-            {# TITULO DE EXAMEN / RESTOS ALIMENTICIOS #}
             <div class="title">
                 {% for datos in arrays %}
                     {% for dato in datos %}
@@ -202,6 +219,7 @@
                     {% endfor %}
                 {% endfor %}
             </div>
+            
             <div class="generales-grid">
                 {# COLOR A MACROFAGOS #}
                 <div class="generales">
@@ -228,26 +246,33 @@
             </div>
             {# TITULO PROTOZOARIOS #}
             <div class="proto">
-                {% for datos in arrays %}
-                    {% for dato in datos %}
-                        {% if dato.id >= 41 and dato.id <= 49 and dato.id_tipo_elemento == 1 %}
-                            <div style="padding-left: 60px; color: #808080; font-family: sans-serif;">
-                                <strong>{{ dato.nombre_elemento }}</strong>
-                            </div>
-                        {% endif %}
+                <div>
+                    {% for datos in arrays %}
+                        {% for dato in datos %}
+                            {% if dato.id >= 41 and dato.id <= 49 and dato.id_tipo_elemento == 1 %}
+                                <div style="padding-left: 60px; color: #808080; font-family: sans-serif;">
+                                    <strong>{{ dato.nombre_elemento }}</strong>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
                     {% endfor %}
-                {% endfor %}
+                </div>
+                <div class="activos-quistes">
+                    <div style="color: #808080; font-family: sans-serif;"><strong>ACTIVOS</strong></div>
+                    <div style="color: #808080; font-family: sans-serif;"><strong>QUISTES</strong></div>
+                </div>
             </div>
             {# CONTENIDO PROTOZOARIOS #}
             <div class="proto-content">
                 {% for datos in arrays %}
                     {% for dato in datos %}
-                        {% if dato.id >= 41 and dato.id <= 49 and dato.id_tipo_elemento == 2 %}
-                            <div>
+                        {% if dato.ordenamiento >= 301 and dato.ordenamiento <= 309 and dato.id_tipo_elemento == 2 %}
+                            <div style="text-align: right; padding-right: 20px;">
                                 <strong>{{ dato.nombre_elemento }}</strong>
                             </div>
-                            <div>
-                                <strong>{{ dato.resultado }}</strong>
+                            <div class="proto-content-two">
+                                <div>{{ dato.resultado }}</div>
+                                <div>{{ dato.quiste }}</div>
                             </div>
                         {% endif %}
                     {% endfor %}
@@ -269,15 +294,18 @@
             <div class="meta-content">
                 {% for datos in arrays %}
                     {% for dato in datos %}
-                        {% if dato.id >= 50 and dato.id <= 54 and dato.id_tipo_elemento == 2 %}
-                            <div><strong>{{ dato.nombre_elemento }}</strong></div>
-                            <div><strong>{{ dato.resultado }}</strong></div>
+                        {% if dato.ordenamiento >= 501 and dato.ordenamiento <= 508 and dato.id_tipo_elemento == 2 %}
+                            <div style="text-align: right; padding-right: 20px;"><strong>{{ dato.nombre_elemento }}</strong></div>
+                            <div style="text-align: center;">{{ dato.resultado }}</div>
                         {% endif %}
                     {% endfor %}
                 {% endfor %}
             </div>
             {# PIE DEL REPORTE #}
-            <div class="obs-grid"><strong> OBSERVACIONES:</strong></div>
+            <div class="obs-grid">
+                OBSERVACIONES: <br>
+                {{ arrays["datos_heces"][0].observacion }}
+            </div>
             <div class="footer-grid">
                 <div></div>
                 <div></div>
