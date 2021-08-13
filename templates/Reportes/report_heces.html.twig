@@ -3,6 +3,9 @@
     .bodyR {
         font-family: Verdana, Geneva, Tahoma, sans-serif;
         font-size: small;
+        width: 1000px;
+        margin-left: auto;
+        margin-right: auto;
     }
     .wrapper{
         display: grid;
@@ -13,10 +16,11 @@
         display: block;
         margin-left: auto;
         margin-right: auto;
+        padding-bottom: 5px;
     }
     .head-grid {
         display: grid;
-        grid-template-columns: 20% 80%;
+        grid-template-columns: 30% 70%;
     }
     .head-grid > div{
         text-align: center;
@@ -30,7 +34,7 @@
         border-bottom: 1px solid rgb(141, 141, 141);
         border-top: 1px solid rgb(141, 141, 141);
         border-right: 1px solid rgb(141, 141, 141);
-        padding-left: 10px;
+        padding-left: 0px;
     }
     .edad-grid{
         display: grid;
@@ -170,7 +174,7 @@
 {% block body %}
 <body class="bodyR">
     <div class="wrapper">
-        <div>
+        <div style="margin-right: 5px;">
             <div class="head-grid">
                 <div>
                     <img src="{{ asset('build/images/logo-lab-MB.093a0228.png') }}" alt="">
@@ -185,8 +189,8 @@
             </div>
             {# NOMBRE PACIENTE #}
             <div class="name-grid">
-                <div><strong style="margin-left: 0px;">Nombre paciente:</strong></div>
-                <div>{{ datos_head[0].nombre }} {{ datos_head[0].apellido }}</div>
+                <div style="text-align: center;"><strong style="margin-left: 0px;">Nombre paciente:</strong></div>
+                <div style="padding-left: 5px; padding-top: 10px;">{{ datos_head[0].nombre }} {{ datos_head[0].apellido }}</div>
             </div>
             {# EDAD Y FECHA #}
             <div class="edad-grid">
