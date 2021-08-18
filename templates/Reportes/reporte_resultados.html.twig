@@ -7,369 +7,405 @@
         margin-left: auto;
         margin-right: auto;
     }
-
-    .mainDiv{
-        background-color: azure;
-    }
-
     .tableDiv{
-        background-color: white;
+        display: grid;
+        grid-template-columns: 50% 50%;
     }
-
-    table{
-        border: none;
-        width: 100%;
+    /* HEADER */
+    .head-grid {
+        display: grid;
+        grid-template-columns: 30% 70%;
+        font-size: 13px;
     }
-    
-    tr th{
+    .head-grid > div{
         text-align: center;
-        font-size: 14px;
     }
-
-    .h-reporte{
-        font-size: 14px;
-        padding-left: auto;
-        padding-right: auto;
-    }
-
-    tr td{
-        text-align: center;
-        font-size: 14px;
-    }
-
-    .datosP td{
-        padding-left: 10px;
-        text-align: left;
-        font-size: 14px;
-        
-    }
-
-    .datosP td strong{
-        /* margin-left: 20px; */
-        font-size: 14px;
-    }
-
-    .dataE{
-        text-align: left;
-    }
-
-    .dataE td{
-        margin-left: 40px;
-        font-size: 14px;
-    }
-
     img{
-        width: 200px;
+        width: 120px;
+        display: block;
+        margin: 0 auto 0 auto;
+        padding-bottom: 5px;
     }
-
-    hr{
-        width: 85%;
+    .headTitle{
+        text-align: right;
+        padding-right: 5px;
+    }
+    .contentTitle{
+        text-align: left;
+        padding-left: 5px;
+    }
+    table, tr, td, th {
+        font-size: 12px;
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+    .h-reporte{
+        text-align: center;
+        width: 25%;
+    }
+    tbody tr td{
+        text-align: center;
+    }
+    .obsExamen{
+        text-align: left;
+        padding-left: 5px;
     }
 </style>
 {% endblock stylesheets %}
 {% block body %}
-<body>
-{% include "Reportes/header.html.twig" %}    
+<body>   
 <div class="tableDiv">
-    <table>
-        <thead>
-            <th class="h-reporte" style="padding-left: 20px;">
-                Examen/Elemento
-            </th>
-            <th class="h-reporte">
-                Resultado
-            </th>
-            <th class="h-reporte">
-                Unidades
-            </th>
-            <th class="h-reporte" style="padding-right: 50px;">
-                Rangos de Referencia
-            </th>
+    <div style="margin-right: 5px;">
+        <br>
+        {% include "Reportes/header.html.twig" %}
+            <tr>
+                <th class="h-reporte">
+                    Examen
+                </th>
+                <th class="h-reporte">
+                    Resultado
+                </th>
+                <th class="h-reporte">
+                    Unidades
+                </th>
+                <th class="h-reporte">
+                    Rangos de Referencia
+                </th>
+            </tr>
         </thead>
-    {# RESTO DE PRUEBAS #}
-    {% if datos is not empty %}
-        {% if datos["datos_1"] is not empty and datos["datos_1"][0].id_area == "1" %}
-        <tbody>
-            <tr><td colspan="4" style="text-align: left; padding-left: 60px; padding-top: 10px; font-size: 14px;"><strong>{{datos["datos_1"][0].nombre_area}}</strong></td></tr>
-            {% for dato in datos["datos_1"] %}
-                <tr class="dataE">
-                    <td style="width: 25%; text-align:left; padding-left:75px;">
-                        <strong>{{ dato.nombre_elemento }}</strong>
-                    </td>
-                    <td style="width: 25%;">
-                        {{ dato.resultado }}
-                    </td>
-                    <td style="width: 25%;">
-                        {{ dato.unidades }}
-                    </td>
-                    <td style="width: 25%; padding-right: 40px;">
-                        {{ dato.valor_inicial }} - {{ dato.valor_final }}
-                    </td>
-                </tr>
-            {% endfor %}
-            {% if datos["datos_1"][0].observacion != "" %}
+        {# RESTO DE PRUEBAS #}
+        {% if datos is not empty %}
+            {% if datos["datos_1"] is not empty and datos["datos_1"][0].id_area == "1" %}
+            <tbody>
                 <tr>
-                    <td colspan="4" style="text-align: left; padding-left: 75px; padding-top: 5px; font-size: 14px;">
-                        <strong>Observacion: </strong>{{ datos["datos_1"][0].observacion }}
+                    <td colspan="4">
+                        <strong>{{datos["datos_1"][0].nombre_area}}</strong>
                     </td>
                 </tr>
+                {% for dato in datos["datos_1"] %}
+                    <tr>
+                        <td>
+                            <strong>{{ dato.nombre_elemento }}</strong>
+                        </td>
+                        <td>
+                            {{ dato.resultado }}
+                        </td>
+                        <td>
+                            {{ dato.unidades }}
+                        </td>
+                        <td>
+                            {{ dato.valor_inicial }} - {{ dato.valor_final }}
+                        </td>
+                    </tr>
+                {% endfor %}
+                {% if datos["datos_1"][0].observacion != "" %}
+                    <tr>
+                        <td colspan="4" class="obsExamen">
+                            <strong>Observacion: </strong>{{ datos["datos_1"][0].observacion }}
+                        </td>
+                    </tr>
+                {% endif %}
+            </tbody>
             {% endif %}
-        </tbody>
-        {% endif %}
-        {% if datos["datos_2"] is not empty and datos["datos_2"][0].id_area == "2" %}
-        <tbody>
-            <tr><td colspan="4" style="text-align: left; padding-left: 60px; padding-top: 10px; font-size: 14px;"><strong>{{datos["datos_2"][0].nombre_area}}</strong></td></tr>
-            {% for dato in datos["datos_2"] %}
-                <tr class="dataE">
-                    <td style="width: 25%; text-align:left; padding-left:75px;">
-                        <strong>{{ dato.nombre_elemento }}</strong>
-                    </td>
-                    <td style="width: 25%;">
-                        {{ dato.resultado }}
-                    </td>
-                    <td style="width: 25%;">
-                        {{ dato.unidades }}
-                    </td>
-                    <td style="width: 25%; padding-right: 40px;">
-                        {{ dato.valor_inicial }} - {{ dato.valor_final }}
-                    </td>
-                </tr>
-            {% endfor %}
-            {% if datos["datos_2"][0].observacion != "" %}
+            {% if datos["datos_2"] is not empty and datos["datos_2"][0].id_area == "2" %}
+            <tbody>
                 <tr>
-                    <td colspan="4" style="text-align: left; padding-left: 75px; padding-top: 5px; font-size: 14px;">
-                        <strong>Observacion: </strong>{{ datos["datos_2"][0].observacion }}
+                    <td colspan="4">
+                        <strong>{{datos["datos_2"][0].nombre_area}}</strong>
                     </td>
                 </tr>
+                {% for dato in datos["datos_2"] %}
+                    <tr>
+                        <td>
+                            <strong>{{ dato.nombre_elemento }}</strong>
+                        </td>
+                        <td>
+                            {{ dato.resultado }}
+                        </td>
+                        <td>
+                            {{ dato.unidades }}
+                        </td>
+                        <td>
+                            {{ dato.valor_inicial }} - {{ dato.valor_final }}
+                        </td>
+                    </tr>
+                {% endfor %}
+                {% if datos["datos_2"][0].observacion != "" %}
+                    <tr>
+                        <td colspan="4" class="obsExamen">
+                            <strong>Observacion: </strong>{{ datos["datos_2"][0].observacion }}
+                        </td>
+                    </tr>
+                {% endif %}
+            </tbody>
             {% endif %}
-        </tbody>
-        {% endif %}
-        {% if datos["datos_3"] is not empty and datos["datos_3"][0].id_area == "3" %}
-        <tbody>
-            <tr><td colspan="4" style="text-align: left; padding-left: 70px; padding-top: 10px; font-size: 14px;"><strong>{{datos["datos_3"][0].nombre_area}}</strong></td></tr>
-            {% for dato in datos["datos_3"] %}
-                <tr class="dataE">
-                    <td style="width: 25%; text-align:left; padding-left:75px;">
-                        <strong>{{ dato.nombre_elemento }}</strong>
-                    </td>
-                    <td style="width: 25%;">
-                        {{ dato.resultado }}
-                    </td>
-                    <td style="width: 25%;">
-                        {{ dato.unidades }}
-                    </td>
-                    <td style="width: 25%; padding-right: 40px;">
-                        {{ dato.valor_inicial }} - {{ dato.valor_final }}
-                    </td>
-                </tr>
-            {% endfor %}
-            {% if datos["datos_3"][0].observacion != "" %}
+            {% if datos["datos_3"] is not empty and datos["datos_3"][0].id_area == "3" %}
+            <tbody>
                 <tr>
-                    <td colspan="4" style="text-align: left; padding-left: 75px; padding-top: 5px; font-size: 14px;">
-                        <strong>Observacion: </strong>{{ datos["datos_3"][0].observacion }}
+                    <td colspan="4">
+                        <strong>{{datos["datos_3"][0].nombre_area}}</strong>
                     </td>
                 </tr>
+                {% for dato in datos["datos_3"] %}
+                    <tr>
+                        <td>
+                            <strong>{{ dato.nombre_elemento }}</strong>
+                        </td>
+                        <td>
+                            {{ dato.resultado }}
+                        </td>
+                        <td>
+                            {{ dato.unidades }}
+                        </td>
+                        <td>
+                            {{ dato.valor_inicial }} - {{ dato.valor_final }}
+                        </td>
+                    </tr>
+                {% endfor %}
+                {% if datos["datos_3"][0].observacion != "" %}
+                    <tr>
+                        <td colspan="4" class="obsExamen">
+                            <strong>Observacion: </strong>{{ datos["datos_3"][0].observacion }}
+                        </td>
+                    </tr>
+                {% endif %}
+            </tbody>
             {% endif %}
-        </tbody>
-        {% endif %}
-        {% if datos["datos_4"] is not empty and datos["datos_4"][0].id_area == "4" %}
-        <tbody>
-            <tr><td colspan="4" style="text-align: left; padding-left: 70px; padding-top: 10px; font-size: 14px;"><strong>{{datos["datos_4"][0].nombre_area}}</strong></td></tr>
-            {% for dato in datos["datos_4"] %}
-                <tr class="dataE">
-                    <td style="width: 25%; text-align:left; padding-left:75px;">
-                        <strong>{{ dato.nombre_elemento }}</strong>
-                    </td>
-                    <td style="width: 25%;">
-                        {{ dato.resultado }}
-                    </td>
-                    <td style="width: 25%;">
-                        {{ dato.unidades }}
-                    </td>
-                    <td style="width: 25%; padding-right: 40px;">
-                        {{ dato.valor_inicial }} - {{ dato.valor_final }}
-                    </td>
-                </tr>
-            {% endfor %}
-            {% if datos["datos_4"][0].observacion != "" %}
+            {% if datos["datos_4"] is not empty and datos["datos_4"][0].id_area == "4" %}
+            <tbody>
                 <tr>
-                    <td colspan="4" style="text-align: left; padding-left: 75px; padding-top: 5px; font-size: 14px;">
-                        <strong>Observacion: </strong>{{ datos["datos_4"][0].observacion }}
+                    <td colspan="4">
+                        <strong>{{datos["datos_4"][0].nombre_area}}</strong>
                     </td>
                 </tr>
+                {% for dato in datos["datos_4"] %}
+                    <tr>
+                        <td>
+                            <strong>{{ dato.nombre_elemento }}</strong>
+                        </td>
+                        <td>
+                            {{ dato.resultado }}
+                        </td>
+                        <td>
+                            {{ dato.unidades }}
+                        </td>
+                        <td>
+                            {{ dato.valor_inicial }} - {{ dato.valor_final }}
+                        </td>
+                    </tr>
+                {% endfor %}
+                {% if datos["datos_4"][0].observacion != "" %}
+                    <tr>
+                        <td colspan="4" class="obsExamen">
+                            <strong>Observacion: </strong>{{ datos["datos_4"][0].observacion }}
+                        </td>
+                    </tr>
+                {% endif %}
+            </tbody>
             {% endif %}
-        </tbody>
-        {% endif %}
-        {% if datos["datos_5"] is not empty and datos["datos_5"][0].id_area == "5" %}
-        <tbody>
-            <tr><td colspan="4" style="text-align: left; padding-left: 70px; padding-top: 10px; font-size: 14px;"><strong>{{datos["datos_5"][0].nombre_area}}</strong></td></tr>
-            {% for dato in datos["datos_5"] %}
-                <tr class="dataE">
-                    <td style="width: 25%; text-align:left; padding-left:75px;">
-                        <strong>{{ dato.nombre_elemento }}</strong>
-                    </td>
-                    <td style="width: 25%;">
-                        {{ dato.resultado }}
-                    </td>
-                    <td style="width: 25%;">
-                        {{ dato.unidades }}
-                    </td>
-                    <td style="width: 25%; padding-right: 40px;">
-                        {{ dato.valor_inicial }} - {{ dato.valor_final }}
-                    </td>
-                </tr>
-            {% endfor %}
-            {% if datos["datos_5"][0].observacion != "" %}
+            {% if datos["datos_5"] is not empty and datos["datos_5"][0].id_area == "5" %}
+            <tbody>
                 <tr>
-                    <td colspan="4" style="text-align: left; padding-left: 75px; padding-top: 5px; font-size: 14px;">
-                        <strong>Observacion: </strong>{{ datos["datos_5"][0].observacion }}
+                    <td colspan="4">
+                        <strong>{{datos["datos_5"][0].nombre_area}}</strong>
                     </td>
                 </tr>
+                {% for dato in datos["datos_5"] %}
+                    <tr>
+                        <td>
+                            <strong>{{ dato.nombre_elemento }}</strong>
+                        </td>
+                        <td>
+                            {{ dato.resultado }}
+                        </td>
+                        <td>
+                            {{ dato.unidades }}
+                        </td>
+                        <td>
+                            {{ dato.valor_inicial }} - {{ dato.valor_final }}
+                        </td>
+                    </tr>
+                {% endfor %}
+                {% if datos["datos_5"][0].observacion != "" %}
+                    <tr>
+                        <td colspan="4" class="obsExamen">
+                            <strong>Observacion: </strong>{{ datos["datos_5"][0].observacion }}
+                        </td>
+                    </tr>
+                {% endif %}
+            </tbody>
             {% endif %}
-        </tbody>
-        {% endif %}
-        {% if datos["datos_6"] is not empty and datos["datos_6"][0].id_area == "6" %}
-        <tbody>
-            <tr><td colspan="4" style="text-align: left; padding-left: 70px; padding-top: 10px; font-size: 14px;"><strong>{{datos["datos_6"][0].nombre_area}}</strong></td></tr>
-            {% for dato in datos["datos_6"] %}
-                <tr class="dataE">
-                    <td style="width: 25%; text-align:left; padding-left:75px;">
-                        <strong>{{ dato.nombre_elemento }}</strong>
-                    </td>
-                    <td style="width: 25%;">
-                        {{ dato.resultado }}
-                    </td>
-                    <td style="width: 25%;">
-                        {{ dato.unidades }}
-                    </td>
-                    <td style="width: 25%; padding-right: 40px;">
-                        {{ dato.valor_inicial }} - {{ dato.valor_final }}
-                    </td>
-                </tr>
-            {% endfor %}
-            {% if datos["datos_6"][0].observacion != "" %}
+            {% if datos["datos_6"] is not empty and datos["datos_6"][0].id_area == "6" %}
+            <tbody>
                 <tr>
-                    <td colspan="4" style="text-align: left; padding-left: 75px; padding-top: 5px; font-size: 14px;">
-                        <strong>Observacion: </strong>{{ datos["datos_6"][0].observacion }}
+                    <td colspan="4">
+                        <strong>{{datos["datos_6"][0].nombre_area}}</strong>
                     </td>
                 </tr>
+                {% for dato in datos["datos_6"] %}
+                    <tr>
+                        <td>
+                            <strong>{{ dato.nombre_elemento }}</strong>
+                        </td>
+                        <td>
+                            {{ dato.resultado }}
+                        </td>
+                        <td>
+                            {{ dato.unidades }}
+                        </td>
+                        <td>
+                            {{ dato.valor_inicial }} - {{ dato.valor_final }}
+                        </td>
+                    </tr>
+                {% endfor %}
+                {% if datos["datos_4"][0].observacion != "" %}
+                    <tr>
+                        <td colspan="6" class="obsExamen">
+                            <strong>Observacion: </strong>{{ datos["datos_6"][0].observacion }}
+                        </td>
+                    </tr>
+                {% endif %}
+            </tbody>
             {% endif %}
-        </tbody>
-        {% endif %}
-        {% if datos["datos_7"] is not empty and datos["datos_7"][0].id_area == "7" %}
-        <tbody>
-            <tr><td colspan="4" style="text-align: left; padding-left: 70px; padding-top: 10px; font-size: 14px;"><strong>{{datos["datos_7"][0].nombre_area}}</strong></td></tr>
-            {% for dato in datos["datos_7"] %}
-                <tr class="dataE">
-                    <td style="width: 25%; text-align:left; padding-left:75px;">
-                        <strong>{{ dato.nombre_elemento }}</strong>
-                    </td>
-                    <td style="width: 25%;">
-                        {{ dato.resultado }}
-                    </td>
-                    <td style="width: 25%;">
-                        {{ dato.unidades }}
-                    </td>
-                    <td style="width: 25%; padding-right: 40px;">
-                        {{ dato.valor_inicial }} - {{ dato.valor_final }}
-                    </td>
-                </tr>
-            {% endfor %}
-            {% if datos["datos_7"][0].observacion != "" %}
+            {% if datos["datos_7"] is not empty and datos["datos_7"][0].id_area == "7" %}
+            <tbody>
                 <tr>
-                    <td colspan="4" style="text-align: left; padding-left: 75px; padding-top: 5px; font-size: 14px;">
-                        <strong>Observacion: </strong>{{ datos["datos_7"][0].observacion }}
+                    <td colspan="4">
+                        <strong>{{datos["datos_7"][0].nombre_area}}</strong>
                     </td>
                 </tr>
+                {% for dato in datos["datos_7"] %}
+                    <tr>
+                        <td>
+                            <strong>{{ dato.nombre_elemento }}</strong>
+                        </td>
+                        <td>
+                            {{ dato.resultado }}
+                        </td>
+                        <td>
+                            {{ dato.unidades }}
+                        </td>
+                        <td>
+                            {{ dato.valor_inicial }} - {{ dato.valor_final }}
+                        </td>
+                    </tr>
+                {% endfor %}
+                {% if datos["datos_7"][0].observacion != "" %}
+                    <tr>
+                        <td colspan="4" class="obsExamen">
+                            <strong>Observacion: </strong>{{ datos["datos_7"][0].observacion }}
+                        </td>
+                    </tr>
+                {% endif %}
+            </tbody>
             {% endif %}
-        </tbody>
-        {% endif %}
-        {% if datos["datos_8"] is not empty and datos["datos_8"][0].id_area == "8" %}
-        <tbody>
-            <tr><td colspan="4" style="text-align: left; padding-left: 70px; padding-top: 10px; font-size: 14px;"><strong>{{datos["datos_8"][0].nombre_area}}</strong></td></tr>
-            {% for dato in datos["datos_8"] %}
-                <tr class="dataE">
-                    <td style="width: 25%; text-align:left; padding-left:75px;">
-                        <strong>{{ dato.nombre_elemento }}</strong>
-                    </td>
-                    <td style="width: 25%;">
-                        {{ dato.resultado }}
-                    </td>
-                    <td style="width: 25%;">
-                        {{ dato.unidades }}
-                    </td>
-                    <td style="width: 25%; padding-right: 40px;">
-                        {{ dato.valor_inicial }} - {{ dato.valor_final }}
-                    </td>
-                </tr>
-            {% endfor %}
-            {% if datos["datos_8"][0].observacion != "" %}
+            {% if datos["datos_8"] is not empty and datos["datos_8"][0].id_area == "8" %}
+            <tbody>
                 <tr>
-                    <td colspan="4" style="text-align: left; padding-left: 75px; padding-top: 5px; font-size: 14px;">
-                        <strong>Observacion: </strong>{{ datos["datos_8"][0].observacion }}
+                    <td colspan="4">
+                        <strong>{{datos["datos_8"][0].nombre_area}}</strong>
                     </td>
                 </tr>
+                {% for dato in datos["datos_8"] %}
+                    <tr>
+                        <td>
+                            <strong>{{ dato.nombre_elemento }}</strong>
+                        </td>
+                        <td>
+                            {{ dato.resultado }}
+                        </td>
+                        <td>
+                            {{ dato.unidades }}
+                        </td>
+                        <td>
+                            {{ dato.valor_inicial }} - {{ dato.valor_final }}
+                        </td>
+                    </tr>
+                {% endfor %}
+                {% if datos["datos_8"][0].observacion != "" %}
+                    <tr>
+                        <td colspan="4" class="obsExamen">
+                            <strong>Observacion: </strong>{{ datos["datos_8"][0].observacion }}
+                        </td>
+                    </tr>
+                {% endif %}
+            </tbody>
             {% endif %}
-        </tbody>
-        {% endif %}
-        {% if datos["datos_9"] is not empty and datos["datos_9"][0].id_area == "9" %}
-        <tbody>
-            <tr><td colspan="4" style="text-align: left; padding-left: 70px; padding-top: 10px; font-size: 14px;"><strong>{{datos["datos_9"][0].nombre_area}}</strong></td></tr>
-            {% for dato in datos["datos_9"] %}
-                <tr class="dataE">
-                    <td style="width: 25%; text-align:left; padding-left:75px;">
-                        <strong>{{ dato.nombre_elemento }}</strong>
-                    </td>
-                    <td style="width: 25%;">
-                        {{ dato.resultado }}
-                    </td>
-                    <td style="width: 25%;">
-                        {{ dato.unidades }}
-                    </td>
-                    <td style="width: 25%; padding-right: 40px;">
-                        {{ dato.valor_inicial }} - {{ dato.valor_final }}
-                    </td>
-                </tr>
-            {% endfor %}
-            {% if datos["datos_9"][0].observacion != "" %}
+            {% if datos["datos_9"] is not empty and datos["datos_9"][0].id_area == "9" %}
+            <tbody>
                 <tr>
-                    <td colspan="4" style="text-align: left; padding-left: 75px; padding-top: 5px; font-size: 14px;">
-                        <strong>Observacion: </strong>{{ datos["datos_9"][0].observacion }}
+                    <td colspan="4">
+                        <strong>{{datos["datos_9"][0].nombre_area}}</strong>
                     </td>
                 </tr>
+                {% for dato in datos["datos_9"] %}
+                    <tr>
+                        <td>
+                            <strong>{{ dato.nombre_elemento }}</strong>
+                        </td>
+                        <td>
+                            {{ dato.resultado }}
+                        </td>
+                        <td>
+                            {{ dato.unidades }}
+                        </td>
+                        <td>
+                            {{ dato.valor_inicial }} - {{ dato.valor_final }}
+                        </td>
+                    </tr>
+                {% endfor %}
+                {% if datos["datos_9"][0].observacion != "" %}
+                    <tr>
+                        <td colspan="4" class="obsExamen">
+                            <strong>Observacion: </strong>{{ datos["datos_9"][0].observacion }}
+                        </td>
+                    </tr>
+                {% endif %}
+            </tbody>
             {% endif %}
-        </tbody>
-        {% endif %}
-        {% if datos["datos_10"] is not empty and datos["datos_10"][0].id_area == "10" %}
-        <tbody>
-            <tr><td colspan="4" style="text-align: left; padding-left: 70px; padding-top: 10px; font-size: 14px;"><strong>{{datos["datos_10"][0].nombre_area}}</strong></td></tr>
-            {% for dato in datos["datos_10"] %}
-                <tr class="dataE">
-                    <td style="width: 25%; text-align:left; padding-left:75px;">
-                        <strong>{{ dato.nombre_elemento }}</strong>
-                    </td>
-                    <td style="width: 25%;">
-                        {{ dato.resultado }}
-                    </td>
-                    <td style="width: 25%;">
-                        {{ dato.unidades }}
-                    </td>
-                    <td style="width: 25%; padding-right: 40px;">
-                        {{ dato.valor_inicial }} - {{ dato.valor_final }}
-                    </td>
-                </tr>
-            {% endfor %}
-            {% if datos["datos_10"][0].observacion != "" %}
+            {% if datos["datos_10"] is not empty and datos["datos_10"][0].id_area == "10" %}
+            <tbody>
                 <tr>
-                    <td colspan="4" style="text-align: left; padding-left: 75px; padding-top: 5px; font-size: 14px;">
-                        <strong>Observacion: </strong>{{ datos["datos_10"][0].observacion }}
+                    <td colspan="4">
+                        <strong>{{datos["datos_10"][0].nombre_area}}</strong>
                     </td>
                 </tr>
+                {% for dato in datos["datos_10"] %}
+                    <tr>
+                        <td>
+                            <strong>{{ dato.nombre_elemento }}</strong>
+                        </td>
+                        <td>
+                            {{ dato.resultado }}
+                        </td>
+                        <td>
+                            {{ dato.unidades }}
+                        </td>
+                        <td>
+                            {{ dato.valor_inicial }} - {{ dato.valor_final }}
+                        </td>
+                    </tr>
+                {% endfor %}
+                {% if datos["datos_10"][0].observacion != "" %}
+                    <tr>
+                        <td colspan="4" class="obsExamen">
+                            <strong>Observacion: </strong>{{ datos["datos_10"][0].observacion }}
+                        </td>
+                    </tr>
+                {% endif %}
+            </tbody>
             {% endif %}
-        </tbody>
         {% endif %}
-    {% endif %}
-    </table>
+            <tr>
+                <td colspan="2" style="height: 60px;"></td>
+                <td colspan="2"></td>
+            </tr>
+            <tr>
+                <td colspan="2" style="text-align: center;"><strong>Sello</strong></td>
+                <td colspan="2" style="text-align: center;"><Strong>Profesional que Reporta</Strong></td>
+            </tr>
+        </table>
+    </div>
 </div>
 {% endblock body %} 
 </body>
