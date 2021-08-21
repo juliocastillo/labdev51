@@ -1,0 +1,176 @@
+{% block stylesheets %}
+<style>
+    body{
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        width: 1000px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .tableDiv{
+        display: grid;
+        grid-template-columns: 50% 50%;
+    }
+    .head-grid {
+        display: grid;
+        grid-template-columns: 30% 70%;
+        font-size: 13px;
+    }
+    .head-grid > div{
+        text-align: center;
+    }
+    table, th, td{
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+    tr th{
+        text-align: center;
+        font-size: 12px;
+    }
+    .h-reporte{
+        font-size: 12px;
+        text-align: center;
+        /* padding-left: auto; */
+        /* padding-right: auto; */
+    }
+    tr td{
+        text-align: center;
+        font-size: 12px;
+    }
+    .datosP td{
+        padding-left: 10px;
+        text-align: left;
+        font-size: 12px;
+        
+    }
+    .datosP td strong{
+        /* margin-left: 20px; */
+        font-size: 12px;
+    }
+    .dataE{
+        text-align: left;
+    }
+    .td-obs{
+        display: table-cell;
+        vertical-align: top;
+        text-align: left; 
+        padding-left: 20px; 
+        padding-top: 5px; 
+        font-size: 12px; 
+        height: 50px;
+    }
+    img{
+        width: 110px;
+        display: block;
+        margin: 0 auto 0 auto;
+        padding-bottom: 5px;
+    }
+    hr{
+        width: 85%;
+    }
+</style>
+{% endblock stylesheets %}
+{% block body %}
+<body>
+{# {% include "Reportes/header_individual.html.twig" %} #}
+<div class="tableDiv">
+    <div style="margin-right: 5px;">
+        <div class="head-grid">
+            <div>
+                <img src="{{ asset('build/images/logo-lab-MB.093a0228.png') }}" alt="">
+            </div>
+            <div>
+                <br>
+                <strong>N° DE INSCRIPCION 742</strong> <br>
+                1ra calle oriente y 22 avenida norte #1-9 <br>
+                Colonia Angélica, Sonsonate <br>
+                Tel. 2451 9607 - WhatsApp: 7625 8233 <br>
+            </div>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <td colspan="1" style="text-align: right; padding-right: 5px;"><strong>Nombre paciente:</strong></td>
+                    <td colspan="3" style="text-align: left; padding-left: 5px;">{{ datos_head[0].nombre }} {{ datos_head[0].apellido }}</td>
+                </tr>
+                <tr>
+                    <td style="text-align: right; padding-right: 5px;"><strong>Edad:</strong></td>
+                    <td style="text-align: left; padding-left: 5px;">
+                        {% if datos_head[0].edad_dias < 30 %}
+                            {{ datos_head[0].edad_dias }} dias
+                        {% elseif datos_head[0].edad_meses < 12 %}
+                            {{ datos_head[0].edad_meses }} meses
+                        {% else %}
+                            {{ datos_head[0].edad_anios }} años
+                        {% endif %}
+                    </td>
+                    <td style="text-align: right; padding-right: 5px;"><strong>Fecha:</strong></td>
+                    <td style="text-align: left; padding-left: 5px;">{{ datos_head[0].fecha_orden|date("d-m-Y") }}</td>
+                </tr>
+                <tr>
+                    <td colspan="4"><strong>ESPERMOGRAMA</strong></td>
+                </tr>
+                <tr>
+                    <th class="h-reporte" style="width: 40%;">
+                        Elemento
+                    </th>
+                    <th class="h-reporte" style="width: 20%;">
+                        Resultado
+                    </th>
+                    <th class="h-reporte" style="width: 20%;">
+                        Unidades
+                    </th>
+                    <th class="h-reporte" style="width: 20%;">
+                        Rangos de Referencia
+                    </th>
+                </tr>
+            </thead>
+            {# <pre>
+                {{ dump(arrays) }}
+            </pre> #}
+            {% if arrays is not empty %}
+            <tbody>
+                {% if arrays[0].id_examen == 94 %}
+                    {% for datos in arrays %}
+                        {% if (datos.id_tipo_elemento == 1) %}
+                            <tr><td colspan="4" style="padding-left: 10px; padding-top: 0px; text-align: left; font-size: 12px;"><strong>{{datos.nombre_elemento}}</strong></td></tr>
+                        {% else %}
+                        <tr>
+                            <td style="text-align:left; padding-left:20px;">
+                                {{ datos.nombre_elemento }}
+                            </td>
+                            <td>
+                                {{ datos.resultado }}
+                            </td>
+                            <td>
+                                {{ datos.unidades }}
+                            </td>
+                            <td style="padding-right: 0px;">
+                                {{ datos.valor_inicial }} - {{ datos.valor_final }}
+                            </td>
+                        </tr>
+                        {% endif %}
+                    {% endfor %}
+                    <tr>
+                        <td colspan="4" class="td-obs">
+                            Observacion: <br>
+                            {{ arrays[0].observacion }}
+                        </td>
+                    </tr>
+                {% endif %}
+                <tr>
+                    <td colspan="1" style="height: 60px;"></td>
+                    <td colspan="3"></td>
+                </tr>
+                <tr>
+                    <td colspan="1" style="text-align: center;"><strong>Sello</strong></td>
+                    <td colspan="3" style="text-align: center;"><Strong>Profesional que Reporta</Strong></td>
+                </tr>
+            </tbody>
+            {% endif %}
+        </table>
+    </div>
+    <div></div>
+</div>
+</body>
+{% endblock body %}
+    

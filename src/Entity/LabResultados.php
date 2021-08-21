@@ -47,12 +47,12 @@ class LabResultados
     private $observacion;
     
     /**
-     * @ORM\Column(type="string", length=60, nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $resultado;
 
     /**
-     * @ORM\Column(type="string", length=30, nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $quiste;
 

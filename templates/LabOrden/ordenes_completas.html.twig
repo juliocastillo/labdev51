@@ -99,6 +99,28 @@
             });
         });
 
+        /* PRINT REPORTE ESPERMOGRAMA */
+        $(document).on('click','#btnImprimirEspermograma',function(e){
+            rowDetOrden = $(this).closest('tr');
+            idOrden = parseInt(rowDetOrden.find('td:eq(0)').text());
+            idExamen = parseInt(rowDetOrden.find('td:eq(4)').text());
+            idDetOrden = parseInt(rowDetOrden.find('td:eq(5)').text());
+            
+            $.ajax({
+                type: "GET",
+                url: "{{ path('cargar_datos_espermograma') }}",
+                data: {idOrden:idOrden,idExamen:idExamen,idDetOrden:idDetOrden},
+                dataType: "html",
+                async: true,
+                
+                success : function (response, url) {
+                    let requestUrl = this.url;
+                    window.open(requestUrl).print();
+                }
+            //e.5preventDefault();
+            });
+        });
+
         /* PRINT RESTO DE EXAMENES */
         $(document).on('click','#btnImprimirOrden',function(e){
             rowDetOrden = $(this).closest('tr');
