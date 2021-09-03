@@ -21,57 +21,66 @@
 
         {% set contador = 0 %}
         {% for dato in datos %}
-        {% set type = "hidden" %}
-        {% set idQuiste="" %}
-        {% set subEncabezado = "" %}
-        {% if isProtozoario %}
-            {% set ancho = "6" %}
-        {% endif %}
-        {% if (dato.id_tipo_elemento == 1) %}
-            <tr>
-                {% if isProtozoario and dato.nombre_elemento=="PROTOZOARIOS" %}
-                    {% set ancho = "2" %}
-                    {% set subEncabezado = '<td class="bg-success" ><strong>ACTIVO</strong></td><td colspan="3" class="bg-success" ><strong>QUISTES</strong></td>' %}
-                {% endif %}
-                <td class="bg-success" colspan={{ancho}}><strong>{{dato.nombre_elemento}}</strong></td>
-                {{ subEncabezado | raw }}
-            </tr>
-        {% endif %}
-        {% if (dato.id_tipo_elemento == 2) %}
-        {% set contador = contador + 1 %}
-        {% if dato.protozoario %}
-            {% set type="text" %}
-        {% endif %}
-        <tr>
-            <td style="width: 20%;"><label for="idelemento_{{ dato.id }}">{{dato.nombre_elemento}}</label></td>
-            <td style="display: none;"><input class="form-control" type="hidden" name="idElemento[]" value="{{dato.id}}"></td>
-            <td style="display: none;"><input class="form-control" type="hidden" name="idElementoQuiste[]" value="{{dato.id}}"></td>
-            <td style="width: 25%;">
-            <select class="form-control" onclick="asignarPosibleResultado(this,'idelemento_{{dato.id}}','idelemento_quiste_{{ dato.id }}')" id="idposibleresultado_{{ dato.id }}" name="idposibleresultado_{{ dato.id }}">
-                <option value=""></option>
-                    {% for posibleresultado in posiblesResultados %}
-                        <option value="{{posibleresultado.id}}">{{posibleresultado.nombre_posible_resultado}}</option>
-                    {% endfor %}
-            </select>        
-            </td>
-            <td style="width: 25%;"><input class="form-control" type="text"   name="idElemento[]"       id="idelemento_{{ dato.id }}"></td>
+            {% set type = "hidden" %}
+            {% set idQuiste="" %}
+            {% set subEncabezado = "" %}
             {% if isProtozoario %}
-            <td style="width: 25%;"><input class="form-control" type={{type}} name="idElementoQuiste[]" id="idelemento_quiste_{{ dato.id }}"  ></td>
+                {% set ancho = "6" %}
             {% endif %}
-            {# <td style="width: 30%;" class="text-center"><input class="form-control" type="text" name="idelemento_{{ dato.id }}" id="idelemento_{{ dato.id }}"></td> #}            
-            <td style="width: 15%;" class="text-center"><span class="badge" style="background-color: coral; padding: 7px 40px; width: 100%;">{{dato.valor_inicial}} - {{dato.valor_final}}</span></td> 
-            {% if dato.unidades is empty  %}
-            <td class="text-center"><span class="badge" style="background-color: cadetblue; padding: 7px 40px; width: 100%;">-</span></td>
-            {% else %}
-            <td class="text-center"><span class="badge" style="background-color: cadetblue; padding: 7px; width: 100%;">{{dato.unidades}}</span></td>
+            {% if (dato.id_tipo_elemento == 1) %}
+                <tr>
+                    {% if isProtozoario and dato.nombre_elemento=="PROTOZOARIOS" %}
+                        {% set ancho = "2" %}
+                        {% set subEncabezado = '<td class="bg-success" ><strong>ACTIVO</strong></td><td colspan="3" class="bg-success" ><strong>QUISTES</strong></td>' %}
+                    {% endif %}
+                    <td class="bg-success" colspan={{ancho}}><strong>{{dato.nombre_elemento}}</strong></td>
+                    {{ subEncabezado | raw }}
+                </tr>
             {% endif %}
-            {#
-            <td><input class="form-control" type="hidden" name="idElemento[]" value="{{dato.id}}"></td>
-            <td><input class="form-control" type="text" name="idElemento[]" id="idelemento_{{ dato.id }}"></td>
-            <td class="text-center"><span class="badge" style="background-color: coral; padding: 2px 40px">70-100</span></td>
-            <td class="text-center"><span class="badge" style="background-color: cadetblue; padding: 2px 40px">mg/dL</span></td> #}
-        </tr>
-        {% endif %}
+            {% if (dato.id_tipo_elemento == 2) %}
+                {% set contador = contador + 1 %}
+                {% if dato.protozoario %}
+                    {% set type="text" %}
+                {% endif %}
+                <tr>
+                    <td style="width: 20%;"><label for="idelemento_{{ dato.id }}">{{dato.nombre_elemento}}</label></td>
+                    <td style="display: none;"><input class="form-control" type="hidden" name="idElemento[]" value="{{dato.id}}"></td>
+                    <td style="display: none;"><input class="form-control" type="hidden" name="idElementoQuiste[]" value="{{dato.id}}"></td>
+                    <td style="width: 25%;">
+                    <select class="form-control" onclick="asignarPosibleResultado(this,'idelemento_{{dato.id}}','idelemento_quiste_{{ dato.id }}')" id="idposibleresultado_{{ dato.id }}" name="idposibleresultado_{{ dato.id }}">
+                        <option value=""></option>
+                            {% for posibleresultado in posiblesResultados %}
+                                <option value="{{posibleresultado.id}}">{{posibleresultado.nombre_posible_resultado}}</option>
+                            {% endfor %}
+                    </select>        
+                    </td>
+                    <td style="width: 25%;"><input class="form-control" type="text"   name="idElemento[]"       id="idelemento_{{ dato.id }}"></td>
+                    {% if isProtozoario %}
+                        <td style="width: 25%;"><input class="form-control" type={{type}} name="idElementoQuiste[]" id="idelemento_quiste_{{ dato.id }}"  ></td>
+                    {% else %}
+                        <input type="hidden" id="idelemento_quiste_{{ dato.id }}" value="" name="idElementoQuiste[]">
+                    {% endif %}
+                    {# <td style="width: 30%;" class="text-center"><input class="form-control" type="text" name="idelemento_{{ dato.id }}" id="idelemento_{{ dato.id }}"></td> #}            
+
+                    {% if dato.valor_inicial is empty  and dato.valor_final is empty %}
+                        <td style="width: 15%;" class="text-center"><span class="badge" style="background-color: coral; padding: 7px 40px; width: 100%;"></span></td>
+                    {% else %} 
+                        <td style="width: 15%;" class="text-center"><span class="badge" style="background-color: coral; padding: 7px 40px; width: 100%;">{{dato.valor_inicial}} - {{dato.valor_final}}</span></td> 
+                    {% endif %}
+
+
+                    {% if dato.unidades is empty  %}
+                        <td class="text-center"><span class="badge" style="background-color: cadetblue; padding: 7px 40px; width: 100%;"></span></td>
+                    {% else %}
+                        <td class="text-center"><span class="badge" style="background-color: cadetblue; padding: 7px; width: 100%;">{{dato.unidades}}</span></td>
+                    {% endif %}
+                    {#
+                    <td><input class="form-control" type="hidden" name="idElemento[]" value="{{dato.id}}"></td>
+                    <td><input class="form-control" type="text" name="idElemento[]" id="idelemento_{{ dato.id }}"></td>
+                    <td class="text-center"><span class="badge" style="background-color: coral; padding: 2px 40px">70-100</span></td>
+                    <td class="text-center"><span class="badge" style="background-color: cadetblue; padding: 2px 40px">mg/dL</span></td> #}
+                </tr>
+            {% endif %}
         {% endfor %}
     </table>
     <input type="hidden" id="empleado" name="empleado">

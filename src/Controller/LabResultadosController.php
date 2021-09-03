@@ -165,11 +165,11 @@ class LabResultadosController extends AbstractController
         //var_dump($datos); exit();
         $userId = $this->getUser()->getId();
         for ($i = 0; $i < $datos["nElementos"]*2;$i+=2){
-                $row = $row."('".$datos["idElemento"][$i]."',".$datos["empleado"].",'".$datos["idDetalleOrden"].  "',".$userId.",'".$datos["idElemento"][$i+1]."','".$datos["idElementoQuiste"][$i+1]."','".$now."',true)";
+                $row = $row."('".$datos["idElemento"][$i]."',".$datos["empleado"].",'".$datos["idDetalleOrden"].  "',".$userId.",'".$datos["idElemento"][$i+1]."','".$datos["observacion"]."','".$datos["idElementoQuiste"][$i+1]."','".$now."',true)";
                 if($datos["nElementos"]*2-2 != $i)
                     $row =$row.",";
         }
-        $sql = "INSERT INTO lab_resultados(id_elemento,id_empleado,id_detalle_orden,id_usuario_reg,resultado,quiste,fechahora_reg,activo)
+        $sql = "INSERT INTO lab_resultados(id_elemento,id_empleado,id_detalle_orden,id_usuario_reg,resultado,observacion,quiste,fechahora_reg,activo)
                 VALUES ".$row.";";
         //var_dump($sql); exit();
         $stm = $this->getDoctrine()->getConnection()->prepare($sql);
