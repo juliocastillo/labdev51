@@ -354,8 +354,14 @@
 
     function asignarPosibleResultado(obj,elemento,quiste){
         $(document).ready(function(){
-            console.log(elemento,quiste);
-            tipo = document.getElementById(quiste).type;
+            
+            hasQuiste = document.getElementById(quiste);
+            console.log(elemento,quiste,tipo);
+            var tipo = "";
+            if (hasQuiste != null){
+                tipo=document.getElementById(quiste).type;
+            }
+
             document.getElementById(elemento).value = obj.options[obj.selectedIndex].innerHTML;
             if(tipo == "text"){
                 document.getElementById(quiste).value = obj.options[obj.selectedIndex].innerHTML;
@@ -408,7 +414,7 @@
             type: "POST",
             dataType: "json",
             success : function (data) {
-                //console.log(data.idExamen,data.idDetalleOrden,data.idOrden);
+                //console.log(data);
                 //$("#message").html(html);
                 alert(data.message);
                 //console.log(data);
