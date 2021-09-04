@@ -130,10 +130,9 @@ class ReportesController extends AbstractController
 
             $datos_examenes = array();
             
-            if($resultIds[$i]["id_examen"] != "4" && $resultIds[$i]["id_examen"] != "6" && $resultIds[$i]["id_examen"] != "16"){
+            if($resultIds[$i]["id_examen"] != "4" && $resultIds[$i]["id_examen"] != "6" && $resultIds[$i]["id_examen"] != "16" && $resultIds[$i]["id_examen"] != "94"){
                 for ($i=0; $i < count($resultIdsArea); $i++) { 
                     $resultIdsArea[$i];
-
                     if ($resultIdsArea[$i]["id_area"] == 1) {
                         $sql = "SELECT t01.id, t01.nombre_elemento, t01.id_tipo_elemento, t01.valor_inicial, 
                             t01.valor_final, t01.unidades, t02.resultado, t07.id AS id_examen, t07.nombre_examen,
@@ -144,7 +143,7 @@ class ReportesController extends AbstractController
                                 LEFT JOIN ctl_examen t07 ON t07.id = t03.id_examen
                                 LEFT JOIN ctl_area_laboratorio t08 ON t08.id = t07.id_area_laboratorio
                             WHERE t03.id_orden = $idOrden
-                            AND t07.id != 4 AND t07.id != 6 AND t07.id != 16 AND t08.id = 1
+                            AND t07.id != 4 AND t07.id != 6 AND t07.id != 16 AND t07.id != 94 AND t08.id = 1
                             ORDER BY t01.ordenamiento";
                 
                         $stm = $this->getDoctrine()->getConnection()->prepare($sql);
@@ -167,7 +166,7 @@ class ReportesController extends AbstractController
                                 LEFT JOIN ctl_examen t07 ON t07.id = t03.id_examen
                                 LEFT JOIN ctl_area_laboratorio t08 ON t08.id = t07.id_area_laboratorio
                             WHERE t03.id_orden = $idOrden
-                            AND t07.id != 4 AND t07.id != 6 AND t07.id != 16 AND t08.id = 2
+                            AND t07.id != 4 AND t07.id != 6 AND t07.id != 16 AND t07.id != 94 AND t08.id = 2
                             ORDER BY t01.ordenamiento";
                 
                         $stm = $this->getDoctrine()->getConnection()->prepare($sql);
@@ -190,7 +189,7 @@ class ReportesController extends AbstractController
                                 LEFT JOIN ctl_examen t07 ON t07.id = t03.id_examen
                                 LEFT JOIN ctl_area_laboratorio t08 ON t08.id = t07.id_area_laboratorio
                             WHERE t03.id_orden = $idOrden
-                            AND t07.id != 4 AND t07.id != 6 AND t07.id != 16 AND t08.id = 3
+                            AND t07.id != 4 AND t07.id != 6 AND t07.id != 16 AND t07.id != 94 AND t08.id = 3
                             ORDER BY t01.ordenamiento";
                 
                         $stm = $this->getDoctrine()->getConnection()->prepare($sql);
@@ -213,7 +212,7 @@ class ReportesController extends AbstractController
                                 LEFT JOIN ctl_examen t07 ON t07.id = t03.id_examen
                                 LEFT JOIN ctl_area_laboratorio t08 ON t08.id = t07.id_area_laboratorio
                             WHERE t03.id_orden = $idOrden
-                            AND t07.id != 4 AND t07.id != 6 AND t07.id != 16 AND t08.id = 4
+                            AND t07.id != 4 AND t07.id != 6 AND t07.id != 16 AND t07.id != 94 AND t08.id = 4
                             ORDER BY t01.ordenamiento";
                 
                         $stm = $this->getDoctrine()->getConnection()->prepare($sql);
@@ -236,7 +235,7 @@ class ReportesController extends AbstractController
                                 LEFT JOIN ctl_examen t07 ON t07.id = t03.id_examen
                                 LEFT JOIN ctl_area_laboratorio t08 ON t08.id = t07.id_area_laboratorio
                             WHERE t03.id_orden = $idOrden
-                            AND t07.id != 4 AND t07.id != 6 AND t07.id != 16 AND t08.id = 5
+                            AND t07.id != 4 AND t07.id != 6 AND t07.id != 16 AND t07.id != 94 AND t08.id = 5
                             ORDER BY t01.ordenamiento";
                 
                         $stm = $this->getDoctrine()->getConnection()->prepare($sql);
@@ -259,7 +258,7 @@ class ReportesController extends AbstractController
                                 LEFT JOIN ctl_examen t07 ON t07.id = t03.id_examen
                                 LEFT JOIN ctl_area_laboratorio t08 ON t08.id = t07.id_area_laboratorio
                             WHERE t03.id_orden = $idOrden
-                            AND t07.id != 4 AND t07.id != 6 AND t07.id != 16 AND t08.id = 6
+                            AND t07.id != 4 AND t07.id != 6 AND t07.id != 16 AND t07.id != 94 AND t08.id = 6
                             ORDER BY t01.ordenamiento";
                 
                         $stm = $this->getDoctrine()->getConnection()->prepare($sql);
@@ -282,7 +281,7 @@ class ReportesController extends AbstractController
                                 LEFT JOIN ctl_examen t07 ON t07.id = t03.id_examen
                                 LEFT JOIN ctl_area_laboratorio t08 ON t08.id = t07.id_area_laboratorio
                             WHERE t03.id_orden = $idOrden
-                            AND t07.id != 4 AND t07.id != 6 AND t07.id != 16 AND t08.id = 7
+                            AND t07.id != 4 AND t07.id != 6 AND t07.id != 16 AND t07.id != 94 AND t08.id = 7
                             ORDER BY t01.ordenamiento";
                 
                         $stm = $this->getDoctrine()->getConnection()->prepare($sql);
@@ -305,7 +304,7 @@ class ReportesController extends AbstractController
                                 LEFT JOIN ctl_examen t07 ON t07.id = t03.id_examen
                                 LEFT JOIN ctl_area_laboratorio t08 ON t08.id = t07.id_area_laboratorio
                             WHERE t03.id_orden = $idOrden
-                            AND t07.id != 4 AND t07.id != 6 AND t07.id != 16 AND t08.id = 8
+                            AND t07.id != 4 AND t07.id != 6 AND t07.id != 16 AND t07.id != 94 AND t08.id = 8
                             ORDER BY t01.ordenamiento";
                 
                         $stm = $this->getDoctrine()->getConnection()->prepare($sql);
@@ -328,7 +327,7 @@ class ReportesController extends AbstractController
                                 LEFT JOIN ctl_examen t07 ON t07.id = t03.id_examen
                                 LEFT JOIN ctl_area_laboratorio t08 ON t08.id = t07.id_area_laboratorio
                             WHERE t03.id_orden = $idOrden
-                            AND t07.id != 4 AND t07.id != 6 AND t07.id != 16 AND t08.id = 9
+                            AND t07.id != 4 AND t07.id != 6 AND t07.id != 16 AND t07.id != 94 AND t08.id = 9
                             ORDER BY t01.ordenamiento";
                 
                         $stm = $this->getDoctrine()->getConnection()->prepare($sql);
@@ -351,7 +350,7 @@ class ReportesController extends AbstractController
                                 LEFT JOIN ctl_examen t07 ON t07.id = t03.id_examen
                                 LEFT JOIN ctl_area_laboratorio t08 ON t08.id = t07.id_area_laboratorio
                             WHERE t03.id_orden = $idOrden
-                            AND t07.id != 4 AND t07.id != 6 AND t07.id != 16 AND t08.id = 10
+                            AND t07.id != 4 AND t07.id != 6 AND t07.id != 16 AND t07.id != 94 AND t08.id = 10
                             ORDER BY t01.ordenamiento";
                 
                         $stm = $this->getDoctrine()->getConnection()->prepare($sql);
@@ -364,11 +363,81 @@ class ReportesController extends AbstractController
                     if(!array_key_exists('datos_10', $datos_examenes)){
                         $datos_examenes["datos_10"] = "";
                     }
+                    if ($resultIdsArea[$i]["id_area"] == 11) {
+                        $sql = "SELECT t01.id, t01.nombre_elemento, t01.id_tipo_elemento, t01.valor_inicial, 
+                            t01.valor_final, t01.unidades, t02.resultado, t07.id AS id_examen, t07.nombre_examen,
+                            t08.id AS id_area, t08.nombre_area, t03.observacion
+                            FROM mnt_elementos t01 
+                                LEFT JOIN lab_resultados t02 ON t01.id = t02.id_elemento
+                                LEFT JOIN lab_detalle_orden t03 ON t03.id = t02.id_detalle_orden
+                                LEFT JOIN ctl_examen t07 ON t07.id = t03.id_examen
+                                LEFT JOIN ctl_area_laboratorio t08 ON t08.id = t07.id_area_laboratorio
+                            WHERE t03.id_orden = $idOrden
+                            AND t07.id != 4 AND t07.id != 6 AND t07.id != 16 AND t07.id != 94 AND t08.id = 11
+                            ORDER BY t01.ordenamiento";
+                
+                        $stm = $this->getDoctrine()->getConnection()->prepare($sql);
+                        $stm->execute();
+                        $result = $stm->fetchAll();
+                        $datos_11 = array();
+                        $datos_11 = $result;
+                        $datos_examenes["datos_11"] = $datos_11;
+                    }
+                    if(!array_key_exists('datos_11', $datos_examenes)){
+                        $datos_examenes["datos_11"] = "";
+                    }
+                    if ($resultIdsArea[$i]["id_area"] == 12) {
+                        $sql = "SELECT t01.id, t01.nombre_elemento, t01.id_tipo_elemento, t01.valor_inicial, 
+                            t01.valor_final, t01.unidades, t02.resultado, t07.id AS id_examen, t07.nombre_examen,
+                            t08.id AS id_area, t08.nombre_area, t03.observacion
+                            FROM mnt_elementos t01 
+                                LEFT JOIN lab_resultados t02 ON t01.id = t02.id_elemento
+                                LEFT JOIN lab_detalle_orden t03 ON t03.id = t02.id_detalle_orden
+                                LEFT JOIN ctl_examen t07 ON t07.id = t03.id_examen
+                                LEFT JOIN ctl_area_laboratorio t08 ON t08.id = t07.id_area_laboratorio
+                            WHERE t03.id_orden = $idOrden
+                            AND t07.id != 4 AND t07.id != 6 AND t07.id != 16 AND t07.id != 94 AND t08.id = 12
+                            ORDER BY t01.ordenamiento";
+                
+                        $stm = $this->getDoctrine()->getConnection()->prepare($sql);
+                        $stm->execute();
+                        $result = $stm->fetchAll();
+                        $datos_12 = array();
+                        $datos_12 = $result;
+                        $datos_examenes["datos_12"] = $datos_12;
+                    }
+                    if(!array_key_exists('datos_12', $datos_examenes)){
+                        $datos_examenes["datos_12"] = "";
+                    }
+                    if ($resultIdsArea[$i]["id_area"] == 13) {
+                        $sql = "SELECT t01.id, t01.nombre_elemento, t01.id_tipo_elemento, t01.valor_inicial, 
+                            t01.valor_final, t01.unidades, t02.resultado, t07.id AS id_examen, t07.nombre_examen,
+                            t08.id AS id_area, t08.nombre_area, t03.observacion
+                            FROM mnt_elementos t01 
+                                LEFT JOIN lab_resultados t02 ON t01.id = t02.id_elemento
+                                LEFT JOIN lab_detalle_orden t03 ON t03.id = t02.id_detalle_orden
+                                LEFT JOIN ctl_examen t07 ON t07.id = t03.id_examen
+                                LEFT JOIN ctl_area_laboratorio t08 ON t08.id = t07.id_area_laboratorio
+                            WHERE t03.id_orden = $idOrden
+                            AND t07.id != 4 AND t07.id != 6 AND t07.id != 16 AND t07.id != 94 AND t08.id = 13
+                            ORDER BY t01.ordenamiento";
+                
+                        $stm = $this->getDoctrine()->getConnection()->prepare($sql);
+                        $stm->execute();
+                        $result = $stm->fetchAll();
+                        $datos_13 = array();
+                        $datos_13 = $result;
+                        $datos_examenes["datos_13"] = $datos_13;
+                    }
+                    if(!array_key_exists('datos_13', $datos_examenes)){
+                        $datos_examenes["datos_13"] = "";
+                    }
                 }
                 
             }
         }
 
+        var_dump($datos_examenes); exit();
         return $this->render('Reportes/reporte_resultados.html.twig',
             array(
                 //DATOS ORINA, HECES, HEMOGRAMA
