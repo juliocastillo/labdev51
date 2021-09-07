@@ -413,6 +413,23 @@ class ReportesController extends AbstractController
         $resultHead = $stm->fetchAll();        
         /* END QUERY HEADER */
 
+        /*QUERY DATA PARA DECLARAR IdEdad -- IdSexo -- RESULTADO*/
+        $sqlEdadEnDias = "SELECT datediff(NOW(),mp.fecha_nacimiento) AS dias_de_edad, mp.id_sexo
+        from lab_orden ldo 
+        inner join mnt_paciente mp on mp.id=ldo.id_paciente
+        where ldo.id =$idOrden;";
+        $stm = $this->getDoctrine()->getConnection()->prepare($sqlEdadEnDias);
+        $stm->execute();
+        $edadEnDias = $stm->fetchAll();
+        $numeroDeDias = (Int)$edadEnDias[0]['dias_de_edad'];
+        $idSexo=(Int)$edadEnDias[0]['id_sexo'];
+        $sqlIdEdad = "SELECT id from ctl_rango_edad
+                            where edad_minima <= $numeroDeDias AND edad_maxima >= $numeroDeDias";
+        $stm = $this->getDoctrine()->getConnection()->prepare($sqlIdEdad);
+        $stm->execute();
+        $arrayEdad = $stm->fetchAll();
+        $idEdad = (Int)$arrayEdad[0]["id"];
+
         /* QUERY DATA GENERAL DE HECES */
         $sql = "SELECT t1.id, t1.nombre_elemento, t1.id_tipo_elemento, t1.valor_inicial, 
                     t1.valor_final, t1.unidades, t6.resultado, t3.observacion,t6.quiste, 
@@ -425,8 +442,8 @@ class ReportesController extends AbstractController
                 LEFT JOIN lab_resultados t6 ON t6.id_elemento = t1.id
                 WHERE t4.id = $idOrden 
                 AND t2.id = $idExamen 
-                AND (t1.id_rango_edad = 3 OR t1.id_rango_edad IS NULL) 
-                AND (t1.id_sexo = 2 OR t1.id_sexo IS NULL) 
+                AND (t1.id_rango_edad = $idEdad OR t1.id_rango_edad IS NULL) 
+                AND (t1.id_sexo = $idSexo OR t1.id_sexo IS NULL) 
                 AND (t6.id_detalle_orden = $idDetOrden OR t6.id_detalle_orden IS NULL)
                 ORDER BY t1.ordenamiento";
     
@@ -445,6 +462,7 @@ class ReportesController extends AbstractController
             )
         );
     }
+    
     /**
     * @Route("/cargar/datos/orina", name="cargar_datos_orina")
     */
@@ -472,6 +490,23 @@ class ReportesController extends AbstractController
         $resultHead = $stm->fetchAll();        
         /* END QUERY HEADER */
 
+        /*QUERY DATA PARA DECLARAR IdEdad -- IdSexo -- RESULTADO*/
+        $sqlEdadEnDias = "SELECT datediff(NOW(),mp.fecha_nacimiento) AS dias_de_edad, mp.id_sexo
+        from lab_orden ldo 
+        inner join mnt_paciente mp on mp.id=ldo.id_paciente
+        where ldo.id =$idOrden;";
+        $stm = $this->getDoctrine()->getConnection()->prepare($sqlEdadEnDias);
+        $stm->execute();
+        $edadEnDias = $stm->fetchAll();
+        $numeroDeDias = (Int)$edadEnDias[0]['dias_de_edad'];
+        $idSexo=(Int)$edadEnDias[0]['id_sexo'];
+        $sqlIdEdad = "SELECT id from ctl_rango_edad
+                            where edad_minima <= $numeroDeDias AND edad_maxima >= $numeroDeDias";
+        $stm = $this->getDoctrine()->getConnection()->prepare($sqlIdEdad);
+        $stm->execute();
+        $arrayEdad = $stm->fetchAll();
+        $idEdad = (Int)$arrayEdad[0]["id"];
+
         /* QUERY DATA GENERAL DE ORINA */
         $sql = "SELECT t1.id, t1.nombre_elemento, t1.id_tipo_elemento, t1.valor_inicial, t1.valor_final, 
                         t1.unidades, t6.resultado, t6.observacion, t2.id AS id_examen, t2.nombre_examen
@@ -483,8 +518,8 @@ class ReportesController extends AbstractController
                 LEFT JOIN lab_resultados t6 ON t6.id_elemento = t1.id
                 WHERE t4.id = $idOrden 
                 AND t2.id = $idExamen 
-                AND (t1.id_rango_edad = 3 OR t1.id_rango_edad IS NULL) 
-                AND (t1.id_sexo = 2 OR t1.id_sexo IS NULL) 
+                AND (t1.id_rango_edad = $idEdad OR t1.id_rango_edad IS NULL) 
+                AND (t1.id_sexo = $idSexo OR t1.id_sexo IS NULL) 
                 AND (t6.id_detalle_orden = $idDetOrden OR t6.id_detalle_orden IS NULL)
                 ORDER BY t1.ordenamiento";
     
@@ -499,6 +534,7 @@ class ReportesController extends AbstractController
             )
         );
     }
+
     /**
     * @Route("/cargar/datos/hemograma", name="cargar_datos_hemograma")
     */
@@ -526,6 +562,7 @@ class ReportesController extends AbstractController
         $resultHead = $stm->fetchAll();        
         /* END QUERY HEADER */
 
+        /*QUERY DATA PARA DECLARAR IdEdad -- IdSexo -- RESULTADO*/
         $sqlEdadEnDias = "SELECT datediff(NOW(),mp.fecha_nacimiento) AS dias_de_edad, mp.id_sexo
         from lab_orden ldo 
         inner join mnt_paciente mp on mp.id=ldo.id_paciente
@@ -597,6 +634,24 @@ class ReportesController extends AbstractController
         $resultHead = $stm->fetchAll();        
         /* END QUERY HEADER */
 
+
+        /*QUERY DATA PARA DECLARAR IdEdad -- IdSexo -- RESULTADO*/
+        $sqlEdadEnDias = "SELECT datediff(NOW(),mp.fecha_nacimiento) AS dias_de_edad, mp.id_sexo
+        from lab_orden ldo 
+        inner join mnt_paciente mp on mp.id=ldo.id_paciente
+        where ldo.id =$idOrden;";
+        $stm = $this->getDoctrine()->getConnection()->prepare($sqlEdadEnDias);
+        $stm->execute();
+        $edadEnDias = $stm->fetchAll();
+        $numeroDeDias = (Int)$edadEnDias[0]['dias_de_edad'];
+        $idSexo=(Int)$edadEnDias[0]['id_sexo'];
+        $sqlIdEdad = "SELECT id from ctl_rango_edad
+                            where edad_minima <= $numeroDeDias AND edad_maxima >= $numeroDeDias";
+        $stm = $this->getDoctrine()->getConnection()->prepare($sqlIdEdad);
+        $stm->execute();
+        $arrayEdad = $stm->fetchAll();
+        $idEdad = (Int)$arrayEdad[0]["id"];
+
         /* QUERY DATA GENERAL DE ESPERMOGRAMA */
         $sql = "SELECT t1.id, t1.nombre_elemento, t1.id_tipo_elemento, t1.valor_inicial, t1.valor_final, 
                         t1.unidades, t6.resultado, t6.observacion, t2.id AS id_examen, t2.nombre_examen
@@ -608,8 +663,8 @@ class ReportesController extends AbstractController
                 LEFT JOIN lab_resultados t6 ON t6.id_elemento = t1.id
                 WHERE t4.id = $idOrden 
                 AND t2.id = $idExamen 
-                AND (t1.id_rango_edad = 3 OR t1.id_rango_edad IS NULL) 
-                AND (t1.id_sexo = 2 OR t1.id_sexo IS NULL) 
+                AND (t1.id_rango_edad = $idEdad OR t1.id_rango_edad IS NULL) 
+                AND (t1.id_sexo = $idSexo OR t1.id_sexo IS NULL) 
                 AND (t6.id_detalle_orden = $idDetOrden OR t6.id_detalle_orden IS NULL)
                 ORDER BY t1.ordenamiento";
     
