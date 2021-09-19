@@ -607,6 +607,7 @@ class ReportesController extends AbstractController
             )
         );
     }
+    
     /**
     * @Route("/cargar/datos/espermograma", name="cargar_datos_espermograma")
     */
@@ -673,6 +674,78 @@ class ReportesController extends AbstractController
         $result = $stm->fetchAll();
 
         return $this->render('Reportes/report_espermograma.html.twig',
+            array(
+                "datos_head" => $resultHead,
+                "arrays" => $result
+            )
+        );
+    }
+
+    /**
+    * @Route("/cargar/datos/leucograma", name="cargar_datos_leucograma")
+    */
+    public function loadDataLeucograma() : Response{
+        $request = $this->container->get('request_stack')->getCurrentRequest();
+        $idExamen = $request->get('idExamen');
+        $idDetOrden = $request->get('idDetOrden');
+        $idOrden = $request->get('idOrden');
+        /* QUERY HEADER */
+        $sqlHead = "SELECT t01.nombre, t01.apellido, t02.fecha_orden, t03.nombre AS nombre_medico, 
+                        t03.apellido AS apellido_medico,
+                        TIMESTAMPDIFF(YEAR,t01.fecha_nacimiento,CURDATE()) AS edad_anios,
+                        TIMESTAMPDIFF(MONTH,t01.fecha_nacimiento,CURDATE()) AS edad_meses,
+                        TIMESTAMPDIFF(DAY,t01.fecha_nacimiento,CURDATE()) AS edad_dias 
+                    
+                    FROM mnt_paciente t01
+                    
+                    LEFT JOIN lab_orden t02 ON t01.id = t02.id_paciente
+                    LEFT JOIN mnt_medico t03 ON t03.id = t02.id_medico
+                    
+                    WHERE t02.id = $idOrden";
+
+        $stm = $this->getDoctrine()->getConnection()->prepare($sqlHead);
+        $stm->execute();
+        $resultHead = $stm->fetchAll();        
+        /* END QUERY HEADER */
+
+        /*QUERY DATA PARA DECLARAR IdEdad -- IdSexo -- RESULTADO*/
+        $sqlEdadEnDias = "SELECT datediff(NOW(),mp.fecha_nacimiento) AS dias_de_edad, mp.id_sexo
+        from lab_orden ldo 
+        inner join mnt_paciente mp on mp.id=ldo.id_paciente
+        where ldo.id =$idOrden;";
+        $stm = $this->getDoctrine()->getConnection()->prepare($sqlEdadEnDias);
+        $stm->execute();
+        $edadEnDias = $stm->fetchAll();
+        $numeroDeDias = (Int)$edadEnDias[0]['dias_de_edad'];
+        $idSexo=(Int)$edadEnDias[0]['id_sexo'];
+        $sqlIdEdad = "SELECT id from ctl_rango_edad
+                            where edad_minima <= $numeroDeDias AND edad_maxima >= $numeroDeDias";
+        $stm = $this->getDoctrine()->getConnection()->prepare($sqlIdEdad);
+        $stm->execute();
+        $arrayEdad = $stm->fetchAll();
+        $idEdad = (Int)$arrayEdad[0]["id"];
+
+        /* QUERY DATA GENERAL DE LEUCOGRAMA */
+        $sql = "SELECT t1.id, t1.nombre_elemento, t1.id_tipo_elemento, t1.valor_inicial, t1.valor_final, 
+                        t1.unidades, t6.resultado, t3.observacion, t2.id AS id_examen, t2.nombre_examen
+                FROM mnt_elementos t1
+                LEFT JOIN ctl_examen t2 ON t2.id = t1.id_examen
+                LEFT JOIN lab_detalle_orden t3 ON t3.id_examen = t2.id
+                LEFT JOIN lab_orden t4 ON t4.id = t3.id_orden
+                LEFT JOIN mnt_paciente t5 ON t5.id = t4.id_paciente
+                LEFT JOIN lab_resultados t6 ON t6.id_elemento = t1.id
+                WHERE t4.id = $idOrden 
+                AND t2.id = $idExamen 
+                AND (t1.id_rango_edad = $idEdad OR t1.id_rango_edad IS NULL) 
+                AND (t1.id_sexo = $idSexo OR t1.id_sexo IS NULL) 
+                AND (t6.id_detalle_orden = $idDetOrden OR t6.id_detalle_orden IS NULL)
+                ORDER BY t1.ordenamiento";
+    
+        $stm = $this->getDoctrine()->getConnection()->prepare($sql);
+        $stm->execute();
+        $result = $stm->fetchAll();
+
+        return $this->render('Reportes/report_leucograma.html.twig',
             array(
                 "datos_head" => $resultHead,
                 "arrays" => $result
