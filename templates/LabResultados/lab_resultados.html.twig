@@ -416,11 +416,13 @@
             success : function (data) {
                 //console.log(data);
                 //$("#message").html(html);
+                console.log(data);
                 alert(data.message);
-                //console.log(data);
-                $('#elementos').empty();
-                $('#btnGuardar').hide();
-                mostrarDetalle(data.idOrden);
+                if (data.error != "true"){
+                    $('#elementos').empty();
+                    $('#btnGuardar').hide();
+                    mostrarDetalle(data.idOrden);
+                }
                 //mostrarElementos(data.idExamen,data.idDetalleOrden,data.idOrden);
             }
             });

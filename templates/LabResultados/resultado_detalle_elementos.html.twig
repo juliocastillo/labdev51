@@ -23,6 +23,7 @@
         {% for dato in datos %}
             {% set type = "hidden" %}
             {% set idQuiste="" %}
+            {% set value = "NULL" %}
             {% set subEncabezado = "" %}
             {% if isProtozoario %}
                 {% set ancho = "6" %}
@@ -41,6 +42,7 @@
                 {% set contador = contador + 1 %}
                 {% if dato.protozoario %}
                     {% set type="text" %}
+                    {% set value="" %}
                 {% endif %}
                 <tr>
                     <td style="width: 20%;"><label for="idelemento_{{ dato.id }}">{{dato.nombre_elemento}}</label></td>
@@ -56,7 +58,7 @@
                     </td>
                     <td style="width: 25%;"><input class="form-control" type="text"   name="idElemento[]"       id="idelemento_{{ dato.id }}"></td>
                     {% if isProtozoario %}
-                        <td style="width: 25%;"><input class="form-control" type={{type}} name="idElementoQuiste[]" id="idelemento_quiste_{{ dato.id }}"  ></td>
+                        <td style="width: 25%;"><input class="form-control" type={{type}} name="idElementoQuiste[]" id="idelemento_quiste_{{ dato.id }}" value={{value}} ></td>
                     {% else %}
                         <input type="hidden" id="idelemento_quiste_{{ dato.id }}" value="" name="idElementoQuiste[]">
                     {% endif %}
@@ -97,4 +99,5 @@
     <input type="hidden" id="idDetalleOrden" value="{{idDetalleOrden}}" name="idDetalleOrden">
     <input type="hidden" id="nElementos"     value="{{nElementos}}"     name="nElementos">
     <input type="hidden" id="idOrden"        value="{{idOrden}}"        name="idOrden">
+    <input type="hidden" id="isProtozoario"  value="{{isProtozoario}}"  name="isProtozoario">
 </form>

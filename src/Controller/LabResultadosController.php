@@ -160,14 +160,42 @@ class LabResultadosController extends AbstractController
         ini_set('xdebug.var_display_max_children', -1);
         ini_set('xdebug.var_display_max_data', -1);
         parse_str($request->get('datos'), $datos);
-        $row = "";
-        $now = date_create('now')->format('Y-m-d H:i:s');
+        $row               = "";
+        $now               = date_create('now')->format('Y-m-d H:i:s');
         //var_dump($datos); exit();
-        $userId = $this->getUser()->getId();
+        $userId            = $this->getUser()->getId();
+        $errorMensaje      = "";
+        $datoVacio         = false;
+        $quisteVacio       = false;
+        $empleadoVacio     = false;
+        $detalleConError   = array();
         for ($i = 0; $i < $datos["nElementos"]*2;$i+=2){
+                if ($datos["idElemento"][$i+1] == ""){
+                    $errorMensaje      = !$datoVacio?$errorMensaje."Error resultado vacio \n":$errorMensaje;
+                    $datoVacio         = true;
+                    $detalleConError[] = $datos["idElemento"][$i];
+                }
+                if ($datos["idElementoQuiste"][$i+1] == "" && $datos["isProtozoario"] == "1" ){
+                    $errorMensaje      = !$quisteVacio?$errorMensaje."Error Quiste vacio \n":$errorMensaje;
+                    $quisteVacio       = true;
+                    $detalleConError[] = $datos["idElementoQuiste"][$i];
+                }
+                if ($datos["empleado"]==""){
+                    $errorMensaje      = !$empleadoVacio?$errorMensaje."Error Sin Usuario \n":$errorMensaje;
+                    $empleadoVacio     = true;
+                }
+                $datos["idElementoQuiste"][$i+1] = $datos["idElementoQuiste"][$i+1]=="NULL"?null:$datos["idElementoQuiste"][$i+1];
                 $row = $row."('".$datos["idElemento"][$i]."',".$datos["empleado"].",'".$datos["idDetalleOrden"].  "',".$userId.",'".$datos["idElemento"][$i+1]."','".$datos["observacion"]."','".$datos["idElementoQuiste"][$i+1]."','".$now."',true)";
                 if($datos["nElementos"]*2-2 != $i)
                     $row =$row.",";
+        }
+        if ($datoVacio || $quisteVacio || $empleadoVacio){
+            $response = json_encode(array(
+                "message" => $errorMensaje,
+                "idResultado" => $detalleConError,
+                "error" => "true",
+            ));
+            return new Response($response);
         }
         $sql = "INSERT INTO lab_resultados(id_elemento,id_empleado,id_detalle_orden,id_usuario_reg,resultado,observacion,quiste,fechahora_reg,activo)
                 VALUES ".$row.";";
