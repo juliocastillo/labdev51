@@ -414,16 +414,21 @@
             type: "POST",
             dataType: "json",
             success : function (data) {
+                $('#elementos').find("input").css("border",'');
                 //console.log(data);
                 //$("#message").html(html);
-                console.log(data);
                 alert(data.message);
                 if (data.error != "true"){
                     $('#elementos').empty();
                     $('#btnGuardar').hide();
                     mostrarDetalle(data.idOrden);
+                }else{
+                    $.each(data.idResultado,function(index,id){
+                        //console.log(index,id);
+                        $('#idelemento_'+id).val('');
+                        $('#idelemento_'+id).css("border","#8B008B solid 1px");
+                    });
                 }
-                //mostrarElementos(data.idExamen,data.idDetalleOrden,data.idOrden);
             }
             });
         });
