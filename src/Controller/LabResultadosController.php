@@ -168,28 +168,47 @@ class LabResultadosController extends AbstractController
         $datoVacio         = false;
         $quisteVacio       = false;
         $empleadoVacio     = false;
+        $tipoErroneo       = false;
         $detalleConError   = array();
         for ($i = 0; $i < $datos["nElementos"]*2;$i+=2){
                 if ($datos["idElemento"][$i+1] == ""){
-                    $errorMensaje      = !$datoVacio?$errorMensaje."Error resultado vacio \n":$errorMensaje;
+                    //$errorMensaje      = !$datoVacio$errorMensaje."Error resultado de".$datos["idElemento"][$i+3]." vacio \n":$errorMensaje;
+                    $errorMensaje      = $errorMensaje."Error resultado de ".$datos["idValidar"][$i+1]." vacio \n";
                     $datoVacio         = true;
                     $detalleConError[] = $datos["idElemento"][$i];
                 }
+                
                 if ($datos["idElementoQuiste"][$i+1] == "" && $datos["isProtozoario"] == "1" ){
-                    $errorMensaje      = !$quisteVacio?$errorMensaje."Error Quiste vacio \n":$errorMensaje;
+                    //$errorMensaje      = !$quisteVacio?$errorMensaje."Error Quiste de".$datos["idElemento"][$i+3]." vacio \n":$errorMensaje;
+                    $errorMensaje      = $errorMensaje."Error Quiste de ".$datos["idValidar"][$i+1]." vacio \n";
                     $quisteVacio       = true;
                     $detalleConError[] = $datos["idElementoQuiste"][$i];
                 }
-                if ($datos["empleado"]==""){
-                    $errorMensaje      = !$empleadoVacio?$errorMensaje."Error Sin Usuario \n":$errorMensaje;
-                    $empleadoVacio     = true;
+                
+                if($datos["idValidar"][$i]=="numero" && !is_numeric($datos["idElemento"][$i+1]) && !$datoVacio){
+                    $errorMensaje      = $errorMensaje."Error resultado de ".$datos["idValidar"][$i+1]." es numerico \n";
+                    $tipoErroneo       = true;
                 }
+                
+                if($datos["idValidar"][$i]=="texto" && is_numeric($datos["idElemento"][$i+1]) && !$datoVacio){
+                    $errorMensaje      = $errorMensaje."Error resultado de ".$datos["idValidar"][$i+1]." es texto \n";
+                    $tipoErroneo       = true;
+                }
+                
+                
+
                 $datos["idElementoQuiste"][$i+1] = $datos["idElementoQuiste"][$i+1]=="NULL"?null:$datos["idElementoQuiste"][$i+1];
                 $row = $row."('".$datos["idElemento"][$i]."',".$datos["empleado"].",'".$datos["idDetalleOrden"].  "',".$userId.",'".$datos["idElemento"][$i+1]."','".$datos["observacion"]."','".$datos["idElementoQuiste"][$i+1]."','".$now."',true)";
                 if($datos["nElementos"]*2-2 != $i)
                     $row =$row.",";
         }
-        if ($datoVacio || $quisteVacio || $empleadoVacio){
+
+        if ($datos["empleado"]==""){
+            $errorMensaje      = !$empleadoVacio?$errorMensaje."Error Sin Usuario que valida resultados \n":$errorMensaje;
+            $empleadoVacio     = true;
+        }
+
+        if ($datoVacio || $quisteVacio || $empleadoVacio || $tipoErroneo){
             $response = json_encode(array(
                 "message" => $errorMensaje,
                 "idResultado" => $detalleConError,
