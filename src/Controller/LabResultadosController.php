@@ -188,11 +188,13 @@ class LabResultadosController extends AbstractController
                 if($datos["idValidar"][$i]=="numero" && !is_numeric($datos["idElemento"][$i+1]) && !$datoVacio){
                     $errorMensaje      = $errorMensaje."Error resultado de ".$datos["idValidar"][$i+1]." es numerico \n";
                     $tipoErroneo       = true;
+                    $detalleConError[] = $datos["idElemento"][$i];
                 }
                 
                 if($datos["idValidar"][$i]=="texto" && is_numeric($datos["idElemento"][$i+1]) && !$datoVacio){
                     $errorMensaje      = $errorMensaje."Error resultado de ".$datos["idValidar"][$i+1]." es texto \n";
                     $tipoErroneo       = true;
+                    $detalleConError[] = $datos["idElemento"][$i];
                 }
                 
                 
@@ -204,7 +206,7 @@ class LabResultadosController extends AbstractController
         }
 
         if ($datos["empleado"]==""){
-            $errorMensaje      = !$empleadoVacio?$errorMensaje."Error Sin Usuario que valida resultados \n":$errorMensaje;
+            $errorMensaje      = !$empleadoVacio?$errorMensaje."Error falta profesional que validó resultados \n":$errorMensaje;
             $empleadoVacio     = true;
         }
 
