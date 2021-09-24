@@ -42,5 +42,17 @@ class MenuBuilderListener
             ->addChild('resultados_de_laboratorio', ['route' => 'admin_app_labresultados_index'])
             ->setLabel('Resultados de laboratorio')
             ->getParent();
+        
+        $event->getMenu()
+            ->addChild('Reportes', ['route' => ''])
+            ->setExtras(
+                [
+                    'icon' => '<span class="fa fa-file-pdf-o"></span>&nbsp;',
+                ]
+            )
+            ->setLabel('Reportes')
+            ->addChild('pruebas_realizadas', ['route' => 'pruebas_list'])
+            ->setLabel('Pruebas Realizadas')
+            ->getParent();
     }
 }

@@ -8,3 +8,7 @@ import dt from 'datatables.net-bs/js/dataTables.bootstrap.js';
 //require('datatables.net-bs/css/dataTables.bootstrap.css');
 dt(window, $);
 import 'datatables.net-bs/css/dataTables.bootstrap.css';
+//require("bootstrap-datepicker");
+/* $('.datapicker').datepicker({
+    format: 'dd/mm/yyyy'
+}); */

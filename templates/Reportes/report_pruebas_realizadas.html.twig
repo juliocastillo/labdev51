@@ -1,0 +1,122 @@
+{% block stylesheets %}
+<style>
+    body{
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        width: 1000px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .head-grid {
+        display: grid;
+        grid-template-columns: 30% 70%;
+        font-size: 13px;
+    }
+    .head-grid > div{
+        text-align: center;
+    }
+    img{
+        width: 150px;
+        display: block;
+        margin: 0 auto 0 auto;
+        padding-bottom: 5px;
+    }
+    table{
+        width: 80%;
+        margin: 0 auto 0 auto;
+    }
+    table, th, td{
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+    tr th{
+        text-align: center;
+        font-size: 12px;
+    }
+    .h-reporte{
+        font-size: 12px;
+        text-align: center;
+        /* padding-left: auto; */
+        /* padding-right: auto; */
+    }
+    tr td{
+        text-align: center;
+        font-size: 12px;
+    }
+    .datosP td{
+        padding-left: 10px;
+        text-align: left;
+        font-size: 12px;
+        
+    }
+    .datosP td strong{
+        /* margin-left: 20px; */
+        font-size: 12px;
+    }
+    .dataE{
+        text-align: left;
+    }
+    .td-obs{
+        display: table-cell;
+        vertical-align: top;
+        text-align: left; 
+        padding-left: 20px; 
+        padding-top: 5px; 
+        font-size: 12px; 
+        height: 50px;
+    }
+    hr{
+        width: 85%;
+    }
+</style>
+{% endblock stylesheets %}
+
+{% block body %}
+    
+
+<body>
+    <div class="head-grid">
+        <div>
+            <img style="float:right;" src="{{ asset('build/images/logo-lab-MB.093a0228.png') }}" alt="">
+        </div>
+        <div>
+            <br>
+            <strong>N° DE INSCRIPCION 742</strong> <br>
+            1ra calle oriente y 22 avenida norte #1-9 <br>
+            Colonia Angélica, Sonsonate <br>
+            Tel. 2451 9607 - WhatsApp: 7625 8233 <br>
+        </div>
+    </div>
+    <hr style="width: 80%;">
+    {# style="text-align: center; font-weight: bold;" #}
+    <h4 style="text-align: center;">Pruebas Relizadas desde: {{ fecha_start }} hasta: {{ fecha_end }} </h4>
+    {# <br> #}
+    <div class="tableDiv">
+        <table>
+            <thead>
+                <th>N&deg;</th>
+                <th>Area de Laboratorio</th>
+                <th>Nombre de Examen</th>
+                <th>Cantidad (Total)</th>
+            </thead>
+            <tbody>
+                {# <pre>
+                    {{ dump(fecha_start) }}
+                    {{ dump(fecha_end) }}
+                </pre> #}
+                {% set num = 0 %}
+                {% for dato in datos %}
+                <tr>
+                    <td>{% set num = num + 1 %} {{ num }}</td>
+                    <td>{{ dato.nombre_area }}</td>
+                    <td>{{ dato.nombre_examen }}</td>
+                    <td>{{ dato.cantidad }}</td>                                                      
+                </tr>
+                {% endfor %}
+                {# <i class="glyphicon glyphicon-eye-open"></i> #}
+                {#href="{{ path('cargar_datos', { 'idOrden':dato.id }) }}" #}
+            </tbody>
+        </table>
+    </div>
+
+
+{% endblock body %}
