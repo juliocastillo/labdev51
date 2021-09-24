@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\LabResultadosRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=LabResultadosRepository::class)
@@ -30,6 +31,8 @@ class LabResultados
      * 
      * @ORM\ManyToOne(targetEntity="MntEmpleado")
      * @ORM\JoinColumn(name="id_empleado",referencedColumnName="id",nullable=false)
+     * 
+     * @Assert\NotNull(Message="Debe seleccionar un empleado que valida")
      */
     private $idEmpleado;
 
@@ -52,7 +55,7 @@ class LabResultados
     private $resultado;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=false)
      */
     private $quiste;
 
