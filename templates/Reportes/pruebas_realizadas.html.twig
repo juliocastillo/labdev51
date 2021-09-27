@@ -36,25 +36,52 @@
 
         $('#btnBuscarPruebas').on('click', function(e){
             //Fecha Inicio
-            let dateStart   = new Date($('#fechaStart').val());
-            let day         = dateStart.getUTCDate();
-            let month       = dateStart.getUTCMonth() + 1;
-            let year        = dateStart.getUTCFullYear();
-            let fechaStart  = [year,month,day].join('/');
-            
+            let dateStart    = new Date($('#fechaStart').val());
+            let day          = dateStart.getUTCDate();
+            let month        = dateStart.getUTCMonth() + 1;
+            let year         = dateStart.getUTCFullYear();
+            let fechaStart   = [year,month,day].join('/');
+
             //Fecha Fin
             let dateEnd      = new Date($('#fechaEnd').val());
             let day2         = dateEnd.getUTCDate();
             let month2       = dateEnd.getUTCMonth() + 1;
             let year2        = dateEnd.getUTCFullYear();
-            let fechaEnd  = [year2,month2,day2].join('/');
+            let fechaEnd     = [year2,month2,day2].join('/');
+
+            //Fecha actual
+            let timeElapsed  =  Date.now();
+            let dateNow      =  new Date(timeElapsed); 
+            let day3         = dateNow.getUTCDate();
+            let month3       = dateNow.getUTCMonth() + 1;
+            let year3        = dateNow.getUTCFullYear();
+            let fechaNow     = [year3,month3,day3].join('/');
+            errorFecha       = false;
+            errorMensaje     = "";
+            if (isNaN(day) || isNaN(month) || isNaN(year)){
+                errorMensaje = errorMensaje + "Favor indique Fecha de inicio \n";
+                errorFecha   = true;
+            }else{
+                if (fechaStart > fechaNow){
+                    console.log(fechaStart,fechaNow);
+                    errorMensaje = errorMensaje + "La fecha de inicio no puede ser mayor que la actual \n";
+                    errorfecha=true;
+                }
+            }
+
+            if (isNaN(day2) || isNaN(month2) || isNaN(year2)){
+                errorMensaje = errorMensaje + "Favor indique fecha final \n";
+                errorFecha   = true;
+            }
 
             if(fechaStart > fechaEnd){
-                alert("La fecha inicial no debe ser mayor a la final!");
-            }/* if(isNaN(fechaStart) && isNaN(fechaEnd)){
-                alert("Debe seleccionar una fecha!");
-            } */
-            else{
+                errorMensaje = errorMensaje + "La Fecha de inicio no puede ser mayor que la fecha final \n";
+                errorFecha = true;
+            }
+
+            if (errorFecha){
+                alert(errorMensaje);
+            }else{
                 $.ajax({
                 url     : "{{path('pruebas_realizadas_list')}}",
                 data    : {fechaStart:fechaStart, fechaEnd:fechaEnd},
