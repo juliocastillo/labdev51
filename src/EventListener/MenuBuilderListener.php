@@ -53,6 +53,9 @@ class MenuBuilderListener
             ->setLabel('Reportes')
             ->addChild('pruebas_realizadas', ['route' => 'pruebas_list'])
             ->setLabel('Pruebas Realizadas')
+            ->getParent()
+            ->addChild('pruebas_realizadas_costos', ['route' => 'pruebas_costos'])
+            ->setLabel('Total de Ingresos')
             ->getParent();
     }
 }

@@ -83,7 +83,7 @@
                 alert(errorMensaje);
             }else{
                 $.ajax({
-                url     : "{{path('pruebas_realizadas_list')}}",
+                url     : "{{path('pruebas_realizadas_costos_list')}}",
                 data    : {fechaStart:fechaStart, fechaEnd:fechaEnd},
                 type    : "GET",
                 dataType: "html",
@@ -116,7 +116,7 @@
                         <h4 class="text-primary">
                             <strong>
                                 <i class="fa fa-search" style="color:lightseagreen;"></i>  
-                                  Reporte de Pruebas Realizadas
+                                  Reporte de Pruebas Realizadas y Costos
                             </strong>
                         </h4>
                         <br>
