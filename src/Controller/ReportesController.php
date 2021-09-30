@@ -806,4 +806,60 @@ class ReportesController extends AbstractController
             );
     }
 
+     /**
+     * @Route("/pruebas/costos", name="pruebas_costos")
+     */
+    public function loadPruebasCostos() : Response {
+        return $this->render('Reportes/pruebas_realizadas_costos.html.twig');
+    }
+
+    /**
+     * @Route("/lab/reportes/pruebas/realizadas_costos", name="pruebas_realizadas_costos_list")
+     */
+    public function loadPruebasCostosRealizadas() : Response {
+        $request = $this->container->get('request_stack')->getCurrentRequest();
+        $fechaStart = $request->get('fechaStart');
+        $fechaEnd = $request->get('fechaEnd');
+
+        $fechaStart = date_create($fechaStart);
+        $fechaStart = date_format($fechaStart, 'Y-m-d H:i:s');
+        $fechaEnd = date_create($fechaEnd);
+        $fechaEnd = date_format($fechaEnd, 'Y-m-d H:i:s');
+
+        //var_dump($fechaStart, $fechaEnd); exit();
+
+        $sqlPruebas = "SELECT t3.nombre_area, t2.nombre_examen, count(*) as cantidad, t2.precio, ((count(*)) * t2.precio) as total
+                        FROM lab_detalle_orden t1
+                        INNER JOIN ctl_examen t2 ON t2.id = t1.id_examen
+                        INNER JOIN ctl_area_laboratorio t3 ON t3.id = t2.id_area_laboratorio
+                        WHERE t1.id_estado_examen=2 AND t1.fecha_resultado BETWEEN '$fechaStart' AND '$fechaEnd'
+                        GROUP BY t1.id_examen
+                        ORDER BY t3.nombre_area,t2.nombre_examen";
+
+        $stm = $this->getDoctrine()->getConnection()->prepare($sqlPruebas);
+        $stm->execute();
+        $resultPruebas = $stm->fetchAll();
+
+        $fStart = date_create($fechaStart);
+        $fStart = date_format($fStart, 'd-m-Y');
+        $fEnd = date_create($fechaEnd);
+        $fEnd = date_format($fEnd, 'd-m-Y');
+
+        //$resultPruebas['fecha_start'] = $fechaStart;
+        //$resultPruebas['fecha_end'] = $fechaEnd;
+        //var_dump($resultPruebas); exit();
+
+        return $this->render('Reportes/report_pruebas_realizadas_costos.html.twig',
+            array(
+                "datos"         => $resultPruebas,
+                "fecha_start"   => $fStart,
+                "fecha_end"   => $fEnd
+                )
+            );
+    }
+
 }
+
+
+
+
