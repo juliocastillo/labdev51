@@ -19,6 +19,14 @@ class LabDetalleOrdenController extends AbstractController
     }
 
     /**
+     * @Route("/lab/orden/list", name="lab_orden_list")
+     */
+    public function ordenList(): Response
+    {
+        return $this->render('LabOrden/orden_list.html.twig');
+    }
+
+    /**
      * @Route("/lab/detalles/guardar/examenes", name="lab_detalles_guardar_examenes")
      */
     public function labDetallesGuardarExamenes(): Response
@@ -49,10 +57,12 @@ class LabDetalleOrdenController extends AbstractController
         $stm = $this->getDoctrine()->getConnection()->prepare($sql);
         $stm->execute();
         $result = $stm->fetchAll();
+        
         foreach($result as $r) {
             echo "+ ".$r['nombre_examen'].' '.$r['tipo_muestra'].' '.$r['precio']."<br>";
         }
         return new Response('Ok');
+        
     }   
 
 }

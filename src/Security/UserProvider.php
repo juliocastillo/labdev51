@@ -23,7 +23,7 @@ final class UserProvider implements UserProviderInterface
     public function loadUserByUsername($email): User
     {
         // agregando el @salud.gob.sv si no se anexa ninguno.
-        $email = $email.( preg_match('/@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/', $email) ? '' : '@salud.gob.sv' );
+        $email = $email.( preg_match('/@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/', $email) ? '' : '@laboratoriomb.com' );
         $user = $this->findOneUserBy(['email' => $email]);
 
         if (!$user) {

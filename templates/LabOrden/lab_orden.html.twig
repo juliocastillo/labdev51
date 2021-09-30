@@ -17,32 +17,42 @@
     {{ parent() }}
     <script type="text/javascript">
         function guardarExamen(idOrden) {
+                
             idExamen = $("#idexamen").val();
             idTipoMuestra = $("#idtipomuestra").val();
             $.ajax({
-                //Tipo de peticion: GET o POST
-                type: "POST",
                 //la URL para la peticion
                 url: "{{ path('lab_detalles_guardar_examenes') }}",
                 //La informacion a enviar
-                //tambien es posible utilizar una cadena de datps
+                //tambien es posible utilizar una cadena de datos
                 data: {idOrden: idOrden, idExamen: idExamen, idTipoMuestra: idTipoMuestra},
+                //Tipo de peticion: GET o POST
+                type: "GET",
                 //El tipo de informacion que se espera de respuesta
                 dataType: "html",
+                
                 //Codigo a ejecutar si la peticion es satisfactoria
                 //La resṕuesta es pasada como argumento a la funcion
-                success: function (text) {
-                    $("#ordenExamenes").html(text);
+                success: function (html) {
+                    //$('#tabla').load("{{ path('lab_orden_list') }}");
+                    $("#ordenExamenes").html(html);
+
+                    $('#idexamen').select2('val','');
+                    $('#idtipomuestra').select2('val','');
                 }
-            })
+                
+            });
+                /* $(document).ready(function() {
+                    
+                }); */
         }
-        $(document).ready(function() {
+        $(document).ready(function(){
+            //$('#tabla').load("{{ path('lab_orden_list') }}");
+
             $('#idPaciente').select2();
-        });
-        $(document).ready(function() {
+        
             $('#idexamen').select2();
-        });
-        $(document).ready(function() {
+        
             $('#idtipomuestra').select2();
         });
     </script>
@@ -83,10 +93,10 @@
                                 <div class="form-group row">
                                     <label for="idMedico" class="col-sm-3 col-form-label text-right">Medico:</label>
                                     <div class="col-sm-9">
-                                        <select class="form-control" id="idMedico" name="idMedico">
-                                            {% if (action == "save") %}
+                                        <select class="form-control" id="idMedico" name="idMedico" required>
+                                            {# {{% if (action == "save") %}
                                                 <option value="">...seleccione...</option>
-                                            {% endif %}
+                                            {% endif %}} #}
                                             {% for medico in medicos %}
                                                 <option value="{{medico.id}}">{{medico.nombre}} {{medico.apellido}}</option>
                                             {% endfor %}
@@ -98,9 +108,9 @@
                                     <label for="idTipodocumento" class="col-sm-3 col-form-label text-right">Tipo Documento:</label>
                                     <div class="col-sm-9">
                                         <select class="form-control" id="idTipodocumento" name="idTipodocumento">
-                                            {% if (action == "save") %}
+                                            {# {% if (action == "save") %}
                                                 <option value="">...seleccione...</option>
-                                            {% endif %}
+                                            {% endif %} #}
                                             {% for tipodocumento in tiposdocumento %}
                                                 <option value="{{tipodocumento.id}}">{{tipodocumento.nombre}}</option>
                                             {% endfor %}
@@ -112,7 +122,7 @@
                                     <label for="numeroDocumento" class="col-sm-3 col-form-label text-right">Numero de Documento:</label>
                                     <div class="col-sm-9">
                                         {% if (action == "save") %}
-                                        <input class="form-control" type="text" id="numeroDocumento" name="numeroDocumento">
+                                        <input class="form-control" type="text" id="numeroDocumento" name="numeroDocumento" value="0" required>
                                         {% elseif (action == "edit") %}
                                         <input class="form-control" type="text" id="numeroDocumento" name="numeroDocumento" value="{{ orden.numero_documento }}" readonly>
                                         {% endif %}
@@ -172,12 +182,24 @@
                     </div>
                     <br>
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="tabla">
                             <div id="ordenExamenes">
                                 {% for detalle in detalles %}
                                     + {{detalle.nombre_examen}} {{detalle.tipo_muestra}} {{detalle.precio}} <br>
                                 {% endfor %}
-                            </div> 
+                            </div>
+                            {# <form action=""></form> #}
+                            {# <ul class="list-group"> #}
+                            {# id="ordenExamenes" #}
+                            {# <div id="listar"> #}
+                                
+                                    {# {% for detalle in detalles %}
+                                    <li class="list-group-item">
+                                        + {{detalle.nombre_examen}} {{detalle.tipo_muestra}} {{detalle.precio}}
+                                    </li>
+                                    {% endfor %}  #}                               
+                            {# </div>  #}
+                            {# </ul> #}
                         </div>
                     </div>
                 </div>
